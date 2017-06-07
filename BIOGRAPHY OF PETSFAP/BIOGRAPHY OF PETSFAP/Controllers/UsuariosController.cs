@@ -123,8 +123,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Usuarios usuarios = db.Usuarios.Find(id);
-            db.Usuarios.Remove(usuarios);
-            db.SaveChanges();
+            if (usuarios.Id_Estado == 1)
+            {
+                usuarios.Id_Estado = 2;
+                db.Entry(usuarios).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

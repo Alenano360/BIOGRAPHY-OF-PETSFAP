@@ -115,7 +115,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Roles roles = db.Roles.Find(id);
-            if (roles.Id_Estado == 1){
+            if (roles.Id_Estado == 1)
+            {
                 roles.Id_Estado = 2;
                 db.Entry(roles).State = EntityState.Modified;
                 db.SaveChanges();
