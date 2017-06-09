@@ -25,7 +25,7 @@ namespace BIOGRAPHY_OF_PETSFAP
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/style.css", "~/Content/jquery.lightbox.css"));
         }
     }
 }
