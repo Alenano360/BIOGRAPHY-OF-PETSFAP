@@ -4,60 +4,64 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Correo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Usuario)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Contraseña)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Empleado.Id_Empleado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Roles.Descripcion)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Correo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Contraseña)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Empleado.Id_Empleado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estado.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Roles.Descripcion)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Usuario }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id_Usuario }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Usuario })
-        </td>
-    </tr>
-}
+<table id="tablaUsuarios">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Correo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Usuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contraseña)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empleado.Id_Empleado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Roles.Descripcion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Correo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contraseña)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Empleado.Id_Empleado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Roles.Descripcion)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id_Usuario }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id_Usuario }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id_Usuario })
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
+<script src="~/Scripts/Usuarios/Index.js"></script>

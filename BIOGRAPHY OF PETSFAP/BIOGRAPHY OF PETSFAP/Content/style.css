@@ -427,8 +427,8 @@ ul.topic_grid{
 }
 /*** .content Class *********************/
 .content1{
-	position: relative;
-	height: 0px;
+	position: absolute;
+	height: 1200px;
 	margin-top: -1px;
 	overflow:hidden;
 	z-index: 10;
@@ -763,6 +763,10 @@ span.phone a:hover {
 .footer {
 	background: #343b41;
 	padding: 20px 0;
+    position:fixed;
+    bottom:0;
+    width:100%;
+
 }
 .copyright p {
 	color: #fff;
@@ -1335,7 +1339,7 @@ a.b-home:hover{
 		display: block;
 		padding: 10px 0px;
 	}
-	.top-menu ul li a.active{
+	.top-menu ul li.active{
 		color:#fff;
 	}
 	.top-menu ul li a:hover{

@@ -21,11 +21,15 @@ namespace BIOGRAPHY_OF_PETSFAP
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/jquery-3.2.1.min.js",
+                      "~/Scripts/datatables.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/style.css", "~/Content/jquery.lightbox.css"));
+                      "~/Content/style.css",
+                      "~/Content/jquery.lightbox.css",
+                      "~/Content/datatables.min.css"));
         }
     }
 }

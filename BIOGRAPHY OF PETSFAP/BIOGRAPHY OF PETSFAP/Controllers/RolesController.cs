@@ -18,7 +18,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         public ActionResult Index()
         {
             var roles = db.Roles.Include(r => r.Estado).Where(x => x.Id_Estado == 1);
+
             return View(roles.ToList());
+
         }
 
         // GET: Roles/Details/5
