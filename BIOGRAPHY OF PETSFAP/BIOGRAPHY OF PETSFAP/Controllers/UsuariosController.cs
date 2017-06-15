@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
+using System.Web.Security;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
@@ -139,6 +140,43 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(Models.Usuarios user)
+        {
+            
+            if (IsValid(user.Usuario, user.Contraseña))
+            {
+                FormsAuthentication.SetAuthCookie(user.Usuario, false);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Login Fallido, Compruebe sus Usuario o Contraseña :)");
+            }
+            
+            return View(user);
+        }
+
+        private bool IsValid(string usuario, string contrasena)
+        {
+            bool IsValid = false;
+
+            using (var db = new BIOGRAPHY_OF_PETSFAP.Models.VeterinariaEntities())
+            {
+                var user = db.Usuarios.FirstOrDefault(u => u.Usuario == usuario && u.Contraseña==contrasena);
+                if (user != null)
+                {
+                        IsValid = true;
+                }
+            }
+            return IsValid;
         }
     }
 }

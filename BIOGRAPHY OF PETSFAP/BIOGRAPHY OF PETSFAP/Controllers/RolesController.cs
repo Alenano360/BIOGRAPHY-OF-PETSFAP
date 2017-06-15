@@ -54,6 +54,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                roles.Id_Estado = 1;
                 db.Roles.Add(roles);
                 db.SaveChanges();
                 return RedirectToAction("Index");

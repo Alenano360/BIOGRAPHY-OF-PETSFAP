@@ -1,0 +1,44 @@
+﻿@model BIOGRAPHY_OF_PETSFAP.Models.Usuarios
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <meta name="keywords" content="AGROFIRM Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+    Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true, "Datos Invalidos");
+            <div>
+                <fieldset>
+                    <legend>Login Form</legend>
+                    <div class="editor-label">@Html.LabelFor(u => u.Usuario)</div>
+                    <div class="editor-field">
+                        @Html.TextBoxFor(u => u.Usuario, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(u => u.Usuario)
+                    </div>
+                    <div class="editor-label">@Html.LabelFor(u => u.Contraseña)</div>
+                    <div class="editor-field">
+                        @Html.PasswordFor(u => u.Contraseña, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(u => u.Contraseña)
+                    </div>
+                    <input type="submit" value="Iniciar Sesion" />
+                </fieldset>
+            </div>
+        }
+    </div>
+</body>
+</html>
