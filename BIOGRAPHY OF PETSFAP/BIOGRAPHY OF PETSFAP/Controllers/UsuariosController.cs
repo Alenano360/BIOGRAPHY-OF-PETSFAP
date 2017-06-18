@@ -158,7 +158,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Login Fallido, Compruebe sus Usuario o Contraseña :)");
+                ModelState.AddModelError("", "Login Fallido, Compruebe su Usuario o Contraseña :)");
             }
             
             return View(user);
@@ -167,7 +167,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         private bool IsValid(string usuario, string contrasena)
         {
             bool IsValid = false;
-
+            try {
+            
             using (var db = new BIOGRAPHY_OF_PETSFAP.Models.VeterinariaEntities())
             {
                 var user = db.Usuarios.FirstOrDefault(u => u.Usuario == usuario && u.Contraseña==contrasena);
@@ -175,6 +176,11 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 {
                         IsValid = true;
                 }
+            }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", "Ocurrio un error...");
             }
             return IsValid;
         }
