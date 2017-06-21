@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BIOGRAPHY_OF_PETSFAP.Models.Medicina>
 
 @{
-    Layout = null;
+    ViewBag.Title = "Medicinas";
 }
 
 <!DOCTYPE html>
@@ -15,7 +15,7 @@
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
-    <table class="table">
+    <table class="tableMedicinas">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)

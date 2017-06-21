@@ -1,15 +1,13 @@
 ﻿@model IEnumerable<BIOGRAPHY_OF_PETSFAP.Models.Persona>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Personas";
 }
-
-<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="tablePersonas">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Nombre)
