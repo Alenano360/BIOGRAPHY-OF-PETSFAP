@@ -121,10 +121,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Cita_MedicaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MedicinasController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
+    <Compile Include="Controllers\ProductoesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
@@ -312,6 +314,16 @@
     <Content Include="Views\Pacientes\Details.cshtml" />
     <Content Include="Views\Pacientes\Edit.cshtml" />
     <Content Include="Views\Pacientes\Index.cshtml" />
+    <Content Include="Views\Cita_Medica\Create.cshtml" />
+    <Content Include="Views\Cita_Medica\Delete.cshtml" />
+    <Content Include="Views\Cita_Medica\Details.cshtml" />
+    <Content Include="Views\Cita_Medica\Edit.cshtml" />
+    <Content Include="Views\Cita_Medica\Index.cshtml" />
+    <Content Include="Views\Productoes\Create.cshtml" />
+    <Content Include="Views\Productoes\Delete.cshtml" />
+    <Content Include="Views\Productoes\Details.cshtml" />
+    <Content Include="Views\Productoes\Edit.cshtml" />
+    <Content Include="Views\Productoes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

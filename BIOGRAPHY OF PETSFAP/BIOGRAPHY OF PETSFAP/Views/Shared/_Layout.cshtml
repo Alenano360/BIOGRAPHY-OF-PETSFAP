@@ -27,7 +27,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="tollfree">
                 <ul>
                     <li>
-                        <p class="phone">BIOGRAPHY OF PETSFAB</p>
+                        <p class="phone">@Session["NombreUsuarioSession"].ToString()</p>
                     </li>
                 </ul>
             </div>
@@ -37,12 +37,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <span class="menu"></span>
                     <div class="top-menu">
                         <ul>
-                            <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
-                            <li id="liRole">@Html.ActionLink("Roles", "Index", "Roles")</li>
-                            <li id="liUser">@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
-                            <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
-                            <li id="liMedi">@Html.ActionLink("Medicinas", "Index", "Medicinas")</li>
-                            <li id="liPaci">@Html.ActionLink("Pacientes", "Index", "Pacientes")</li>
+                            @if (Session["RolUsuarioSession"].ToString() == "Administrador")
+                            {
+                                <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
+                                <li id="liUser">@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
+                                <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
+                                <li id="liMedi">@Html.ActionLink("Medicinas", "Index", "Medicinas")</li>
+                                <li id="liPaci">@Html.ActionLink("Pacientes", "Index", "Pacientes")</li>
+                            }
+                            else if (Session["RolUsuarioSession"].ToString() == "Cajero")
+                            {
+                                <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
+                                <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
+                                <li id="liMedi">@Html.ActionLink("Medicinas", "Index", "Medicinas")</li>
+                                <li id="liPaci">@Html.ActionLink("Pacientes", "Index", "Pacientes")</li>
+                            }
+                            
                             <div class="clearfix"></div>
                         </ul>
                     </div>

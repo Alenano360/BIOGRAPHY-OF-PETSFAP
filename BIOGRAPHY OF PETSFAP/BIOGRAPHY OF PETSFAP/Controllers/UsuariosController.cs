@@ -150,38 +150,39 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [HttpPost]
         public ActionResult Login(Models.Usuarios user)
         {
-            
-            if (IsValid(user.Usuario, user.Contraseña))
+            try
             {
-                FormsAuthentication.SetAuthCookie(user.Usuario, false);
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                ModelState.AddModelError("", "Login Fallido, Compruebe su Usuario o Contraseña :)");
-            }
-            
+
+                if (IsValid(user.Usuario, user.Contraseña))
+                {
+                    FormsAuthentication.SetAuthCookie(user.Usuario, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Login Fallido, Compruebe su Usuario o Contraseña :)");
+                }
+            }catch(Exception ex){
+                ModelState.AddModelError("", "Ocurrio un Error...");
+            } 
             return View(user);
         }
 
         private bool IsValid(string usuario, string contrasena)
         {
             bool IsValid = false;
-            try {
             
             using (var db = new BIOGRAPHY_OF_PETSFAP.Models.VeterinariaEntities())
             {
                 var user = db.Usuarios.FirstOrDefault(u => u.Usuario == usuario && u.Contraseña==contrasena);
+                Session.Add("NombreUsuarioSession", user.Empleado.Persona.Nombre + " " + user.Empleado.Persona.Apellidos);
+                Session.Add("RolUsuarioSession", user.Roles.Descripcion);
                 if (user != null)
                 {
                         IsValid = true;
                 }
             }
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError("", "Ocurrio un error...");
-            }
+            
             return IsValid;
         }
     }
