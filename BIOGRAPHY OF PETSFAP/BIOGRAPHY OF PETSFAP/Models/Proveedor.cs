@@ -23,6 +23,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         public int Id_Proveedor { get; set; }
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }
+        public string Nombre_Empresa { get; set; }
+        public string Telefono_Empresa { get; set; }
+        public string Direccion_Empresa { get; set; }
     
         public virtual Estado Estado { get; set; }
         public virtual ICollection<Factura> Factura { get; set; }

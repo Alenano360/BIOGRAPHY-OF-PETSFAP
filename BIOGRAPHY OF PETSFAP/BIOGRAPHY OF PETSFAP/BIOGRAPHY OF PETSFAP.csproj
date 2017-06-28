@@ -183,9 +183,6 @@
     <Compile Include="Models\Roles.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>Modelo.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Usuarios.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
