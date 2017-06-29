@@ -19,10 +19,12 @@
 </head>
 <body>
     <div class="login-page">
+       
         @using (Html.BeginForm())
         {
             @Html.ValidationSummary(true, "Datos Invalidos");
     <div class="form">
+        <img src="~/images/logo.png" alt="" />
             <div class="editor-label">@Html.LabelFor(u => u.Usuario)</div>
             <div class="editor-field">
                 @Html.TextBoxFor(u => u.Usuario, new { htmlAttributes = new { @class = "form-control" } })

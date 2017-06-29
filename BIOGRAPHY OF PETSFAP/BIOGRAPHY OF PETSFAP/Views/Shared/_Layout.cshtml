@@ -53,8 +53,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <li id="liPaci">@Html.ActionLink("Pacientes", "Index", "Pacientes")</li>
                             }
                             
-                            <div class="clearfix"></div>
                         </ul>
+                        <div class="clearfix"></div>
                     </div>
                     <!-- script for menu -->
                     <script>
@@ -73,18 +73,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- header-section-ends -->
     <div class="content" >
         <div class="container" style="margin-top:70px">
-            @RenderBody()
-        </div>
+                        @RenderBody()
+
+        </div>       
     </div>
             <!-- footer ---->
-            <div class="footer">
+            @*<div class="footer">
                 <div class="container">
                     <div class="copyright text-center">
                         <p>&copy; @DateTime.Now.Year - BIOGRAPHY OF PETSFAB</p>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div>*@
+
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)

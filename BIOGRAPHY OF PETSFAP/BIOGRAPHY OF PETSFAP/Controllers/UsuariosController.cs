@@ -55,6 +55,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                usuarios.Id_Estado = 1;
                 db.Usuarios.Add(usuarios);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -93,6 +94,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                usuarios.Id_Estado = 1;
                 db.Entry(usuarios).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

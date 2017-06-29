@@ -1,12 +1,12 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Usuarios
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar";
 }
 
-<h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+
+<h3>Esta seguro de que quiere eliminar esto?</h3>
 <div>
     <h4>Usuarios</h4>
     <hr />
@@ -43,13 +43,7 @@
             @Html.DisplayFor(model => model.Empleado.Id_Empleado)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Estado.Descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Estado.Descripcion)
-        </dd>
+     
 
         <dt>
             @Html.DisplayNameFor(model => model.Roles.Descripcion)
@@ -65,8 +59,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Usuarios") + "'");" />
         </div>
     }
 </div>

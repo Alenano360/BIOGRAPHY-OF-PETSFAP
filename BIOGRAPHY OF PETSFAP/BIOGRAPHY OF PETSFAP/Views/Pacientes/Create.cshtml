@@ -1,17 +1,8 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Paciente
 
 @{
-    Layout = null;
+    ViewBag.Title = "Create";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
     @using (Html.BeginForm()) 
     {
         @Html.AntiForgeryToken()
@@ -21,7 +12,7 @@
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                @Html.LabelFor(model => model.Id_Cliente, "Id_Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Id_Cliente, "Id Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("Id_Cliente", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Id_Cliente, "", new { @class = "text-danger" })
@@ -61,7 +52,7 @@
             </div>
     
             <div class="form-group">
-                @Html.LabelFor(model => model.Id_Estado, "Id_Estado", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Id_Estado, "Id Estado", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("Id_Estado", null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
@@ -70,14 +61,18 @@
     
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <div style="margin-right:25%; float:left">
+                        <input type="submit" value="Insertar" class="btn btn-default" /> 
+                    </div>
+                    <div style="float:left;">
+                        <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Pacientes") + "'");" />
+
+                    </div>                   
                 </div>
             </div>
         </div>
     }
     
-    <div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>
-</body>
-</html>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
