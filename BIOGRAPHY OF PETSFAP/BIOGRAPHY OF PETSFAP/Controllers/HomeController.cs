@@ -10,6 +10,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
     {
         public ActionResult Index()
         {
+            ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
             return View();
         }
     }

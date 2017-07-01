@@ -20,6 +20,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             var usuarios = db.Usuarios.Include(u => u.Empleado).Include(u => u.Estado).Include(u => u.Roles).Where(x => x.Id_Estado == 1);
             return View(usuarios.ToList());
+            ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
         }
 
         // GET: Usuarios/Details/5

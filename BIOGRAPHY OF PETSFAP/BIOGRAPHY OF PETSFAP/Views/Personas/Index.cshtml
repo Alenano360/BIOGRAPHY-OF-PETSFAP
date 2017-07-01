@@ -4,9 +4,8 @@
     ViewBag.Title = "Personas";
 }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Persona") + "'");" />
+
 <table class="table" id="tablaPersonas">
     <thead>
         <tr>
@@ -56,4 +55,6 @@
         }
     </tbody>
 </table>
+
+<input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
 <script src="~/Scripts/Personas/Personas.js"></script>

@@ -19,6 +19,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             var paciente = db.Paciente.Include(p => p.Cliente).Include(p => p.Estado);
             return View(paciente.ToList());
+            ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
         }
 
         // GET: Pacientes/Details/5

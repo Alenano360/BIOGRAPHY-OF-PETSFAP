@@ -19,6 +19,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             var producto = db.Producto.Include(p => p.Estado).Include(p => p.Proveedor);
             return View(producto.ToList());
+            ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
         }
 
         // GET: Productoes/Details/5

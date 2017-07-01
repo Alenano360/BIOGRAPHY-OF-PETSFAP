@@ -1,17 +1,5 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Cita_Medica
 
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
     <div>
         <h4>Cita_Medica</h4>
         <hr />
@@ -74,9 +62,6 @@
     
         </dl>
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Cita_Medica }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+<input type="button" class="btn btn-default" value="Editar" onclick="@("window.location.href='" + @Url.Action("Edit", "Cita_Medica", new { id = Model.Id_Cita_Medica }) + "'");" /> |
+<input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Cita_Medica") + "'");" />
+

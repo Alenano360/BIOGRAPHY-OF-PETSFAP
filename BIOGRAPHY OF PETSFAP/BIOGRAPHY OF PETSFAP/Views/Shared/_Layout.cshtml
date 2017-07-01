@@ -44,13 +44,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
                                 <li id="liMedi">@Html.ActionLink("Medicinas", "Index", "Medicinas")</li>
                                 <li id="liPaci">@Html.ActionLink("Pacientes", "Index", "Pacientes")</li>
+                                <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
+                                <li id="liCita">@Html.ActionLink("Citas", "Index", "Cita_Medica")</li>
                             }
                             else if (Session["RolUsuarioSession"].ToString() == "Cajero")
                             {
                                 <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
                                 <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
+                                <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
+
+                            }
+                            else if (Session["RolUsuarioSession"].ToString() == "Doctor")
+                            {
+                                <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
+                                <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
                                 <li id="liMedi">@Html.ActionLink("Medicinas", "Index", "Medicinas")</li>
                                 <li id="liPaci">@Html.ActionLink("Pacientes", "Index", "Pacientes")</li>
+                                <li id="liCita">@Html.ActionLink("Citas", "Index", "Cita_Medica")</li>
+                                <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
+
+                            }
+                            else if (Session["RolUsuarioSession"].ToString() == "Inventario")
+                            {
+                                <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
+                                <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
+                                <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
                             }
                             
                         </ul>

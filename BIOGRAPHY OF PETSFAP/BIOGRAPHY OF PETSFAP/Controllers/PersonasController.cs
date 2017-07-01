@@ -17,7 +17,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Personas
         public ActionResult Index()
         {
-            var persona = db.Persona.Include(p => p.Estado).Where(x => x.Id_Estado == 1); 
+            var persona = db.Persona.Include(p => p.Estado).Where(x => x.Id_Estado == 1);
+            ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
             return View(persona.ToList());
         }
 

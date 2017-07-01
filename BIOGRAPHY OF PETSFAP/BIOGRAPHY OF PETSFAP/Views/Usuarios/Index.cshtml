@@ -4,8 +4,7 @@
     ViewBag.Title = "Usuarios";
 }
 
-<input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Usuarios") + "'");" />
-
+<input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Usuarios") + "'");"/>
 <table id="tablaUsuarios">
     <thead>
         <tr>
@@ -62,4 +61,5 @@
     </tbody>
 
 </table>
-<script src="~/Scripts/Usuarios/Index.js"></script>
+<input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
+<script src="~/Scripts/Usuarios/Usuarios.js"></script>

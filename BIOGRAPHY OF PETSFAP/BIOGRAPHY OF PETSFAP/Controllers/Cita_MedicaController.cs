@@ -17,7 +17,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Cita_Medica
         public ActionResult Index()
         {
-            var cita_Medica = db.Cita_Medica.Include(c => c.Cliente).Include(c => c.Estado).Include(c => c.Medicina).Include(c => c.Paciente);
+            var cita_Medica = db.Cita_Medica.Include(c => c.Cliente).Include(c => c.Estado).Include(c => c.Medicina).Include(c => c.Paciente).Where(x => x.Id_Estado == 1);
             return View(cita_Medica.ToList());
         }
 
@@ -55,11 +55,11 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                cita_Medica.Id_Estado = 1;
                 db.Cita_Medica.Add(cita_Medica);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             ViewBag.Id_Cliente = new SelectList(db.Cliente, "Id_Cliente", "Id_Cliente", cita_Medica.Id_Cliente);
             ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", cita_Medica.Id_Estado);
             ViewBag.Id_Medicina = new SelectList(db.Medicina, "Id_Medicina", "Nombre", cita_Medica.Id_Medicina);
@@ -95,6 +95,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                cita_Medica.Id_Estado = 1;
                 db.Entry(cita_Medica).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -127,8 +128,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Cita_Medica cita_Medica = db.Cita_Medica.Find(id);
-            db.Cita_Medica.Remove(cita_Medica);
-            db.SaveChanges();
+            if(cita_Medica.Id_Estado==1)
+            {
+                cita_Medica.Id_Estado = 2;
+                db.Entry(cita_Medica).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
