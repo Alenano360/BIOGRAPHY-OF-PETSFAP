@@ -1,23 +1,15 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Medicina
 
 @{
-    Layout = null;
+    ViewBag.Title = "Editar";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Edit</title>
-</head>
-<body>
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         
         <div class="form-horizontal">
-            <h4>Medicina</h4>
+            <h4>Editar Medicinas</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.Id_Medicina)
@@ -40,14 +32,15 @@
     
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
+                    <div style="margin-right:25%; float:left">
+                        <input type="submit" value="Guardar" class="btn btn-default" />
+                    </div>
+                    <div style="float:left;">
+                        <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Medicinas") + "'");" />
+                    </div>
                 </div>
             </div>
         </div>
     }
-    
-    <div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>
-</body>
-</html>
+
+

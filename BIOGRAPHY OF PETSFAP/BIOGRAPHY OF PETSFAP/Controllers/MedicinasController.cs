@@ -17,9 +17,10 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Medicinas
         public ActionResult Index()
         {
-            var medicina = db.Medicina.Include(m => m.Estado);
-            return View(medicina.ToList());
             ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
+            var medicina = db.Medicina.Include(m => m.Estado).Where(x => x.Id_Estado == 1);
+            return View(medicina.ToList());
+            
         }
 
         // GET: Medicinas/Details/5
@@ -40,7 +41,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Medicinas/Create
         public ActionResult Create()
         {
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
             return View();
         }
 
@@ -53,12 +54,13 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                medicina.Id_Estado = 1;
                 db.Medicina.Add(medicina);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", medicina.Id_Estado);
+           // ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", medicina.Id_Estado);
             return View(medicina);
         }
 
@@ -74,7 +76,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", medicina.Id_Estado);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", medicina.Id_Estado);
             return View(medicina);
         }
 
@@ -87,11 +89,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                medicina.Id_Estado = 1;
                 db.Entry(medicina).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", medicina.Id_Estado);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", medicina.Id_Estado);
             return View(medicina);
         }
 
@@ -116,8 +119,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Medicina medicina = db.Medicina.Find(id);
-            db.Medicina.Remove(medicina);
-            db.SaveChanges();
+            if (medicina.Id_Estado == 1)
+            {
+                medicina.Id_Estado = 2;
+                db.Entry(medicina).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

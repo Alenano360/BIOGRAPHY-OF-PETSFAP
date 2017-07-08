@@ -17,9 +17,10 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Productoes
         public ActionResult Index()
         {
-            var producto = db.Producto.Include(p => p.Estado).Include(p => p.Proveedor);
-            return View(producto.ToList());
+            var producto = db.Producto.Include(p => p.Estado).Include(p => p.Proveedor).Where(x => x.Id_Estado == 1);
             ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
+            return View(producto.ToList());
+           
         }
 
         // GET: Productoes/Details/5
@@ -40,8 +41,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Productoes/Create
         public ActionResult Create()
         {
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor, "Id_Proveedor", "Id_Proveedor");
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "Persona.Nombre");
             return View();
         }
 
@@ -54,13 +55,14 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                producto.Id_Estado = 1;
                 db.Producto.Add(producto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor, "Id_Proveedor", "Id_Proveedor", producto.Id_Proveedor);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "Persona.Nombre", producto.Id_Proveedor);
             return View(producto);
         }
 
@@ -76,8 +78,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor, "Id_Proveedor", "Id_Proveedor", producto.Id_Proveedor);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "Persona.Nombre", producto.Id_Proveedor);
             return View(producto);
         }
 
@@ -90,12 +92,13 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                producto.Id_Estado = 1;
                 db.Entry(producto).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor, "Id_Proveedor", "Id_Proveedor", producto.Id_Proveedor);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "Persona.Nombre", producto.Id_Proveedor);
             return View(producto);
         }
 
@@ -119,9 +122,14 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Producto producto = db.Producto.Find(id);
-            db.Producto.Remove(producto);
-            db.SaveChanges();
+            Producto productos = db.Producto.Find(id);
+            if (productos.Id_Estado == 1)
+            {
+                productos.Id_Estado = 2;
+                db.Entry(productos).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            
             return RedirectToAction("Index");
         }
 

@@ -6,7 +6,7 @@
 
 <input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Cita_Medica") + "'");" />
 
-    <table id="tablaCitas">
+    <table id="tablaCitas" >
         <thead>
             <tr>
                 <th>
@@ -69,4 +69,4 @@
     </table>
 
 <input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
-<script src="~/Scripts/Medicinas/Medicinas.js"></script>
+<script src="~/Scripts/Cita_Medica/Cita_Medica.js"></script>

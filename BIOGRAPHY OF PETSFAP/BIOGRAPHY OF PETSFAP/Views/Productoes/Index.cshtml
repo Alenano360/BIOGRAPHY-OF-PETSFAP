@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Productos";
 }
-<input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Producto") + "'");" />
+<input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Productoes") + "'");" />
 <table class="table" id="tablaProductos">
         <thead>
             <tr>
@@ -51,9 +51,9 @@
                 @Html.DisplayFor(modelItem => item.Proveedor.Id_Proveedor)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Producto }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id_Producto }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Producto })
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id_Producto }) |
+                @Html.ActionLink("Detalle", "Details", new { id = item.Id_Producto }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_Producto })
             </td>
         </tr>
     }

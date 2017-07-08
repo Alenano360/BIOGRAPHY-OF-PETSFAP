@@ -18,9 +18,10 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Usuarios
         public ActionResult Index()
         {
+            ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
             var usuarios = db.Usuarios.Include(u => u.Empleado).Include(u => u.Estado).Include(u => u.Roles).Where(x => x.Id_Estado == 1);
             return View(usuarios.ToList());
-            ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
+            
         }
 
         // GET: Usuarios/Details/5
@@ -41,9 +42,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Usuarios/Create
         public ActionResult Create()
         {
-            ViewBag.Id_Empleado = new SelectList(db.Empleado, "Id_Empleado", "Id_Empleado");
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
-            ViewBag.Id_Rol = new SelectList(db.Roles, "Id_Rol", "Descripcion");
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "Persona.Nombre");
+            //ViewBag.Id_Estado = new SelectList(db.Estado.Where(x => x.Id_Estado == 1), "Id_Estado", "Descripcion");
+            ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion");
             return View();
         }
 
@@ -62,9 +63,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id_Empleado = new SelectList(db.Empleado, "Id_Empleado", "Id_Empleado", usuarios.Id_Empleado);
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", usuarios.Id_Estado);
-            ViewBag.Id_Rol = new SelectList(db.Roles, "Id_Rol", "Descripcion", usuarios.Id_Rol);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "Persona.Nombre", usuarios.Id_Empleado);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", usuarios.Id_Estado);
+            ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
             return View(usuarios);
         }
 
@@ -80,9 +81,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_Empleado = new SelectList(db.Empleado, "Id_Empleado", "Id_Empleado", usuarios.Id_Empleado);
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", usuarios.Id_Estado);
-            ViewBag.Id_Rol = new SelectList(db.Roles, "Id_Rol", "Descripcion", usuarios.Id_Rol);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "Persona.Nombre", usuarios.Id_Empleado);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", usuarios.Id_Estado);
+            ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
             return View(usuarios);
         }
 
@@ -100,9 +101,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id_Empleado = new SelectList(db.Empleado, "Id_Empleado", "Id_Empleado", usuarios.Id_Empleado);
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", usuarios.Id_Estado);
-            ViewBag.Id_Rol = new SelectList(db.Roles, "Id_Rol", "Descripcion", usuarios.Id_Rol);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "Persona.Nombre", usuarios.Id_Empleado);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", usuarios.Id_Estado);
+            ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
             return View(usuarios);
         }
 

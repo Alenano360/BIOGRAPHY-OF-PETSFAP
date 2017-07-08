@@ -17,9 +17,10 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Pacientes
         public ActionResult Index()
         {
-            var paciente = db.Paciente.Include(p => p.Cliente).Include(p => p.Estado);
-            return View(paciente.ToList());
             ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
+            var paciente = db.Paciente.Include(p => p.Cliente).Include(p => p.Estado).Where(x => x.Id_Estado == 1);
+            return View(paciente.ToList());
+           
         }
 
         // GET: Pacientes/Details/5
@@ -40,8 +41,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Pacientes/Create
         public ActionResult Create()
         {
-            ViewBag.Id_Cliente = new SelectList(db.Cliente, "Id_Cliente", "Id_Cliente");
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "Persona.Nombre");
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
             return View();
         }
 
@@ -54,13 +55,14 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                paciente.Id_Estado = 1;
                 db.Paciente.Add(paciente);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id_Cliente = new SelectList(db.Cliente, "Id_Cliente", "Id_Cliente", paciente.Id_Cliente);
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", paciente.Id_Estado);
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "Persona.Nombre", paciente.Id_Cliente);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", paciente.Id_Estado);
             return View(paciente);
         }
 
@@ -76,8 +78,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_Cliente = new SelectList(db.Cliente, "Id_Cliente", "Id_Cliente", paciente.Id_Cliente);
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", paciente.Id_Estado);
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "Persona.Nombre", paciente.Id_Cliente);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", paciente.Id_Estado);
             return View(paciente);
         }
 
@@ -90,12 +92,13 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                paciente.Id_Estado = 1;
                 db.Entry(paciente).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id_Cliente = new SelectList(db.Cliente, "Id_Cliente", "Id_Cliente", paciente.Id_Cliente);
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", paciente.Id_Estado);
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "Persona.Nombre", paciente.Id_Cliente);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", paciente.Id_Estado);
             return View(paciente);
         }
 
@@ -120,8 +123,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Paciente paciente = db.Paciente.Find(id);
-            db.Paciente.Remove(paciente);
-            db.SaveChanges();
+            if(paciente.Id_Estado==1)
+            {
+                paciente.Id_Estado = 2;
+                db.Entry(paciente).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

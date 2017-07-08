@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<BIOGRAPHY_OF_PETSFAP.Models.Paciente>
+@{
+    ViewBag.Title = "Pacientes";
+}
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+<input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Pacientes") + "'");" />
+
     <table class="table" id="tablaPacientes">
         <thead>
             <tr>
@@ -50,9 +52,9 @@
                         @Html.DisplayFor(modelItem => item.Estado.Descripcion)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id_Paciente }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id_Paciente }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id_Paciente })
+                        @Html.ActionLink("Editar", "Edit", new { id = item.Id_Paciente }) |
+                        @Html.ActionLink("Detalle", "Details", new { id = item.Id_Paciente }) |
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_Paciente })
                     </td>
                 </tr>
             }

@@ -1,67 +1,70 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Cita_Medica
+@{
+    ViewBag.Title = "Detalle";
+}
 
-    <div>
-        <h4>Cita_Medica</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Fecha)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Hora)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Hora)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Descripcion)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Cliente.Id_Cliente)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Cliente.Id_Cliente)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Estado.Descripcion)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Estado.Descripcion)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Medicina.Nombre)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Medicina.Nombre)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Paciente.Animal)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Paciente.Animal)
-            </dd>
-    
-        </dl>
-    </div>
+<div>
+    <h4>Detalle Cita Medica</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hora)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hora)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.Id_Cliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.Id_Cliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Medicina.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Medicina.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente.Animal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente.Animal)
+        </dd>
+
+    </dl>
+</div>
 <input type="button" class="btn btn-default" value="Editar" onclick="@("window.location.href='" + @Url.Action("Edit", "Cita_Medica", new { id = Model.Id_Cita_Medica }) + "'");" /> |
 <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Cita_Medica") + "'");" />
 

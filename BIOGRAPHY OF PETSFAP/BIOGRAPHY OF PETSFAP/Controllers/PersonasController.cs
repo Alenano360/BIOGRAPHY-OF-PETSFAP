@@ -40,7 +40,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Personas/Create
         public ActionResult Create()
         {
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
             return View();
         }
 
@@ -49,16 +49,18 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Persona,Nombre,Apellidos,Direccion,Telefono,Id_Estado")] Persona persona)
+        public ActionResult Create([Bind(Include = "Id_Persona,Nombre,Apellidos,Direccion,Telefono,Id_Estado,chk_Cliente,chk_Proveedor,chk_Empleado")] Persona persona)
         {
             if (ModelState.IsValid)
             {
+                
+                persona.Id_Estado = 1;
                 db.Persona.Add(persona);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", persona.Id_Estado);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", persona.Id_Estado);
             return View(persona);
         }
 
@@ -74,7 +76,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", persona.Id_Estado);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", persona.Id_Estado);
             return View(persona);
         }
 
@@ -87,11 +89,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             if (ModelState.IsValid)
             {
+                persona.Id_Estado = 1;
                 db.Entry(persona).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", persona.Id_Estado);
+            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", persona.Id_Estado);
             return View(persona);
         }
 

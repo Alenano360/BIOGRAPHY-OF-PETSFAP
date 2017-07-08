@@ -1,10 +1,8 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Persona
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editar";
 }
-
-<h2>Edit</h2>
 
 
 @using (Html.BeginForm())
@@ -49,25 +47,26 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Id_Estado, "Id_Estado", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("Id_Estado", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <div style="margin-right:25%; float:left">
+                    <input type="submit" value="Guardar" class="btn btn-default" />
+                </div>
+                <div style="float:left;">
+                    <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
+                </div>
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
