@@ -49,7 +49,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Persona,Nombre,Apellidos,Direccion,Telefono,Id_Estado,chk_Cliente,chk_Proveedor,chk_Empleado")] Persona persona)
+        public ActionResult Create([Bind(Include = "Id_Persona,Nombre,Apellidos,Direccion,Telefono,chk_Cliente,chk_Empleado,chk_Proveedor")] Persona persona)
         {
             if (ModelState.IsValid)
             {
