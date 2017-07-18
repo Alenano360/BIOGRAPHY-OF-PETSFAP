@@ -49,14 +49,48 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Persona,Nombre,Apellidos,Direccion,Telefono,chk_Cliente,chk_Empleado,chk_Proveedor")] Persona persona)
+        public ActionResult Create([Bind(Include = "Id_Persona,Nombre,Apellidos,Direccion,Telefono,chk_Cliente,chk_Empleado,chk_Proveedor,Nombre_Empresa,Telefono_Empresa,Direccion_Empresa")] Persona persona)
         {
             if (ModelState.IsValid)
             {
-                
+                    
                 persona.Id_Estado = 1;
                 db.Persona.Add(persona);
                 db.SaveChanges();
+                if (persona.chk_Cliente)
+                {
+                    Cliente cli = new Cliente
+                    {
+                        Id_Persona = persona.Id_Persona,
+                        Id_Estado = 1
+                    };
+                    db.Cliente.Add(cli);
+                    db.SaveChanges();
+                }
+                if (persona.chk_Proveedor)
+                {
+                    Proveedor pro = new Proveedor
+                    {
+                        Id_Persona = persona.Id_Persona,
+                        Id_Estado = 1,
+                        Nombre_Empresa=persona.Nombre_Empresa,
+                        Telefono_Empresa=persona.Telefono_Empresa,
+                        Direccion_Empresa=persona.Direccion_Empresa
+                    };
+                    db.Proveedor.Add(pro);
+                    db.SaveChanges();
+                }
+                if (persona.chk_Empleado)
+                {
+                    Empleado emp = new Empleado
+                    {
+                        Id_Persona = persona.Id_Persona,
+                        Id_Estado = 1
+                        
+                    };
+                    db.Empleado.Add(emp);
+                    db.SaveChanges();
+                } 
                 return RedirectToAction("Index");
             }
 
@@ -85,7 +119,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_Persona,Nombre,Apellidos,Direccion,Telefono,Id_Estado")] Persona persona)
+        public ActionResult Edit([Bind(Include = "Id_Persona,Nombre,Apellidos,Direccion,Telefono,chk_Cliente,chk_Empleado,chk_Proveedor")] Persona persona)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +128,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", persona.Id_Estado);
+            
             return View(persona);
         }
 

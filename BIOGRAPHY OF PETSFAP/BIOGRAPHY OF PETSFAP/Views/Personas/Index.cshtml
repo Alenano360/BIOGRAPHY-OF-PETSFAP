@@ -20,9 +20,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Telefono)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado.Descripcion)
-            </th>
+            <th>@Html.DisplayNameFor(model => model.Cliente)</th>
+            <th>@Html.DisplayNameFor(model => model.Proveedor)</th>
+            <th>@Html.DisplayNameFor(model => model.Empleado)</th>
             <th></th>
         </tr>
     </thead>
@@ -43,7 +43,41 @@
                     @Html.DisplayFor(modelItem => item.Telefono)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Estado.Descripcion)
+                    @{
+                        if (item.Cliente.Count != 0)
+                        {
+                            @Html.CheckBox("Cliente", new { @disabled = "disabled",@checked="checked"})
+                        }
+                        else
+                        {
+                            @Html.CheckBox("Cliente", new { @disabled = "disabled" })
+                        }
+                    }
+                    
+                </td>
+                <td>
+                    @{
+                        if (item.Proveedor.Count != 0)
+                        {
+                            @Html.CheckBox("Proveedor", new { @disabled = "disabled", @checked = "checked" })
+                        }
+                        else
+                        {
+                            @Html.CheckBox("Proveedor", new { @disabled = "disabled" })
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (item.Empleado.Count != 0)
+                        {
+                            @Html.CheckBox("Empleado", new { @disabled = "disabled", @checked = "checked" })
+                        }
+                        else
+                        {
+                            @Html.CheckBox("Empleado", new { @disabled = "disabled"})
+                        }
+}
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.Id_Persona }) |
