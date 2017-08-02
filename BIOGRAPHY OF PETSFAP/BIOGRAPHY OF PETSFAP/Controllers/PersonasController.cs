@@ -7,19 +7,24 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
+using BIOGRAPHY_OF_PETSFAP.Class;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
+
     public class PersonasController : Controller
     {
+        private IEnumerable<Persona> ListaPersona;
+        //private IEnumerable<Tipo_Persona> ListaTipoPersona;
         private VeterinariaEntities db = new VeterinariaEntities();
 
         // GET: Personas
         public ActionResult Index()
         {
-            var persona = db.Persona.Include(p => p.Estado).Where(x => x.Id_Estado == 1);
+
+            ListaPersona = db.Persona.Include(c => c.Cliente).Include(c => c.Estado).Include(c => c.Empleado).Include(c => c.Proveedor).Where(x => x.Id_Estado == 1);
             ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
-            return View(persona.ToList());
+            return View(ListaPersona);
         }
 
         // GET: Personas/Details/5
@@ -29,107 +34,317 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Persona persona = db.Persona.Find(id);
-            if (persona == null)
+            Persona per = db.Persona.FirstOrDefault(x => x.Id_Persona == id);
+            Cliente cli = db.Cliente.FirstOrDefault(x => x.Id_Persona == id);
+            Empleado emp = db.Empleado.FirstOrDefault(x => x.Id_Persona == id);
+            Proveedor pro = db.Proveedor.FirstOrDefault(x => x.Id_Persona == id);
+            Persona_Poco persona = new Persona_Poco()
+            {
+                Id_Persona = per.Id_Persona,
+                Nombre = per.Nombre,
+                Apellidos = per.Apellidos,
+                Direccion = per.Direccion,
+                Telefono = per.Telefono,
+                Id_Estado = per.Id_Estado,
+                Chk_Cliente = per.Chk_Cliente,
+                Chk_Empleado = per.Chk_Empleado,
+                Chk_Proveedor = per.Chk_Proveedor
+            };
+            Cliente_Poco cliente = null;
+            if (cli != null)
+            {
+                cliente = new Cliente_Poco()
+                {
+                    Id_Cliente = cli.Id_Cliente,
+                    Id_Estado = cli.Id_Estado,
+                    Id_Persona = cli.Id_Persona,
+                };
+            }
+            Empleado_Poco empleado = null;
+            if (emp != null)
+            {
+                empleado = new Empleado_Poco()
+                {
+                    Id_Empleado = emp.Id_Empleado,
+                    Id_Estado = emp.Id_Estado,
+                    Id_Persona = emp.Id_Persona,
+                };
+            }
+            Proveedor_Poco proveedor = null;
+            if (pro != null)
+            {
+                proveedor = new Proveedor_Poco()
+                {
+                    Id_Proveedor = pro.Id_Proveedor,
+                    Id_Estado = pro.Id_Estado,
+                    Id_Persona = pro.Id_Persona,
+                    Nombre_Empresa = pro.Nombre_Empresa,
+                    Telefono_Empresa = pro.Telefono_Empresa,
+                    Direccion_Empresa = pro.Direccion_Empresa
+                };
+            }
+
+
+            Tipo_Persona tipo_persona = new Tipo_Persona()
+            {
+                _persona = persona,
+                _cliente = cliente,
+                _empleado = empleado,
+                _proveedor = proveedor
+
+            };
+            if (tipo_persona == null)
             {
                 return HttpNotFound();
             }
-            return View(persona);
+
+            return View(tipo_persona);
         }
 
-        // GET: Personas/Create
+        //GET: Personas/Create
         public ActionResult Create()
         {
-            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
             return View();
         }
 
-        // POST: Personas/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        //POST: Personas/Create
+        //Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        //más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Persona,Nombre,Apellidos,Direccion,Telefono,chk_Cliente,chk_Empleado,chk_Proveedor,Nombre_Empresa,Telefono_Empresa,Direccion_Empresa")] Persona persona)
+        public ActionResult Create(Tipo_Persona tipo_persona)
         {
             if (ModelState.IsValid)
             {
-                    
-                persona.Id_Estado = 1;
-                db.Persona.Add(persona);
+                Persona personaObj = new Persona
+                {
+                    Id_Persona = tipo_persona._persona.Id_Persona,
+                    Nombre = tipo_persona._persona.Nombre,
+                    Apellidos = tipo_persona._persona.Apellidos,
+                    Direccion = tipo_persona._persona.Direccion,
+                    Telefono = tipo_persona._persona.Telefono,
+                    Id_Estado = 1,
+                    Chk_Cliente = tipo_persona._persona.Chk_Cliente,
+                    Chk_Empleado = tipo_persona._persona.Chk_Empleado,
+                    Chk_Proveedor = tipo_persona._persona.Chk_Proveedor
+                };
+                db.Persona.Add(personaObj);
                 db.SaveChanges();
-                if (persona.chk_Cliente)
+                if (tipo_persona._persona.Chk_Cliente)
                 {
                     Cliente cli = new Cliente
                     {
-                        Id_Persona = persona.Id_Persona,
+                        Id_Persona = personaObj.Id_Persona,
                         Id_Estado = 1
                     };
                     db.Cliente.Add(cli);
                     db.SaveChanges();
                 }
-                if (persona.chk_Proveedor)
+                if (tipo_persona._persona.Chk_Proveedor)
                 {
                     Proveedor pro = new Proveedor
                     {
-                        Id_Persona = persona.Id_Persona,
+                        Id_Persona = personaObj.Id_Persona,
                         Id_Estado = 1,
-                        Nombre_Empresa=persona.Nombre_Empresa,
-                        Telefono_Empresa=persona.Telefono_Empresa,
-                        Direccion_Empresa=persona.Direccion_Empresa
+                        Nombre_Empresa = tipo_persona._proveedor.Nombre_Empresa,
+                        Telefono_Empresa = tipo_persona._proveedor.Telefono_Empresa,
+                        Direccion_Empresa = tipo_persona._proveedor.Direccion_Empresa
                     };
                     db.Proveedor.Add(pro);
                     db.SaveChanges();
                 }
-                if (persona.chk_Empleado)
+                if (tipo_persona._persona.Chk_Empleado)
                 {
                     Empleado emp = new Empleado
                     {
-                        Id_Persona = persona.Id_Persona,
+                        Id_Persona = personaObj.Id_Persona,
                         Id_Estado = 1
-                        
                     };
                     db.Empleado.Add(emp);
                     db.SaveChanges();
-                } 
+                }
                 return RedirectToAction("Index");
             }
-
-            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", persona.Id_Estado);
-            return View(persona);
+            return View(tipo_persona);
         }
 
-        // GET: Personas/Edit/5
+        //GET: Personas/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Persona persona = db.Persona.Find(id);
-            if (persona == null)
+            Persona per = db.Persona.FirstOrDefault(x => x.Id_Persona == id);
+            Cliente cli = db.Cliente.FirstOrDefault(x => x.Id_Persona == id);
+            Empleado emp = db.Empleado.FirstOrDefault(x => x.Id_Persona == id);
+            Proveedor pro = db.Proveedor.FirstOrDefault(x => x.Id_Persona == id);
+            Persona_Poco persona = new Persona_Poco() 
+            {
+                Id_Persona = per.Id_Persona,
+                Nombre = per.Nombre,
+                Apellidos = per.Apellidos,
+                Direccion = per.Direccion,
+                Telefono = per.Telefono,
+                Id_Estado = per.Id_Estado,
+                Chk_Cliente = per.Chk_Cliente,
+                Chk_Empleado =per.Chk_Empleado,
+                Chk_Proveedor = per.Chk_Proveedor
+            };
+            Cliente_Poco cliente = null;
+            if (cli != null)
+            {
+                cliente = new Cliente_Poco()
+                {
+                    Id_Cliente = cli.Id_Cliente,
+                    Id_Estado = cli.Id_Estado,
+                    Id_Persona = cli.Id_Persona,
+                };
+            }
+            Empleado_Poco empleado = null;
+            if (emp != null)
+            {
+                empleado = new Empleado_Poco()
+                {
+                    Id_Empleado = emp.Id_Empleado,
+                    Id_Estado = emp.Id_Estado,
+                    Id_Persona = emp.Id_Persona,
+                };
+            }
+            Proveedor_Poco proveedor = null;
+            if (pro != null)
+            {
+                proveedor = new Proveedor_Poco()
+            {
+                Id_Proveedor=pro.Id_Proveedor,
+                Id_Estado = pro.Id_Estado,
+                Id_Persona = pro.Id_Persona,
+                Nombre_Empresa = pro.Nombre_Empresa,
+                Telefono_Empresa = pro.Telefono_Empresa,
+                Direccion_Empresa = pro.Direccion_Empresa
+            };
+            }
+
+
+            Tipo_Persona tipo_persona = new Tipo_Persona()
+            {
+                _persona = persona,
+                _cliente=cliente,
+                _empleado=empleado,
+                _proveedor=proveedor
+                
+            };
+            if (tipo_persona == null)
             {
                 return HttpNotFound();
             }
-            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", persona.Id_Estado);
-            return View(persona);
+
+            return View(tipo_persona);
         }
 
         // POST: Personas/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tipo_persona"></param>
+        /// <returns>Un View con un tipo_persona por parametros</returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_Persona,Nombre,Apellidos,Direccion,Telefono,chk_Cliente,chk_Empleado,chk_Proveedor")] Persona persona)
+        [ValidateAntiForgeryToken]        
+        public ActionResult Edit(Tipo_Persona tipo_persona)
         {
             if (ModelState.IsValid)
             {
-                persona.Id_Estado = 1;
+                Persona persona = db.Persona.FirstOrDefault(x => x.Id_Persona == tipo_persona._persona.Id_Persona);
+                    persona.Id_Persona = tipo_persona._persona.Id_Persona;
+                    persona.Nombre = tipo_persona._persona.Nombre;
+                    persona.Apellidos = tipo_persona._persona.Apellidos;
+                    persona.Direccion = tipo_persona._persona.Direccion;
+                    persona.Telefono = tipo_persona._persona.Telefono;
+                    persona.Id_Estado = 1;
+                    persona.Chk_Cliente = tipo_persona._persona.Chk_Cliente;
+                    persona.Chk_Empleado = tipo_persona._persona.Chk_Empleado;
+                    persona.Chk_Proveedor = tipo_persona._persona.Chk_Proveedor;
+                
                 db.Entry(persona).State = EntityState.Modified;
+                Cliente cliente = db.Cliente.FirstOrDefault(x=>x.Id_Persona==tipo_persona._persona.Id_Persona);
+                if ((cliente!=null)&&(!tipo_persona._persona.Chk_Cliente))
+                {
+                        cliente.Id_Persona = tipo_persona._persona.Id_Persona;
+                        cliente.Id_Estado = 2;
+                    
+                    db.Entry(cliente).State = EntityState.Modified;
+
+                }
+                else if ((cliente == null) && (tipo_persona._persona.Chk_Cliente))
+                {
+                    cliente = new Cliente()
+                    {
+                        Id_Persona = tipo_persona._persona.Id_Persona,
+                        Id_Estado = 1
+                    };
+                    db.Cliente.Add(cliente);
+                }
+                Proveedor proveedor = db.Proveedor.FirstOrDefault(x => x.Id_Persona == tipo_persona._persona.Id_Persona);
+                //
+                if ((proveedor!=null)&&(!tipo_persona._persona.Chk_Proveedor))
+                {
+                        proveedor.Id_Persona = persona.Id_Persona;
+                        proveedor.Id_Estado = 2;
+                        proveedor.Nombre_Empresa = tipo_persona._proveedor.Nombre_Empresa;
+                        proveedor.Telefono_Empresa = tipo_persona._proveedor.Telefono_Empresa;
+                        proveedor.Direccion_Empresa = tipo_persona._proveedor.Direccion_Empresa;
+                    
+                    db.Entry(proveedor).State = EntityState.Modified;
+
+                }
+                else if ((proveedor == null) && (tipo_persona._persona.Chk_Proveedor))
+                {
+                    proveedor = new Proveedor
+                    {
+                        Id_Persona = persona.Id_Persona,
+                        Id_Estado = 1,
+                        Nombre_Empresa = tipo_persona._proveedor.Nombre_Empresa,
+                        Telefono_Empresa = tipo_persona._proveedor.Telefono_Empresa,
+                        Direccion_Empresa = tipo_persona._proveedor.Direccion_Empresa
+                    };
+                    db.Proveedor.Add(proveedor);
+
+                }
+                else if ((proveedor != null) && (tipo_persona._persona.Chk_Proveedor))
+                {
+                        proveedor.Id_Persona = persona.Id_Persona;
+                        proveedor.Id_Estado = 1;
+                        proveedor.Nombre_Empresa = tipo_persona._proveedor.Nombre_Empresa;
+                        proveedor.Telefono_Empresa = tipo_persona._proveedor.Telefono_Empresa;
+                        proveedor.Direccion_Empresa = tipo_persona._proveedor.Direccion_Empresa;
+                   
+                    db.Entry(proveedor).State = EntityState.Modified;
+                }
+                Empleado empleado = db.Empleado.FirstOrDefault(x => x.Id_Persona == tipo_persona._persona.Id_Persona);
+                if ((empleado!=null)&&(!tipo_persona._persona.Chk_Empleado))
+                {
+
+                    empleado.Id_Persona = tipo_persona._persona.Id_Persona;
+                    empleado.Id_Estado = 2;
+                    
+                    db.Entry(empleado).State = EntityState.Modified;
+                }
+                else if ((empleado == null) && (tipo_persona._persona.Chk_Empleado))
+                {
+                    empleado = new Empleado
+                    {
+                        Id_Persona = tipo_persona._persona.Id_Persona,
+                        Id_Estado = 1
+                    };
+                    db.Empleado.Add(empleado);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            
-            return View(persona);
+
+            return View(tipo_persona);
         }
 
         // GET: Personas/Delete/5
@@ -139,12 +354,68 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Persona persona = db.Persona.Find(id);
-            if (persona == null)
+            Persona per = db.Persona.FirstOrDefault(x => x.Id_Persona == id);
+            Cliente cli = db.Cliente.FirstOrDefault(x => x.Id_Persona == id);
+            Empleado emp = db.Empleado.FirstOrDefault(x => x.Id_Persona == id);
+            Proveedor pro = db.Proveedor.FirstOrDefault(x => x.Id_Persona == id);
+            Persona_Poco persona = new Persona_Poco()
+            {
+                Id_Persona = per.Id_Persona,
+                Nombre = per.Nombre,
+                Apellidos = per.Apellidos,
+                Direccion = per.Direccion,
+                Telefono = per.Telefono,
+                Id_Estado = per.Id_Estado,
+                Chk_Cliente = per.Chk_Cliente,
+                Chk_Empleado = per.Chk_Empleado,
+                Chk_Proveedor = per.Chk_Proveedor
+            };
+            Cliente_Poco cliente = null;
+            if (cli != null)
+            {
+                cliente = new Cliente_Poco()
+                {
+                    Id_Cliente = cli.Id_Cliente,
+                    Id_Estado = cli.Id_Estado,
+                    Id_Persona = cli.Id_Persona,
+                };
+            }
+            Empleado_Poco empleado = null;
+            if (emp != null)
+            {
+                empleado = new Empleado_Poco()
+                {
+                    Id_Empleado = emp.Id_Empleado,
+                    Id_Estado = emp.Id_Estado,
+                    Id_Persona = emp.Id_Persona,
+                };
+            }
+            Proveedor_Poco proveedor = null;
+            if (pro != null)
+            {
+                proveedor = new Proveedor_Poco()
+                {
+                    Id_Proveedor = pro.Id_Proveedor,
+                    Id_Estado = pro.Id_Estado,
+                    Id_Persona = pro.Id_Persona,
+                    Nombre_Empresa = pro.Nombre_Empresa,
+                    Telefono_Empresa = pro.Telefono_Empresa,
+                    Direccion_Empresa = pro.Direccion_Empresa
+                };
+            }
+            Tipo_Persona tipo_persona = new Tipo_Persona()
+            {
+                _persona = persona,
+                _cliente = cliente,
+                _empleado = empleado,
+                _proveedor = proveedor
+
+            };
+            if (tipo_persona == null)
             {
                 return HttpNotFound();
             }
-            return View(persona);
+            return View(tipo_persona);
         }
 
         // POST: Personas/Delete/5
@@ -152,12 +423,45 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Persona persona = db.Persona.Find(id);
-            if (persona.Id_Estado == 1) {
-                persona.Id_Estado = 2;
-                db.Entry(persona).State = EntityState.Modified;
-                db.SaveChanges();
+            Persona persona = db.Persona.FirstOrDefault(x => x.Id_Persona == id);
+            if (persona!=null)
+            {
+                if (persona.Id_Estado == 1)
+                {
+                    persona.Id_Estado = 2;
+                    db.Entry(persona).State = EntityState.Modified;
+                }
             }
+            
+            Cliente cliente = db.Cliente.FirstOrDefault(x => x.Id_Persona == id);
+            if (cliente != null)
+            {
+                if (cliente.Id_Estado == 1)
+                {
+                    persona.Id_Estado = 2;
+                    db.Entry(cliente).State = EntityState.Modified;
+                }
+            }
+            Empleado empleado = db.Empleado.FirstOrDefault(x => x.Id_Persona == id);
+            if (empleado != null)
+            {
+                if (empleado.Id_Estado == 1)
+                {
+                    empleado.Id_Estado = 2;
+                    db.Entry(empleado).State = EntityState.Modified;
+                }
+            }
+            Proveedor proveedor = db.Proveedor.FirstOrDefault(x => x.Id_Persona == id);
+            if (proveedor!=null)
+            {
+                if (proveedor.Id_Estado == 1)
+                {
+                    proveedor.Id_Estado = 2;
+                    db.Entry(proveedor).State = EntityState.Modified;
+                }
+            }
+            
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

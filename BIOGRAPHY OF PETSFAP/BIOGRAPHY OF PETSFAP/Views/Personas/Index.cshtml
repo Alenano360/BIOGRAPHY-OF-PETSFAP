@@ -44,7 +44,7 @@
                 </td>
                 <td>
                     @{
-                        if (item.Cliente.Count != 0)
+                        if (item.Chk_Cliente)
                         {
                             @Html.CheckBox("Cliente", new { @disabled = "disabled",@checked="checked"})
                         }
@@ -57,7 +57,7 @@
                 </td>
                 <td>
                     @{
-                        if (item.Proveedor.Count != 0)
+                        if (item.Chk_Proveedor)
                         {
                             @Html.CheckBox("Proveedor", new { @disabled = "disabled", @checked = "checked" })
                         }
@@ -69,7 +69,7 @@
                 </td>
                 <td>
                     @{
-                        if (item.Empleado.Count != 0)
+                        if (item.Chk_Empleado)
                         {
                             @Html.CheckBox("Empleado", new { @disabled = "disabled", @checked = "checked" })
                         }

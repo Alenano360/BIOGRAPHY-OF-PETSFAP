@@ -11,6 +11,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Proveedor
     {
@@ -19,7 +20,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
             this.Factura = new HashSet<Factura>();
             this.Producto = new HashSet<Producto>();
         }
-    
+        [Key]
         public int Id_Proveedor { get; set; }
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }

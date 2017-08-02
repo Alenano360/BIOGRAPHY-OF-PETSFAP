@@ -166,7 +166,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 {
                     ModelState.AddModelError("", "Login Fallido, Compruebe su Usuario o Contraseña :)");
                 }
-            }catch(Exception ex){
+            }catch(Exception){
                 ModelState.AddModelError("", "Ocurrio un Error...");
             } 
             return View(user);
@@ -174,20 +174,35 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
 
         private bool IsValid(string usuario, string contrasena)
         {
-            bool IsValid = false;
-            
-            using (var db = new BIOGRAPHY_OF_PETSFAP.Models.VeterinariaEntities())
+            try
             {
-                var user = db.Usuarios.FirstOrDefault(u => u.Usuario == usuario && u.Contraseña==contrasena);
-                Session.Add("NombreUsuarioSession", user.Empleado.Persona.Nombre + " " + user.Empleado.Persona.Apellidos);
-                Session.Add("RolUsuarioSession", user.Roles.Descripcion);
-                if (user != null)
-                {
-                        IsValid = true;
-                }
-            }
+                bool IsValid = false;
             
+                using (var db = new BIOGRAPHY_OF_PETSFAP.Models.VeterinariaEntities())
+                {
+                    var user = db.Usuarios.FirstOrDefault(u => u.Usuario == usuario && u.Contraseña==contrasena);
+
+                    if (user != null)
+                    {
+                        Session.Add("NombreUsuarioSession", user.Empleado.Persona.Nombre + " " + user.Empleado.Persona.Apellidos);
+                        Session.Add("RolUsuarioSession", user.Roles.Descripcion);
+                        IsValid = true;
+                    }
+                }         
+
             return IsValid;
+            }
+            catch (Exception e)
+            {                
+                throw;
+            }
+        }
+
+        public void DestroySession()
+        {
+            Session["RolUsuarioSession"] = null;
+            Session["NombreUsuarioSession"] = null;
+
         }
     }
 }

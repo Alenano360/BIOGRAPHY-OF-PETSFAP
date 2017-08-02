@@ -27,12 +27,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         public string Direccion { get; set; }
         public string Telefono { get; set; }
         public int Id_Estado { get; set; }
-        public bool chk_Cliente { get; set; }
-        public bool chk_Empleado { get; set; }
-        public bool chk_Proveedor { get; set; }
-        public string Nombre_Empresa { get; set; }
-        public string Telefono_Empresa { get; set; }
-        public string Direccion_Empresa { get; set; }
+        public bool Chk_Cliente { get; set; }
+        public bool Chk_Empleado { get; set; }
+        public bool Chk_Proveedor { get; set; }
     
         public virtual ICollection<Cliente> Cliente { get; set; }
         public virtual ICollection<Empleado> Empleado { get; set; }

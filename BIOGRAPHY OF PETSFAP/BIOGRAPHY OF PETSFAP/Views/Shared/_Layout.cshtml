@@ -8,8 +8,7 @@
     <!-- Custom Theme files -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="AGROFIRM Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <meta name="keywords" content="" />
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     
     <!--webfont-->
@@ -28,10 +27,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <ul>
                     <li>
                         <p class="phone">@Session["NombreUsuarioSession"].ToString()</p>
-                        <input type="button" class="btn btn-success" value="Cerrar Sesion" onclick="@("window.location.href='" + @Url.Action("Login", "Usuarios") + "'");" />
+                        <input type="button" class="btn btn-success" value="Cerrar Sesion" id="CerrarSession_txt" onclick="@("window.location.href='" + @Url.Action("Login", "Usuarios") + "'");" />
                     </li>
                 </ul>
             </div>
+            <script>
+                
+                $('#CerrarSession_txt').click(
+                function () {
+                    debugger
+                    $.ajax('/Usuarios/DestroySession');
+                });
+
+            </script>
             <div class="clearfix"></div>
             <div class="navigation">
                 <div class="navigation-bar">

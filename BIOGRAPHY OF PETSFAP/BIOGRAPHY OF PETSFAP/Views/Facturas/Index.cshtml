@@ -1,0 +1,77 @@
+﻿@model IEnumerable<BIOGRAPHY_OF_PETSFAP.Models.Factura>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio_Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente.Id_Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empleado.Id_Empleado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado1.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Proveedor.Nombre_Empresa)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio_Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.Id_Cliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Empleado.Id_Empleado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado1.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Proveedor.Nombre_Empresa)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Numero_Factura }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Numero_Factura }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Numero_Factura })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>
