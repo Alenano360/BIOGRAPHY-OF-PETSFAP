@@ -42,7 +42,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         public ActionResult Create()
         {
             //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "Persona.Nombre");
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto");
             return View();
         }
 
@@ -62,7 +62,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
 
             //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "Persona.Nombre", producto.Id_Proveedor);
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
             return View(producto);
         }
 
@@ -79,7 +79,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return HttpNotFound();
             }
             //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "Persona.Nombre", producto.Id_Proveedor);
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
             return View(producto);
         }
 
@@ -98,7 +98,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return RedirectToAction("Index");
             }
             //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "Persona.Nombre", producto.Id_Proveedor);
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
             return View(producto);
         }
 

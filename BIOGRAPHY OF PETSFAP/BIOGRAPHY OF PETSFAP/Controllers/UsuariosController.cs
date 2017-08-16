@@ -42,7 +42,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Usuarios/Create
         public ActionResult Create()
         {
-            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "Persona.Nombre");
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto");
             //ViewBag.Id_Estado = new SelectList(db.Estado.Where(x => x.Id_Estado == 1), "Id_Estado", "Descripcion");
             ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion");
             return View();
@@ -63,7 +63,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "Persona.Nombre", usuarios.Id_Empleado);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", usuarios.Id_Empleado);
             //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", usuarios.Id_Estado);
             ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
             return View(usuarios);
@@ -81,7 +81,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "Persona.Nombre", usuarios.Id_Empleado);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", usuarios.Id_Empleado);
             //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", usuarios.Id_Estado);
             ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
             return View(usuarios);
@@ -101,7 +101,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "Persona.Nombre", usuarios.Id_Empleado);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", usuarios.Id_Empleado);
             //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", usuarios.Id_Estado);
             ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
             return View(usuarios);
@@ -194,7 +194,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             catch (Exception e)
             {                
-                throw;
+                throw e;
             }
         }
 
@@ -202,7 +202,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             Session["RolUsuarioSession"] = null;
             Session["NombreUsuarioSession"] = null;
-
         }
     }
 }

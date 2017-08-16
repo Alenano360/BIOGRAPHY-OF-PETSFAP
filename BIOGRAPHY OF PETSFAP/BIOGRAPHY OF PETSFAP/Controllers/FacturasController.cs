@@ -17,7 +17,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Facturas
         public ActionResult Index()
         {
-            var factura = db.Factura.Include(f => f.Cliente).Include(f => f.Empleado).Include(f => f.Estado1).Include(f => f.Proveedor);
+            var factura = db.Factura.Include(f => f.Cliente).Include(f => f.Empleado).Include(f => f.Estado).Include(f => f.Proveedor).Include(f=>f.Detalle_Factura).Where(x=>x.Id_Estado==1);
+            ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
             return View(factura.ToList());
         }
 
@@ -28,7 +29,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Factura factura = db.Factura.Find(id);
+            Factura factura = db.Factura.FirstOrDefault(x => x.Numero_Factura == id);
+            Detalle_Factura detalle = db.Detalle_Factura.FirstOrDefault(x => x.Numero_Factura == id);
+            //Producto producto = db.Producto.FirstOrDefault(x => x.Id_Producto==x.);
             if (factura == null)
             {
                 return HttpNotFound();
@@ -39,10 +42,11 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Facturas/Create
         public ActionResult Create()
         {
-            ViewBag.Id_Cliente = new SelectList(db.Cliente, "Id_Cliente", "Id_Cliente");
-            ViewBag.Id_Empleado = new SelectList(db.Empleado, "Id_Empleado", "Id_Empleado");
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor, "Id_Proveedor", "Nombre_Empresa");
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto");
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto");
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto");
+            ViewBag.Id_Producto = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
+
             return View();
         }
 
@@ -60,10 +64,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id_Cliente = new SelectList(db.Cliente, "Id_Cliente", "Id_Cliente", factura.Id_Cliente);
-            ViewBag.Id_Empleado = new SelectList(db.Empleado, "Id_Empleado", "Id_Empleado", factura.Id_Empleado);
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", factura.Id_Estado);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor, "Id_Proveedor", "Nombre_Empresa", factura.Id_Proveedor);
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
             return View(factura);
         }
 
@@ -79,10 +82,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_Cliente = new SelectList(db.Cliente, "Id_Cliente", "Id_Cliente", factura.Id_Cliente);
-            ViewBag.Id_Empleado = new SelectList(db.Empleado, "Id_Empleado", "Id_Empleado", factura.Id_Empleado);
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", factura.Id_Estado);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor, "Id_Proveedor", "Nombre_Empresa", factura.Id_Proveedor);
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
             return View(factura);
         }
 
@@ -99,10 +101,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id_Cliente = new SelectList(db.Cliente, "Id_Cliente", "Id_Cliente", factura.Id_Cliente);
-            ViewBag.Id_Empleado = new SelectList(db.Empleado, "Id_Empleado", "Id_Empleado", factura.Id_Empleado);
-            ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", factura.Id_Estado);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor, "Id_Proveedor", "Nombre_Empresa", factura.Id_Proveedor);
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
             return View(factura);
         }
 
@@ -139,6 +140,14 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [System.Web.Services.WebMethod]
+        public string SelectPrecio(int id)
+        {
+            var precio=db.Producto.Where(x => x.Id_Producto == id).Select(x=>x.Precio).FirstOrDefault();
+            return Convert.ToString( precio);
+
         }
     }
 }

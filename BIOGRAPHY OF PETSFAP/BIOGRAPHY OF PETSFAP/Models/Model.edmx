@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="VeterinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VeterinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cita_Medica">
           <Key>
             <PropertyRef Name="Id_Cita_Medica" />
@@ -34,7 +34,6 @@
           <Property Name="Numero_Factura" Type="int" Nullable="false" />
           <Property Name="Id_Producto" Type="int" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
-          <Property Name="Precio" Type="int" Nullable="false" />
           <Property Name="Precio_Total_Producto" Type="int" Nullable="false" />
           <Property Name="Precio_Unitario" Type="int" Nullable="false" />
         </EntityType>
@@ -59,9 +58,8 @@
           </Key>
           <Property Name="Numero_Factura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_Empleado" Type="int" Nullable="false" />
-          <Property Name="Id_Cliente" Type="int" Nullable="false" />
-          <Property Name="Id_Proveedor" Type="int" Nullable="false" />
-          <Property Name="Estado" Type="int" Nullable="false" />
+          <Property Name="Id_Cliente" Type="int" />
+          <Property Name="Id_Proveedor" Type="int" />
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="Precio_Total" Type="int" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
@@ -226,7 +224,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Factura_Cliente">
-          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
           <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cliente">
@@ -394,7 +392,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Proveedor_Factura">
-          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="1" />
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="0..1" />
           <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Proveedor">
@@ -616,7 +614,8 @@
             <End Role="Usuarios" EntitySet="Usuarios" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VeterinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -658,7 +657,6 @@
           <Property Name="Numero_Factura" Type="Int32" Nullable="false" />
           <Property Name="Id_Producto" Type="Int32" Nullable="false" />
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="Precio" Type="Int32" Nullable="false" />
           <Property Name="Precio_Total_Producto" Type="Int32" Nullable="false" />
           <Property Name="Precio_Unitario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Detalle_Factura" FromRole="Detalle_Factura" ToRole="Factura" />
@@ -700,16 +698,15 @@
           </Key>
           <Property Name="Numero_Factura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_Empleado" Type="Int32" Nullable="false" />
-          <Property Name="Id_Cliente" Type="Int32" Nullable="false" />
-          <Property Name="Id_Proveedor" Type="Int32" Nullable="false" />
-          <Property Name="Estado" Type="Int32" Nullable="false" />
+          <Property Name="Id_Cliente" Type="Int32" />
+          <Property Name="Id_Proveedor" Type="Int32" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Precio_Total" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Cliente" Relationship="Self.FK_Factura_Cliente" FromRole="Factura" ToRole="Cliente" />
           <NavigationProperty Name="Detalle_Factura" Relationship="Self.FK_Factura_Detalle_Factura" FromRole="Factura" ToRole="Detalle_Factura" />
           <NavigationProperty Name="Empleado" Relationship="Self.FK_Factura_Empleado" FromRole="Factura" ToRole="Empleado" />
-          <NavigationProperty Name="Estado1" Relationship="Self.FK_Factura_Estado" FromRole="Factura" ToRole="Estado" />
+          <NavigationProperty Name="Estado" Relationship="Self.FK_Factura_Estado" FromRole="Factura" ToRole="Estado" />
           <NavigationProperty Name="Proveedor" Relationship="Self.FK_Proveedor_Factura" FromRole="Factura" ToRole="Proveedor" />
         </EntityType>
         <EntityType Name="Medicina">
@@ -881,7 +878,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Factura_Cliente">
-          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
           <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cliente">
@@ -1085,7 +1082,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Proveedor_Factura">
-          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="1" />
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="0..1" />
           <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Proveedor">
@@ -1329,7 +1326,6 @@
                 <ScalarProperty Name="Numero_Factura" ColumnName="Numero_Factura" />
                 <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Precio_Total_Producto" ColumnName="Precio_Total_Producto" />
                 <ScalarProperty Name="Precio_Unitario" ColumnName="Precio_Unitario" />
               </MappingFragment>
@@ -1359,7 +1355,6 @@
                 <ScalarProperty Name="Id_Empleado" ColumnName="Id_Empleado" />
                 <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
                 <ScalarProperty Name="Id_Proveedor" ColumnName="Id_Proveedor" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Precio_Total" ColumnName="Precio_Total" />
                 <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />

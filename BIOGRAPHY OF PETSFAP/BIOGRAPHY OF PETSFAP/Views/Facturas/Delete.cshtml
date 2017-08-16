@@ -1,88 +1,76 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Factura
 
-@{
-    Layout = null;
-}
 
-<!DOCTYPE html>
+<h3>Esta seguro de que quiere eliminar esto?</h3>
+<div>
+    <h4>Eliminar Factura</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Delete</title>
-</head>
-<body>
-    <h3>Are you sure you want to delete this?</h3>
-    <div>
-        <h4>Factura</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Estado)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Estado)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Fecha)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Precio_Total)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Precio_Total)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Cliente.Id_Cliente)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Cliente.Id_Cliente)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Empleado.Id_Empleado)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Empleado.Id_Empleado)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Estado1.Descripcion)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Estado1.Descripcion)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Proveedor.Nombre_Empresa)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Proveedor.Nombre_Empresa)
-            </dd>
-    
-        </dl>
-    
-        @using (Html.BeginForm()) {
-            @Html.AntiForgeryToken()
-    
-            <div class="form-actions no-color">
-                <input type="submit" value="Delete" class="btn btn-default" /> |
-                @Html.ActionLink("Back to List", "Index")
-            </div>
-        }
-    </div>
-</body>
-</html>
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Precio_Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Precio_Total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.Id_Cliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.Id_Cliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Empleado.Id_Empleado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empleado.Id_Empleado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado1.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado1.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Proveedor.Nombre_Empresa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Proveedor.Nombre_Empresa)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Facturas") + "'");" />
+        </div>
+    }
+</div>

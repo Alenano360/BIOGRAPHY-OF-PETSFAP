@@ -40,7 +40,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Cita_Medica/Create
         public ActionResult Create()
         {
-            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "Persona.Nombre");
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto");
             ViewBag.Id_Medicina = new SelectList(db.Medicina.Where(x => x.Id_Estado == 1), "Id_Medicina", "Nombre");
             ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "Animal");
             return View();
@@ -60,7 +60,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "Persona.Nombre", cita_Medica.Id_Cliente);
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita_Medica.Id_Cliente);
             ViewBag.Id_Medicina = new SelectList(db.Medicina.Where(x => x.Id_Estado == 1), "Id_Medicina", "Nombre", cita_Medica.Id_Medicina);
             ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "Animal", cita_Medica.Id_Paciente);
             return View(cita_Medica);
@@ -78,7 +78,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "Persona.Nombre", cita_Medica.Id_Cliente);
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita_Medica.Id_Cliente);
             ViewBag.Id_Medicina = new SelectList(db.Medicina.Where(x => x.Id_Estado == 1), "Id_Medicina", "Nombre", cita_Medica.Id_Medicina);
             ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "Animal", cita_Medica.Id_Paciente);
             return View(cita_Medica);
@@ -98,7 +98,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "Persona.Nombre", cita_Medica.Id_Cliente);
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita_Medica.Id_Cliente);
             ViewBag.Id_Medicina = new SelectList(db.Medicina.Where(x => x.Id_Estado == 1), "Id_Medicina", "Nombre", cita_Medica.Id_Medicina);
             ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "Animal", cita_Medica.Id_Paciente);
             return View(cita_Medica);

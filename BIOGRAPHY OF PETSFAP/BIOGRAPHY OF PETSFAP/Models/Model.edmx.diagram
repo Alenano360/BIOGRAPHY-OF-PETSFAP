@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="aaff7b1ea7ae47cc9a1cf77958d3c9bc" Name="Diagram1">
-        <EntityTypeShape EntityType="VeterinariaModel.Cita_Medica" Width="1.5" PointX="5.25" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VeterinariaModel.Cliente" Width="1.5" PointX="5.25" PointY="20.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VeterinariaModel.Detalle_Factura" Width="1.5" PointX="15.75" PointY="14.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VeterinariaModel.Empleado" Width="1.5" PointX="8.25" PointY="18.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="VeterinariaModel.Estado" Width="1.5" PointX="0.75" PointY="12.625" IsExpanded="true" />
+      <Diagram DiagramId="9f225cb1df7c4b0eb28c6b04376db1b6" Name="Diagram1">
+        <EntityTypeShape EntityType="VeterinariaModel.Cita_Medica" Width="1.5" PointX="5.25" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VeterinariaModel.Cliente" Width="1.5" PointX="5.25" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VeterinariaModel.Detalle_Factura" Width="1.5" PointX="15.75" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VeterinariaModel.Empleado" Width="1.5" PointX="8.25" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="VeterinariaModel.Estado" Width="1.5" PointX="0.75" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.Factura" Width="1.5" PointX="10.5" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.Medicina" Width="1.5" PointX="3" PointY="20.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VeterinariaModel.Paciente" Width="1.5" PointX="10.5" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VeterinariaModel.Persona" Width="1.5" PointX="3" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VeterinariaModel.Paciente" Width="1.5" PointX="10.5" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VeterinariaModel.Persona" Width="1.5" PointX="3" PointY="23" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.Producto" Width="1.5" PointX="13.5" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VeterinariaModel.Proveedor" Width="1.5" PointX="8.25" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VeterinariaModel.Proveedor" Width="1.5" PointX="8.25" PointY="14.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.Roles" Width="1.5" PointX="3" PointY="27.375" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.Usuarios" Width="1.5" PointX="10.5" PointY="19.5" IsExpanded="true" />

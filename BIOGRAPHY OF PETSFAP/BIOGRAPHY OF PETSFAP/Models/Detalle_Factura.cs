@@ -18,7 +18,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         public int Numero_Factura { get; set; }
         public int Id_Producto { get; set; }
         public int Cantidad { get; set; }
-        public int Precio { get; set; }
         public int Precio_Total_Producto { get; set; }
         public int Precio_Unitario { get; set; }
     

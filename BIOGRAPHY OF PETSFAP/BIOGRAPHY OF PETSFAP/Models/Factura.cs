@@ -21,9 +21,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
     
         public int Numero_Factura { get; set; }
         public int Id_Empleado { get; set; }
-        public int Id_Cliente { get; set; }
-        public int Id_Proveedor { get; set; }
-        public int Estado { get; set; }
+        public Nullable<int> Id_Cliente { get; set; }
+        public Nullable<int> Id_Proveedor { get; set; }
         public System.DateTime Fecha { get; set; }
         public int Precio_Total { get; set; }
         public int Id_Estado { get; set; }
@@ -31,7 +30,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<Detalle_Factura> Detalle_Factura { get; set; }
         public virtual Empleado Empleado { get; set; }
-        public virtual Estado Estado1 { get; set; }
+        public virtual Estado Estado { get; set; }
         public virtual Proveedor Proveedor { get; set; }
     }
 }

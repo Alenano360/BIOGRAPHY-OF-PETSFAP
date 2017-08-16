@@ -26,7 +26,14 @@
             <div class="tollfree">
                 <ul>
                     <li>
-                        <p class="phone">@Session["NombreUsuarioSession"].ToString()</p>
+                        @if (Session["NombreUsuarioSession"] != null)
+                        {
+                            <p class="phone">@Session["NombreUsuarioSession"].ToString()</p>
+                        }
+                        else
+                        {
+                           @Url.Action("Login", "Usuarios")
+                        }
                         <input type="button" class="btn btn-success" value="Cerrar Sesion" id="CerrarSession_txt" onclick="@("window.location.href='" + @Url.Action("Login", "Usuarios") + "'");" />
                     </li>
                 </ul>
@@ -35,7 +42,6 @@
                 
                 $('#CerrarSession_txt').click(
                 function () {
-                    debugger
                     $.ajax('/Usuarios/DestroySession');
                 });
 
@@ -55,13 +61,14 @@
                                 <li id="liPaci">@Html.ActionLink("Pacientes", "Index", "Pacientes")</li>
                                 <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
                                 <li id="liCita">@Html.ActionLink("Citas", "Index", "Cita_Medica")</li>
-                                
+                                <li id="liFac">@Html.ActionLink("Factura", "Index", "Facturas")</li>
                             }
                             else if (Session["RolUsuarioSession"].ToString() == "Cajero")
                             {
                                 <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
                                 <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
                                 <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
+                                <li id="liFac">@Html.ActionLink("Factura", "Index", "Facturas")</li>
 
                             }
                             else if (Session["RolUsuarioSession"].ToString() == "Doctor")
@@ -79,6 +86,7 @@
                                 <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
                                 <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
                                 <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
+                                <li id="liFac">@Html.ActionLink("Factura", "Index", "Facturas")</li>
                             }
                             
                         </ul>

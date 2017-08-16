@@ -1,91 +1,282 @@
-﻿@model BIOGRAPHY_OF_PETSFAP.Models.Factura
+﻿@model BIOGRAPHY_OF_PETSFAP.Models.Facturacion_Poco
 
 @{
-    Layout = null;
+    ViewBag.Title = "Agregar";
 }
 
-<!DOCTYPE html>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-</head>
-<body>
-    @using (Html.BeginForm()) 
-    {
-        @Html.AntiForgeryToken()
-        
-        <div class="form-horizontal">
-            <h4>Factura</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Empleado, "Id_Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Id_Empleado", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Id_Empleado, "", new { @class = "text-danger" })
-                </div>
+    <div class="form-horizontal">
+        <h4>Factura</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model._factura.Id_Empleado, "Id_Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Id_Empleado", null, string.Empty, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model._factura.Id_Empleado, "", new { @class = "text-danger" })
             </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Cliente, "Id_Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Id_Cliente", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Id_Cliente, "", new { @class = "text-danger" })
-                </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model._factura.Id_Cliente, "Id_Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Id_Cliente", null, string.Empty, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model._factura.Id_Cliente, "", new { @class = "text-danger" })
             </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Proveedor, "Id_Proveedor", htmlAttributes: new { @class = "control-label col-md-2" })
+        </div>
+
+        @*      <div class="form-group">
+                @Html.LabelFor(model => model._factura.Id_Proveedor, "Id_Proveedor", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("Id_Proveedor", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Id_Proveedor, "", new { @class = "text-danger" })
+                    @Html.DropDownList("Id_Proveedor", null, htmlAttributes: new { @class = "form-control",@Value =" " })
+                    @Html.ValidationMessageFor(model => model._factura.Id_Proveedor, "", new { @class = "text-danger" })
                 </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model._factura.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model._factura.Fecha, new { htmlAttributes = new { @class = "form-control", @Value = @DateTime.Now.ToString("yyyy/MM/dd"), @disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model._factura.Fecha, "", new { @class = "text-danger" })
             </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+        </div>
+
+
+        <div class="alert alert-danger" id="alerta_Error" hidden>
+            <strong>Debe llenar todos los campos</strong>
+        </div>
+        <div class="alert alert-danger" id="alerta_Error1" hidden>
+            <strong>Debe seleccionar un Producto</strong>
+        </div>
+        <div class="form-group">
+            <table id="tablaFactura">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model._detalle.Id_Producto)</th>
+                        <th>@Html.DisplayNameFor(model => model._detalle.Producto)</th>
+                        <th>@Html.DisplayNameFor(model => model._detalle.Cantidad)</th>
+                        <th>@Html.DisplayNameFor(model => model._detalle.Precio_Unitario)</th>
+                        <th>@Html.DisplayNameFor(model => model._detalle.Precio_Total_Producto)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="noEliminar">
+                        <td>
+                            @Html.EditorFor(model => model._detalle.Id_Producto, new { htmlAttributes = new { id = "lbl_idProducto", style = "display: none;" } })
+                        </td>
+                        <td>
+                            @Html.DropDownList("Id_Producto", null, string.Empty, htmlAttributes: new { id = "ddl_Productos", @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model._detalle.Cantidad, new { htmlAttributes = new { id = "txt_cantidad", @class = "form-control" } })
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model._detalle.Precio_Unitario, htmlAttributes: new { id = "lbl_precioUnitario", @class = "control-label col-md-2" })
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model._detalle.Precio_Total_Producto, htmlAttributes: new { id = "lbl_totalProducto", @class = "control-label col-md-2" })
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <input type="button" class="btn btn-success" value="Agregar Detalle" id="addRow" /> |
+            <input type="button" class="btn btn-warning" value="Eliminar Detalle" id="removeRow" />
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model._factura.Precio_Total, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model._factura.Precio_Total, new { htmlAttributes = new { id = "txt_totalFactura", @disabled = "disabled", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._factura.Precio_Total, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div style="margin-right:25%; float:left">
+                    <input type="submit" value="Agregar" class="btn btn-default" />
                 </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.Precio_Total, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Precio_Total, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Precio_Total, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Estado, "Id_Estado", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Id_Estado", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                <div style="float:left;">
+                    <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Facturas") + "'");" />
                 </div>
             </div>
         </div>
-    }
-    
-    <div>
-        @Html.ActionLink("Back to List", "Index")
+
     </div>
-</body>
-</html>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    $(document).ready(function () {
+        function SumarColumna() {
+            var total = 0;
+            var resultVal = $(tablaFactura).dataTable().api().column(4).data();
+            for (var i = 1, len = resultVal.length; i < len; i++) {
+                total += parseInt(resultVal[i]);
+            }
+            $('#txt_totalFactura').val(total);
+        }
+
+        var t = $('#tablaFactura').DataTable({
+            "columnDefs": [
+                {
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    "targets": [1],
+                },
+                {
+                    "targets": [2],
+                },
+                {
+                    "targets": [3],
+                },
+                {
+                    "targets": [4],
+                }
+            ]
+        });
+        $('#addRow').on('click', function () {
+            var ddlProductos = $('#ddl_Productos')[0];
+            var producto = ddlProductos.options[ddlProductos.selectedIndex].innerHTML;
+            var idproducto = ddlProductos.options[ddlProductos.selectedIndex].value;
+            var txtCantidad = $('#txt_cantidad')[0].value;
+            var lblPrecio = $('#lbl_precioUnitario')[0].innerHTML;
+            var lblTotalProducto = $('#lbl_totalProducto')[0].innerHTML;
+            var rows = $(tablaFactura).dataTable().api().rows().data();
+            debugger
+            if (rows.length - 1 >= 1) {
+                for (var i = 1, len = rows.length; i < len; i++) {
+                    if (rows[i][0] == idproducto) {
+                        var newRow = [idproducto, producto, parseInt(txtCantidad) + parseInt(rows[i][2]), lblPrecio, parseInt(lblTotalProducto) + parseInt(rows[i][4])];
+                        $(tablaFactura).dataTable().api().row(i).data(newRow).draw();
+                        $("#alerta_Error").hide();
+                        $('#ddl_Productos').val("");
+                        $("#lbl_precioUnitario")[0].innerText = "";
+                        $("#lbl_totalProducto")[0].innerText = "";
+                        $("#txt_cantidad").val("");
+                        SumarColumna();
+                        return;
+                    }
+                }
+
+                if (producto != "" && txtCantidad != "") {
+                    t.row.add([
+                        idproducto,
+                        producto,
+                        txtCantidad,
+                        lblPrecio,
+                        lblTotalProducto
+                    ]).draw(true);
+                    $("#alerta_Error").hide();
+                    $('#ddl_Productos').val("");
+                    $("#lbl_precioUnitario")[0].innerText = "";
+                    $("#lbl_totalProducto")[0].innerText = "";
+                    $("#txt_cantidad").val("");
+                } else {
+                    $("#alerta_Error").show();
+
+                }
+            }
+            else if (producto != "" && txtCantidad != "") {
+                t.row.add([
+                    idproducto,
+                    producto,
+                    txtCantidad,
+                    lblPrecio,
+                    lblTotalProducto
+                ]).draw(true);
+                $("#alerta_Error").hide();
+                $('#ddl_Productos').val("");
+                $("#lbl_precioUnitario")[0].innerText = "";
+                $("#lbl_totalProducto")[0].innerText = "";
+                $("#txt_cantidad").val("");
+            } else {
+                $("#alerta_Error").show();
+            }
+            SumarColumna();
+        });
+    });
+
+    $(document).ready(function () {
+        var table = $('#tablaFactura').DataTable();
+
+        $('#tablaFactura tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+
+        $('#removeRow').click(function () {
+            debugger
+            if (table.row('.selected').hasClass != "noEliminar") {
+                table.row('.selected').remove().draw(false);
+
+            }
+        });
+    });
+
+    $('#ddl_Productos').change(
+        function () {
+
+            var idProducto = $(ddl_Productos)[0].value;
+            if (idProducto != "") {
+                $.ajax({
+                    type: "POST",
+                    url: '/Facturas/SelectPrecio',
+                    data: '{id: "' + idProducto + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        $("#lbl_precioUnitario")[0].innerText = response;
+                    },
+                    failure: function (response) {
+                        debugger
+                        alert("Fallo");
+                    },
+                    error: function (response) {
+                        debugger
+                        alert("Error");
+                    }
+                });
+            } else {
+                $("#lbl_precioUnitario")[0].innerText = "";
+                $("#lbl_totalProducto")[0].innerText = "";
+                $("#txt_cantidad").val("");
+            }
+
+        }
+    );
+
+    $('#txt_cantidad').change(
+       function () {
+           var idProducto = $(ddl_Productos)[0].value;
+           if (idProducto != "") {
+               var PrecioUnitario = $("#lbl_precioUnitario").text();
+               var TotalProducto = $("#lbl_totalProducto").text();
+               var Cantidad = $("#txt_cantidad").val();
+               TotalProducto = PrecioUnitario * Cantidad;
+               $("#lbl_totalProducto")[0].innerText = TotalProducto;
+           } else {
+               $("#alerta_Error1").show();
+           }
+
+       });
+
+
+
+</script>

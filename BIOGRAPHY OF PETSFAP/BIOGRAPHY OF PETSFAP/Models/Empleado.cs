@@ -11,7 +11,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Empleado
     {
@@ -20,10 +19,17 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
             this.Factura = new HashSet<Factura>();
             this.Usuarios = new HashSet<Usuarios>();
         }
-        [Key]
+    
         public int Id_Empleado { get; set; }
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }
+        public string NombreCompleto
+        {
+            get
+            {
+                return Persona.Nombre + " " + Persona.Apellidos;
+            }
+        }
     
         public virtual Estado Estado { get; set; }
         public virtual ICollection<Factura> Factura { get; set; }
