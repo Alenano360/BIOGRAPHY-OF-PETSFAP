@@ -13,19 +13,13 @@
                     @Html.DisplayNameFor(model => model.Fecha)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.Cliente)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Empleado)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Precio_Total)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cliente.Id_Cliente)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Empleado.Id_Empleado)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Estado.Descripcion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Proveedor.Nombre_Empresa)
                 </th>
                 <th></th>
             </tr>
@@ -35,25 +29,17 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Estado)
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Persona.Nombre)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Fecha)
+                    @Html.DisplayFor(modelItem => item.Empleado.Persona.Nombre)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Precio_Total)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cliente.Id_Cliente)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Empleado.Id_Empleado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estado.Descripcion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Proveedor.Nombre_Empresa)
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.Numero_Factura }) |
@@ -66,4 +52,4 @@
     </table>
 
 <input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
-<script src="~/Scripts/Factura/Factura.js"></script>
+<script src="~/Scripts/Facturas/Factura.js"></script>

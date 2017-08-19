@@ -7,17 +7,23 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
+using Newtonsoft.Json;
+using BIOGRAPHY_OF_PETSFAP.Class;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
     public class FacturasController : Controller
     {
         private VeterinariaEntities db = new VeterinariaEntities();
+        public static List<Detalle_Factura> listDetalles = new List<Detalle_Factura>();
+        public static List<Detalle_Factura> listaDetalles = new List<Detalle_Factura>();
+
+
 
         // GET: Facturas
         public ActionResult Index()
         {
-            var factura = db.Factura.Include(f => f.Cliente).Include(f => f.Empleado).Include(f => f.Estado).Include(f => f.Proveedor).Include(f=>f.Detalle_Factura).Where(x=>x.Id_Estado==1);
+            var factura = db.Factura.Include(f => f.Cliente).Include(f => f.Empleado).Include(f => f.Estado).Include(f => f.Proveedor).Include(f => f.Detalle_Factura).Where(x => x.Id_Estado == 1);
             ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
             return View(factura.ToList());
         }
@@ -30,44 +36,61 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Factura factura = db.Factura.FirstOrDefault(x => x.Numero_Factura == id);
-            Detalle_Factura detalle = db.Detalle_Factura.FirstOrDefault(x => x.Numero_Factura == id);
-            //Producto producto = db.Producto.FirstOrDefault(x => x.Id_Producto==x.);
-            if (factura == null)
-            {
-                return HttpNotFound();
-            }
+            var detalle = db.Detalle_Factura.Include(f => f.Producto).Where(m => m.Numero_Factura == id);
+            listaDetalles = null;
+            listaDetalles = detalle.ToList();
+            //var producto = db.Producto.Where(x => detalle.Select(y => y.Id_Producto).Contains(x.Id_Producto));
+
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
             return View(factura);
         }
 
         // GET: Facturas/Create
         public ActionResult Create()
         {
-            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto");
-            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto");
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto");
+            ViewData["_factura.Id_Cliente"] = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto");
+            ViewData["_factura.Id_Empleado"] = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto");
+            ViewData["_factura.Id_Proveedor"] = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto");
             ViewBag.Id_Producto = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
 
             return View();
         }
 
         // POST: Facturas/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Numero_Factura,Id_Empleado,Id_Cliente,Id_Proveedor,Estado,Fecha,Precio_Total,Id_Estado")] Factura factura)
+        public ActionResult Create(Facturacion_Poco factura_poco)
         {
+
             if (ModelState.IsValid)
             {
+                Factura factura = new Factura
+                {
+                    Id_Empleado = factura_poco._factura.Id_Empleado,
+                    Id_Cliente = factura_poco._factura.Id_Cliente,
+                    Fecha = factura_poco._factura.Fecha,
+                    Id_Estado = 1,
+                    Precio_Total = factura_poco._factura.Precio_Total,
+                    Id_Proveedor = null
+                };
+
                 db.Factura.Add(factura);
+                db.SaveChanges();
+                //List<Detalle_Factura> detalles = (List<Detalle_Factura>) ViewData["detallesFactura"];
+                foreach (Detalle_Factura detalle in listDetalles)
+                {
+                    detalle.Numero_Factura = factura.Numero_Factura;
+                    db.Detalle_Factura.Add(detalle);
+                    var producto = db.Producto.FirstOrDefault(x => x.Id_Producto == detalle.Id_Producto);
+                    producto.Cantidad -= detalle.Cantidad;
+                    db.Entry(producto).State = EntityState.Modified;
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
-            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
-            return View(factura);
+            return View(factura_poco);
         }
 
         // GET: Facturas/Edit/5
@@ -77,33 +100,85 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Factura factura = db.Factura.Find(id);
-            if (factura == null)
-            {
-                return HttpNotFound();
-            }
+            Factura factura = db.Factura.FirstOrDefault(x => x.Numero_Factura == id);
+            var detalle = db.Detalle_Factura.Where(m => m.Numero_Factura == id);
+            listaDetalles = null;
+            listaDetalles = detalle.ToList();
             ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
+            ViewBag.Id_Producto = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
             return View(factura);
         }
 
+
         // POST: Facturas/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Numero_Factura,Id_Empleado,Id_Cliente,Id_Proveedor,Estado,Fecha,Precio_Total,Id_Estado")] Factura factura)
+        public ActionResult Edit(Factura factura)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(factura).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    var facturaEdit = db.Factura.FirstOrDefault(x => x.Numero_Factura == factura.Numero_Factura);
+                    facturaEdit.Id_Empleado = factura.Id_Empleado;
+                    facturaEdit.Id_Cliente = factura.Id_Cliente;
+                    facturaEdit.Fecha = factura.Fecha;
+                    facturaEdit.Id_Estado = 1;
+                    facturaEdit.Precio_Total = factura.Precio_Total;
+                    facturaEdit.Id_Proveedor = null;
+                    db.Entry(facturaEdit).State = EntityState.Modified;
+                    List<int> listDetallesBaseDatos = listaDetalles.Select(x => x.Id_Detalle).ToList();
+                    List<int> listDetallesDataTable = listDetalles.Select(x => x.Id_Detalle).ToList();
+                    var nuevos = listDetallesDataTable.Where(x => !listDetallesBaseDatos.Contains(x));
+                    var eliminados = listDetallesBaseDatos.Where(x => !listDetallesDataTable.Contains(x));
+                    var editados = listDetallesDataTable.Where(x => listDetallesBaseDatos.Contains(x));
+                    foreach (Detalle_Factura detalle in listDetalles)
+                    {
+                        if (nuevos.Contains(detalle.Id_Detalle))
+                        {
+                            Detalle_Factura newDetalle = new Detalle_Factura
+                            {
+                                Id_Detalle = detalle.Id_Detalle,
+                                Cantidad = detalle.Cantidad,
+                                Id_Producto = detalle.Id_Producto,
+                                Numero_Factura = detalle.Numero_Factura,
+                                Precio_Total_Producto = detalle.Precio_Total_Producto,
+                                Precio_Unitario = detalle.Precio_Unitario
+                            };
+                            db.Detalle_Factura.Add(newDetalle);
+                        }
+                        else if (editados.Contains(detalle.Id_Detalle))
+                        {
+                            var edit = db.Detalle_Factura.FirstOrDefault(x => x.Id_Detalle == detalle.Id_Detalle);
+                            edit.Id_Detalle = detalle.Id_Detalle;
+                            edit.Id_Producto = detalle.Id_Producto;
+                            edit.Numero_Factura = detalle.Numero_Factura;
+                            edit.Precio_Total_Producto = detalle.Precio_Total_Producto;
+                            edit.Precio_Unitario = detalle.Precio_Unitario;
+                            edit.Cantidad = detalle.Cantidad;
+                            db.Entry(edit).State = EntityState.Modified;
+                        }
+
+                    }
+
+                    foreach (Detalle_Factura detalle in listaDetalles)
+                    {
+                        if (eliminados.Contains(detalle.Id_Detalle))
+                        {
+                            var edit = db.Detalle_Factura.FirstOrDefault(x => x.Id_Detalle == detalle.Id_Detalle);
+                            db.Detalle_Factura.Remove(edit);
+                        }
+                    }
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
-            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('" + Server.HtmlEncode(ex.ToString()) + "')</script>");
+            }
             return View(factura);
         }
 
@@ -114,11 +189,15 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Factura factura = db.Factura.Find(id);
-            if (factura == null)
-            {
-                return HttpNotFound();
-            }
+            Factura factura = db.Factura.FirstOrDefault(x => x.Numero_Factura == id);
+            var detalle = db.Detalle_Factura.Include(f => f.Producto).Where(m => m.Numero_Factura == id);
+            listaDetalles = null;
+            listaDetalles = detalle.ToList();
+            //var producto = db.Producto.Where(x => detalle.Select(y => y.Id_Producto).Contains(x.Id_Producto));
+
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
+            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
             return View(factura);
         }
 
@@ -127,9 +206,13 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Factura factura = db.Factura.Find(id);
-            db.Factura.Remove(factura);
-            db.SaveChanges();
+            Factura factura = db.Factura.FirstOrDefault(x => x.Numero_Factura == id);
+            if (factura.Id_Estado == 1)
+            {
+                factura.Id_Estado = 2;
+                db.Entry(factura).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
@@ -145,9 +228,57 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [System.Web.Services.WebMethod]
         public string SelectPrecio(int id)
         {
-            var precio=db.Producto.Where(x => x.Id_Producto == id).Select(x=>x.Precio).FirstOrDefault();
-            return Convert.ToString( precio);
+            var precio = db.Producto.Where(x => x.Id_Producto == id).Select(x => x.Precio).FirstOrDefault();
+            return Convert.ToString(precio);
 
+        }
+
+        [System.Web.Services.WebMethod]
+        public string Detalle(string rows)
+        {
+            try
+            {
+                var detalles = JsonConvert.DeserializeObject<List<Detalle_Factura>>(rows);
+                listDetalles = detalles;
+                //ViewData["detallesFactura"] = detalles;
+                return "ok";
+            }
+            catch (Exception e)
+            {
+                return "error";
+            }
+        }
+
+        [System.Web.Services.WebMethod]
+        public string setJson()
+        {
+            List<Detalle_Factura> rows = listaDetalles;
+            string json = "[";
+
+            for (int i = 0, len = rows.Count; i < len; i++)
+            {
+                if (i == 0)
+                {
+                    json += "['" + rows[i].Id_Producto + "'" +
+                    ",'" + rows[i].Producto.Nombre + "'" +
+                    ",'" + rows[i].Cantidad + "'" +
+                    ",'" + rows[i].Precio_Unitario + "'" +
+                    ",'" + rows[i].Precio_Total_Producto + "'" +
+                    ",'" + rows[i].Id_Detalle + "']";
+                }
+                else
+                {
+                    json += ",['" + rows[i].Id_Producto + "'" +
+                    ",'" + rows[i].Producto.Nombre + "'" +
+                    ",'" + rows[i].Cantidad + "'" +
+                    ",'" + rows[i].Precio_Unitario + "'" +
+                    ",'" + rows[i].Precio_Total_Producto + "'" +
+                    ",'" + rows[i].Id_Detalle + "']";
+                }
+
+            }
+            json += ']';
+            return json;
         }
     }
 }

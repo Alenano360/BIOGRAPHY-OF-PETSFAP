@@ -52,7 +52,11 @@
                     <span class="menu"></span>
                     <div class="top-menu">
                         <ul>
-                            @if (Session["RolUsuarioSession"].ToString() == "Administrador")
+                            @if (Session["RolUsuarioSession"] == null)
+                            {
+                                Html.Action("DestroySessionRedirect", "Usuarios");
+                            }else{
+                            if (Session["RolUsuarioSession"].ToString() == "Administrador")
                             {
                                 <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
                                 <li id="liUser">@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
@@ -88,7 +92,7 @@
                                 <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
                                 <li id="liFac">@Html.ActionLink("Factura", "Index", "Facturas")</li>
                             }
-                            
+                            }
                         </ul>
                         <div class="clearfix"></div>
                     </div>

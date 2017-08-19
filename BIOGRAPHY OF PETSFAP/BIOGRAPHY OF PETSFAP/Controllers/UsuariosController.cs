@@ -203,5 +203,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             Session["RolUsuarioSession"] = null;
             Session["NombreUsuarioSession"] = null;
         }
+
+        public ActionResult DestroySessionRedirect()
+        {
+            Session["RolUsuarioSession"] = null;
+            Session["NombreUsuarioSession"] = null;
+            return View("Login");
+        }
     }
 }

@@ -1,82 +1,82 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Factura
 
 @{
-    Layout = null;
+    ViewBag.Title = "Detalle";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>Factura</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Estado)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Estado)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Fecha)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Precio_Total)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Precio_Total)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Cliente.Id_Cliente)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Cliente.Id_Cliente)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Empleado.Id_Empleado)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Empleado.Id_Empleado)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Estado1.Descripcion)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Estado1.Descripcion)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Proveedor.Nombre_Empresa)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Proveedor.Nombre_Empresa)
-            </dd>
-    
-        </dl>
+<h4>Detalle Factura</h4>
+
+@using (Html.BeginForm("Details", "Detalle Factura", FormMethod.Post,
+ new { id = "detalleFactura" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div style="float:left; width:50%;">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Empleado, "Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Empleado", null, string.Empty, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Empleado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cliente, "Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Cliente", null, string.Empty, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Cliente, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div style="float:right; width:50%;">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { id = "txt_fechaFactura", @class = "form-control", @Value = @DateTime.Now.ToString("yyyy/MM/dd"), @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Precio_Total, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Precio_Total, new { htmlAttributes = new { id = "txt_totalFactura", @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Precio_Total, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <fieldset style="width:100%;display:block;">
+            <legend>Detalles</legend>
+            <div class="form-group">
+                <div style="display:block;width:100%;">
+                    <table id="tablaFactura">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>@Html.DisplayName("Producto")</th>
+                                <th>@Html.DisplayName("Cantidad")</th>
+                                <th>@Html.DisplayName("Precio Unitario")</th>
+                                <th>@Html.DisplayName("Precio Total Producto")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </fieldset>
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Numero_Factura }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+
+    <div class="form-group">
+        <input type="button" class="btn btn-default" value="Editar" onclick="@("window.location.href='" + @Url.Action("Edit", "Facturas", new { id = Model.Numero_Factura }) + "'");" /> |
+        <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Facturas") + "'");" />
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/Facturas/Details.js"></script>

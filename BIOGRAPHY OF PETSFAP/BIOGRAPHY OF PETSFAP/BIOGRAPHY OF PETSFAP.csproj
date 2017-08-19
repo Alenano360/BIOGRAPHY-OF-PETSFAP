@@ -274,7 +274,11 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Cita_Medica\Cita_Medica.js" />
     <Content Include="Scripts\datatables.min.js" />
-    <Content Include="Scripts\Factura\Factura.js" />
+    <Content Include="Scripts\Facturas\Create.js" />
+    <Content Include="Scripts\Facturas\Delete.js" />
+    <Content Include="Scripts\Facturas\Details.js" />
+    <Content Include="Scripts\Facturas\Edit.js" />
+    <Content Include="Scripts\Facturas\Factura.js" />
     <Content Include="Scripts\Index\Home.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
