@@ -26,6 +26,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         public System.DateTime Fecha { get; set; }
         public int Precio_Total { get; set; }
         public int Id_Estado { get; set; }
+        public int Estado1 { get; set; }
     
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<Detalle_Factura> Detalle_Factura { get; set; }

@@ -26,13 +26,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         public string Nombre_Empresa { get; set; }
         public string Telefono_Empresa { get; set; }
         public string Direccion_Empresa { get; set; }
-        public string NombreCompleto
-        {
-            get
-            {
-                return Persona.Nombre + " " + Persona.Apellidos;
-            }
-        }
     
         public virtual Estado Estado { get; set; }
         public virtual ICollection<Factura> Factura { get; set; }

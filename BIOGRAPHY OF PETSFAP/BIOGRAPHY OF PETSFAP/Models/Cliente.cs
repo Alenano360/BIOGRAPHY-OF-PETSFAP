@@ -24,13 +24,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         public int Id_Cliente { get; set; }
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }
-        public string NombreCompleto
-        {
-            get
-            {
-                return Persona.Nombre + " " + Persona.Apellidos;
-            }
-        }
     
         public virtual ICollection<Cita_Medica> Cita_Medica { get; set; }
         public virtual Estado Estado { get; set; }

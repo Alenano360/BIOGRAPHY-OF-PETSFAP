@@ -17,7 +17,6 @@
         <EntityTypeShape EntityType="VeterinariaModel.Producto" Width="1.5" PointX="13.5" PointY="13.375" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.Proveedor" Width="1.5" PointX="8.25" PointY="14.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.Roles" Width="1.5" PointX="3" PointY="27.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VeterinariaModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.Usuarios" Width="1.5" PointX="10.5" PointY="19.5" IsExpanded="true" />
         <AssociationConnector Association="VeterinariaModel.FK_Cita_Medica_Cliente" ManuallyRouted="false" />
         <AssociationConnector Association="VeterinariaModel.FK_Cita_Medica_Estado" ManuallyRouted="false" />

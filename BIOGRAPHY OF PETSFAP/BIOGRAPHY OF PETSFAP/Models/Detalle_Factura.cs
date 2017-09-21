@@ -20,6 +20,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         public int Cantidad { get; set; }
         public int Precio_Total_Producto { get; set; }
         public int Precio_Unitario { get; set; }
+        public int Precio { get; set; }
     
         public virtual Factura Factura { get; set; }
         public virtual Producto Producto { get; set; }
