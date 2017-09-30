@@ -11,6 +11,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Empleado
     {
@@ -21,6 +22,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         }
     
         public int Id_Empleado { get; set; }
+        [Required(ErrorMessage = "El campo de Persona es requerido")]
+        [Display(Name = "Persona")] 
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }
         public string NombreCompleto
@@ -30,7 +33,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
                 return Persona.Nombre + " " + Persona.Apellidos;
             }
         }
-    
         public virtual Estado Estado { get; set; }
         public virtual ICollection<Factura> Factura { get; set; }
         public virtual Persona Persona { get; set; }

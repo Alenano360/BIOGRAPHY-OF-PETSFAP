@@ -10,36 +10,40 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Iniciar Sesion</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
     <meta name="keywords" content="" />
     <link href="~/Content/Login.css" rel="stylesheet" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="Shortcut Icon" href="~/images/icono.png" type="image/x-icon" />
 </head>
 <body>
     <div class="login-page">
        
         @using (Html.BeginForm())
         {
-            @Html.ValidationSummary(true, "Datos Invalidos");
+            
     <div class="form">
+        <span style="color: #a94442;">@ViewBag.Error</span>    
+        <br/>
         <img src="~/images/logo.png" alt="" />
             <div class="editor-label">@Html.LabelFor(u => u.Usuario)</div>
             <div class="editor-field">
-                @Html.TextBoxFor(u => u.Usuario, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(u => u.Usuario)
+                @Html.TextBoxFor(u => u.Usuario, new { htmlAttributes = new { @class = "form-control", placeholder = "Usuario" } })
+                @Html.ValidationMessageFor(u => u.Usuario, "", new { @class = "text-danger" })
             </div>
             <div class="editor-label">@Html.LabelFor(u => u.Contraseña)</div>
             <div class="editor-field">
-                @Html.PasswordFor(u => u.Contraseña, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(u => u.Contraseña)
+                @Html.PasswordFor(u => u.Contraseña, new { htmlAttributes = new { @class = "form-control" ,placeholder = "Contraseña" } })
+                @Html.ValidationMessageFor(u => u.Contraseña, "", new { @class = "text-danger" })
+                
             </div>
         <button>Iniciar Sesion</button>
-            
+
+        
     </div>
         }
     </div>
 </body>
 
 </html>
+@Scripts.Render("~/bundles/modernizr")

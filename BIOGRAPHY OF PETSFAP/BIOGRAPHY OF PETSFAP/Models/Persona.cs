@@ -11,6 +11,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Persona
     {
@@ -22,9 +23,22 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         }
     
         public int Id_Persona { get; set; }
+        [Required(ErrorMessage = "El campo de Nombre es requerido")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Nombre")]
         public string Nombre { get; set; }
+        [Required(ErrorMessage = "El campo de Apellidos es requerido")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Apellidos")]
         public string Apellidos { get; set; }
+        [Required(ErrorMessage = "El campo de Direccion es requerido")]
+        [DataType(DataType.Text)]
+        [StringLength(300, ErrorMessage = "Maximo 300 caracteres")]
+        [Display(Name = "Direccion")]
         public string Direccion { get; set; }
+        [Required(ErrorMessage = "El campo de Telefono es requerido")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Telefono")]
         public string Telefono { get; set; }
         public int Id_Estado { get; set; }
         public bool Chk_Cliente { get; set; }

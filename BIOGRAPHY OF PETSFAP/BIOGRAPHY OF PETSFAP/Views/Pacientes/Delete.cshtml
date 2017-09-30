@@ -1,9 +1,7 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Paciente
-
 @{
     ViewBag.Title = "Eliminar";
 }
-
 <h3>Esta seguro de que quiere eliminar esto?</h3>
 <div>
     <h4>Eliminar Paciente</h4>
@@ -24,7 +22,20 @@
         <dd>
             @Html.DisplayFor(model => model.Raza)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Sexo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sexo)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Edad)
         </dt>
@@ -42,31 +53,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Cliente.Id_Cliente)
+            @Html.DisplayNameFor(model => model.Cliente)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Cliente.Id_Cliente)
+            @Html.DisplayFor(model => model.Cliente.NombreCompleto)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Estado.Descripcion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Estado.Descripcion)
-        </dd>
-
     </dl>
-
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-
     <div class="form-actions no-color">
         <input type="submit" value="Eliminar" class="btn btn-default" /> |
         <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Pacientes") + "'");" />
     </div>
     }
 </div>
->

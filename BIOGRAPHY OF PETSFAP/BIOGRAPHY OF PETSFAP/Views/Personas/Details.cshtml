@@ -1,9 +1,7 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Tipo_Persona
-
 @{
     ViewBag.Title = "Detalles";
 }
-
 <div>
     <h4>Detalle Personas</h4>
     <hr />
@@ -11,39 +9,30 @@
         <dt>
             @Html.DisplayNameFor(model => model._persona.Nombre)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model._persona.Nombre)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model._persona.Apellidos)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model._persona.Apellidos)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model._persona.Direccion)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model._persona.Direccion)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model._persona.Telefono)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model._persona.Telefono)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model._persona.Cliente)
         </dt>
-
         <dd>
             @{
                 if (Model._persona.Chk_Cliente)
@@ -59,7 +48,6 @@
         <dt>
             @Html.DisplayNameFor(model => model._persona.Empleado)
         </dt>
-
         <dd>
             @{
                 if (Model._persona.Chk_Empleado)
@@ -72,11 +60,9 @@
                 }
             }
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model._persona.Proveedor)
         </dt>
-
         <dd>
             @{
                 if (Model._persona.Chk_Proveedor)
@@ -98,6 +84,6 @@
     </dl>
 </div>
 <div class="form-group">
-    <input type="button" class="btn btn-default" value="Editar" onclick="@("window.location.href='" + @Url.Action("Edit", "Personas", new { id = Model._persona.Id_Persona }) + "'");" /> |
-    <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
+    <input type="button" class="btn btn-success" value="Editar" onclick="@("window.location.href='" + @Url.Action("Edit", "Personas", new { id = Model._persona.Id_Persona }) + "'");" /> |
+    <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
 </div>

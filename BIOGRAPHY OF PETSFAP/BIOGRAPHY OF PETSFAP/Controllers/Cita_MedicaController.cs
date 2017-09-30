@@ -13,7 +13,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
     public class Cita_MedicaController : Controller
     {
         private VeterinariaEntities db = new VeterinariaEntities();
-
         // GET: Cita_Medica
         public ActionResult Index()
         {

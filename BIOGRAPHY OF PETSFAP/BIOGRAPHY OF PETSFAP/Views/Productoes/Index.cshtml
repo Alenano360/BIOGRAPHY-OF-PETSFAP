@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Productos";
 }
-<input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Productoes") + "'");" />
+<input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Productoes") + "'");" />
 <table class="table" id="tablaProductos">
         <thead>
             <tr>
@@ -28,7 +28,6 @@
                 <th></th>
             </tr>
         </thead><tbody>
-    
     @foreach (var item in Model)
     {
         <tr>

@@ -3,15 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using BIOGRAPHY_OF_PETSFAP.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace BIOGRAPHY_OF_PETSFAP.Class
 {
     public class Persona_Poco
     {
         public int Id_Persona { get; set; }
+        [Required(ErrorMessage = "El campo de Nombre es requerido")]
+        [DataType(DataType.Text,ErrorMessage="El campo solo puede llevar texto")]
+        [Display(Name = "Nombre")] 
         public string Nombre { get; set; }
+        [Required(ErrorMessage = "El campo de Apellidos es requerido")]
+        [DataType(DataType.Text, ErrorMessage = "El campo solo puede llevar texto")]
+        [Display(Name = "Apellidos")] 
         public string Apellidos { get; set; }
+        [Required(ErrorMessage = "El campo de Direccion es requerido")]
+        [DataType(DataType.Text, ErrorMessage = "El campo solo puede llevar texto")]
+        [Display(Name = "Direccion")] 
         public string Direccion { get; set; }
+        [Required(ErrorMessage = "El campo de Telefono es requerido")]
+        [DataType(DataType.Text, ErrorMessage = "El campo solo puede llevar texto")]
+        [Display(Name = "Telefono")]
         public string Telefono { get; set; }
         public int Id_Estado { get; set; }
         public bool Chk_Cliente { get; set; }
@@ -35,8 +48,17 @@ namespace BIOGRAPHY_OF_PETSFAP.Class
         public int Id_Proveedor { get; set; }
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }
+        [Required(ErrorMessage = "El campo de Nombre Empresa es requerido")]
+        [DataType(DataType.Text, ErrorMessage = "El campo solo puede llevar texto")]
+        [Display(Name = "Nombre_Empresa")]
         public string Nombre_Empresa { get; set; }
+        [Required(ErrorMessage = "El campo de Telefono Empresa es requerido")]
+        [DataType(DataType.Text, ErrorMessage = "El campo solo puede llevar texto")]
+        [Display(Name = "Telefono_Empresa")]
         public string Telefono_Empresa { get; set; }
+        [Required(ErrorMessage = "El campo de Direccion_Empresa es requerido")]
+        [DataType(DataType.Text, ErrorMessage = "El campo solo puede llevar texto")]
+        [Display(Name = "Direccion_Empresa")]
         public string Direccion_Empresa { get; set; }
 
         public virtual Estado Estado { get; set; }

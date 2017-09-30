@@ -1,11 +1,8 @@
 ﻿@model IEnumerable<BIOGRAPHY_OF_PETSFAP.Models.Factura>
-
 @{
     ViewBag.Title = "Factura";
 }
-
-<input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Facturas") + "'");" />
-
+<input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Facturas") + "'");" />
     <table id="tablaFactura">
         <thead>
             <tr>
@@ -31,7 +28,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Fecha)
                 </td>
-
                 <td>
                     @Html.DisplayFor(modelItem => item.Cliente.Persona.Nombre)
                 </td>
@@ -50,6 +46,5 @@
         }
     </tbody>
     </table>
-
 <input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
 <script src="~/Scripts/Facturas/Factura.js"></script>

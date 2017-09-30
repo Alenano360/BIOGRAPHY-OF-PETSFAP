@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VeterinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VeterinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cita_Medica">
           <Key>
             <PropertyRef Name="Id_Cita_Medica" />
@@ -79,6 +79,8 @@
           <Property Name="Id_Paciente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_Cliente" Type="int" Nullable="false" />
           <Property Name="Animal" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sexo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Raza" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Edad" Type="int" Nullable="false" />
           <Property Name="Peso" Type="int" Nullable="false" />
@@ -614,8 +616,7 @@
             <End Role="Usuarios" EntitySet="Usuarios" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VeterinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -733,6 +734,8 @@
           <NavigationProperty Name="Cita_Medica" Relationship="Self.FK_Cita_Medica_Paciente" FromRole="Paciente" ToRole="Cita_Medica" />
           <NavigationProperty Name="Cliente" Relationship="Self.FK_Paciente_Cliente" FromRole="Paciente" ToRole="Cliente" />
           <NavigationProperty Name="Estado" Relationship="Self.FK_Paciente_Estado" FromRole="Paciente" ToRole="Estado" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sexo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Persona">
           <Key>
@@ -1373,6 +1376,8 @@
           <EntitySetMapping Name="Paciente">
             <EntityTypeMapping TypeName="VeterinariaModel.Paciente">
               <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Id_Paciente" ColumnName="Id_Paciente" />
                 <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
                 <ScalarProperty Name="Animal" ColumnName="Animal" />

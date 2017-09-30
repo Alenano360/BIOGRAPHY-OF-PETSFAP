@@ -1,13 +1,10 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Cita_Medica
-
 @{
     ViewBag.Title = "Agregar";
 }
-
     @using (Html.BeginForm()) 
     {
         @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
         <h4>Agregar Cita Medica</h4>
         <hr />
@@ -15,11 +12,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control", @Value = @DateTime.Now.ToString("yyyy/MM/dd"), @readonly = "readonly" } })
+                @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new {  @class = "form-control", @Value = @DateTime.Now.ToString("yyyy/MM/dd"), @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Hora, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -27,7 +23,6 @@
                 @Html.ValidationMessageFor(model => model.Hora, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Id_Medicina, "Medicina", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -35,7 +30,6 @@
                 @Html.ValidationMessageFor(model => model.Id_Medicina, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Id_Cliente, "Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -43,7 +37,6 @@
                 @Html.ValidationMessageFor(model => model.Id_Cliente, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Id_Paciente, "Paciente", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -51,7 +44,6 @@
                 @Html.ValidationMessageFor(model => model.Id_Paciente, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -59,15 +51,6 @@
                 @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.Id_Estado, "Id_Estado", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Id_Estado", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
         <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <div style="margin-right:25%; float:left">
@@ -79,8 +62,7 @@
         </div>
     </div>
         </div>
-    }
-    
+    }  
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

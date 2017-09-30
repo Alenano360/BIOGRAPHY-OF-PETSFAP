@@ -1,10 +1,8 @@
 ﻿@model IEnumerable<BIOGRAPHY_OF_PETSFAP.Models.Persona>
-
 @{
     ViewBag.Title = "Personas";
 }
-
-<input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Personas") + "'");" />
+<input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Personas") + "'");" />
 <table class="table" id="tablaPersonas">
     <thead>
         <tr>
@@ -53,7 +51,6 @@
                             @Html.CheckBox("Cliente", new { @disabled = "disabled" })
                         }
                     }
-                    
                 </td>
                 <td>
                     @{
@@ -88,6 +85,5 @@
         }
     </tbody>
 </table>
-
 <input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
 <script src="~/Scripts/Personas/Personas.js"></script>

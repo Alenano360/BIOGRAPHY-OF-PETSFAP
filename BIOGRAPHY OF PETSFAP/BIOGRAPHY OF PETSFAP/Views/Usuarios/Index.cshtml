@@ -18,13 +18,10 @@
                 @Html.DisplayNameFor(model => model.Contraseña)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Empleado.Id_Empleado)
+                @Html.DisplayNameFor(model => model.Empleado)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Estado.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Roles.Descripcion)
+                @Html.DisplayNameFor(model => model.Roles)
             </th>
             <th></th>
         </tr>
@@ -43,10 +40,7 @@
                     @Html.DisplayFor(modelItem => item.Contraseña)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Empleado.Id_Empleado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estado.Descripcion)
+                    @Html.DisplayFor(modelItem => item.Empleado.NombreCompleto)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Roles.Descripcion)

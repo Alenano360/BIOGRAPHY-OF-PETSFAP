@@ -71,8 +71,8 @@
             @Html.AntiForgeryToken()
 
     <div class="form-actions no-color">
-        <input type="submit" value="Eliminar" class="btn btn-default" /> |
-        <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Cita_Medica") + "'");" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Cita_Medica") + "'");" />
     </div>
         }
     </div>

@@ -11,6 +11,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Medicina
     {
@@ -20,6 +21,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         }
     
         public int Id_Medicina { get; set; }
+        [Required(ErrorMessage = "El campo de Nombre es requerido")]
+        [Display(Name = "Nombre")] 
         public string Nombre { get; set; }
         public int Id_Estado { get; set; }
     

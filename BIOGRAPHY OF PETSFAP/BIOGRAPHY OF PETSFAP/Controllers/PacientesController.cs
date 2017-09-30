@@ -51,7 +51,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Paciente,Id_Cliente,Animal,Raza,Edad,Peso,Id_Estado")] Paciente paciente)
+        public ActionResult Create([Bind(Include = "Id_Paciente,Id_Cliente,Animal,Nombre,Sexo,Raza,Edad,Peso,Id_Estado")] Paciente paciente)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_Paciente,Id_Cliente,Animal,Raza,Edad,Peso,Id_Estado")] Paciente paciente)
+        public ActionResult Edit([Bind(Include = "Id_Paciente,Id_Cliente,Animal,Nombre,Sexo,Raza,Edad,Peso,Id_Estado")] Paciente paciente)
         {
             if (ModelState.IsValid)
             {

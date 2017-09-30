@@ -1,13 +1,10 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Tipo_Persona
-
 @{
     ViewBag.Title = "Agregar";
 }
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
     <div class="form-horizontal">
         <h4>Agregar Persona</h4>
         <hr />
@@ -19,7 +16,6 @@
                 @Html.ValidationMessageFor(model => model._persona.Nombre, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model._persona.Apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -27,7 +23,6 @@
                 @Html.ValidationMessageFor(model => model._persona.Apellidos, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model._persona.Direccion, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -35,7 +30,6 @@
                 @Html.ValidationMessageFor(model => model._persona.Direccion, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model._persona.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -43,7 +37,6 @@
                 @Html.ValidationMessageFor(model => model._persona.Telefono, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="Proveedor_Div" hidden >
             <div class="form-group">
                 @Html.Label("Proveedor", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -69,9 +62,7 @@
                         @Html.ValidationMessageFor(model => model._proveedor.Direccion_Empresa, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
             </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model._persona.Id_Persona, "Persona", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -88,31 +79,27 @@
                 @Html.ValidationMessageFor(model => model._persona.Chk_Empleado, "", new { @class = "text-danger" })
             </div>
         </div>
-        <script type="text/javascript">           
-            $('#chk_Proveedor').change(
-        function (e) {
-            if ($('#chk_Proveedor').is(":checked"))
-                $(".Proveedor_Div").show();
-            else
-                $(".Proveedor_Div").hide();
-             
-     }
-);
-        </script>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <div style="margin-right:25%; float:left">
-                    <input type="submit" value="Agregar" class="btn btn-default" />
+                    <input type="submit" value="Agregar" class="btn btn-success" />
                 </div>
                 <div style="float:left;">
-                    <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
+                    <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
                 </div>
             </div>
         </div>
     </div>
 }
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
 <script src="~/Scripts/Personas/Personas.js"></script>
+<script type="text/javascript">
+    $('#chk_Proveedor').change(function (e) {
+        if ($('#chk_Proveedor').is(":checked"))
+            $(".Proveedor_Div").show();
+        else
+            $(".Proveedor_Div").hide();
+    });
+</script>

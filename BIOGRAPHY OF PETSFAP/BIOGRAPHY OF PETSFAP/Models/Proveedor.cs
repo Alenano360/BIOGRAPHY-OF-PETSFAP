@@ -11,6 +11,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Proveedor
     {
@@ -21,10 +22,21 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         }
     
         public int Id_Proveedor { get; set; }
+        [Required(ErrorMessage = "El campo de Persona es requerido")]
+        [Display(Name = "Persona")]
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }
+        [Required(ErrorMessage = "El campo de Nombre Empresa es requerido")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Nombre_Empresa")]
         public string Nombre_Empresa { get; set; }
+        [Required(ErrorMessage = "El campo de Telefono Empresa es requerido")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Telefono_Empresa")]
         public string Telefono_Empresa { get; set; }
+        [Required(ErrorMessage = "El campo de Direccion_Empresa es requerido")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Direccion_Empresa")]
         public string Direccion_Empresa { get; set; }
         public string NombreCompleto
         {
@@ -33,7 +45,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
                 return Persona.Nombre + " " + Persona.Apellidos;
             }
         }
-    
         public virtual Estado Estado { get; set; }
         public virtual ICollection<Factura> Factura { get; set; }
         public virtual Persona Persona { get; set; }

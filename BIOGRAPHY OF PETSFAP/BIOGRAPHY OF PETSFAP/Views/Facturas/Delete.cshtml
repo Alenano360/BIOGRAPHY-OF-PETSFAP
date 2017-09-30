@@ -1,16 +1,12 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Factura
-
 @{
     ViewBag.Title = "Eliminar";
 }
-
 <h3>Eliminar Factura</h3>
 <hr />
 <h4>Esta seguro de que quiere eliminar esto?</h4>
 <hr />
 <div>
-
-
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div style="float:left; width:50%;">
@@ -70,8 +66,8 @@
     {
         @Html.AntiForgeryToken()
         <div class="form-group">
-            <input type="submit" value="Eliminar" class="btn btn-default" /> |
-            <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Facturas") + "'");" />
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Facturas") + "'");" />
         </div>
     }
 

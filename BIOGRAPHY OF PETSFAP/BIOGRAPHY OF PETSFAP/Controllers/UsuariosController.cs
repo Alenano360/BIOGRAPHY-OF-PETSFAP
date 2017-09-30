@@ -82,7 +82,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return HttpNotFound();
             }
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", usuarios.Id_Empleado);
-            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", usuarios.Id_Estado);
             ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
             return View(usuarios);
         }
@@ -102,7 +101,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", usuarios.Id_Empleado);
-            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", usuarios.Id_Estado);
             ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
             return View(usuarios);
         }
@@ -156,7 +154,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             try
             {
-
                 if (IsValid(user.Usuario, user.Contraseña))
                 {
                     FormsAuthentication.SetAuthCookie(user.Usuario, false);
@@ -164,10 +161,10 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Login Fallido, Compruebe su Usuario o Contraseña :)");
+                    ViewBag.Error = "Login Fallido, Compruebe su Usuario o Contraseña";
                 }
-            }catch(Exception){
-                ModelState.AddModelError("", "Ocurrio un Error...");
+            }catch(Exception e){
+                ViewBag.Error = "Ocurrio un Error en el Sistema...";
             } 
             return View(user);
         }
@@ -193,7 +190,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             return IsValid;
             }
             catch (Exception e)
-            {                
+            {
+                Console.WriteLine(e);
                 throw e;
             }
         }

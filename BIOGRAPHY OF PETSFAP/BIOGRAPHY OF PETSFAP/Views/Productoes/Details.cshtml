@@ -1,9 +1,7 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Producto
-
 @{
     ViewBag.Title = "Detalle";
 }
-
     <div>
         <h4>Detalle Productos</h4>
         <hr />
@@ -11,53 +9,40 @@
             <dt>
                 @Html.DisplayNameFor(model => model.Nombre)
             </dt>
-    
             <dd>
                 @Html.DisplayFor(model => model.Nombre)
             </dd>
-    
             <dt>
                 @Html.DisplayNameFor(model => model.Descripcion)
             </dt>
-    
             <dd>
                 @Html.DisplayFor(model => model.Descripcion)
             </dd>
-    
             <dt>
                 @Html.DisplayNameFor(model => model.Precio)
             </dt>
-    
             <dd>
                 @Html.DisplayFor(model => model.Precio)
             </dd>
-    
             <dt>
                 @Html.DisplayNameFor(model => model.Cantidad)
             </dt>
-    
             <dd>
                 @Html.DisplayFor(model => model.Cantidad)
             </dd>
-    
             <dt>
                 @Html.DisplayNameFor(model => model.Estado.Descripcion)
             </dt>
-    
             <dd>
                 @Html.DisplayFor(model => model.Estado.Descripcion)
             </dd>
-    
             <dt>
                 @Html.DisplayNameFor(model => model.Proveedor.Id_Proveedor)
             </dt>
-    
             <dd>
                 @Html.DisplayFor(model => model.Proveedor.Id_Proveedor)
             </dd>
-    
         </dl>
     </div>
-<input type="button" class="btn btn-default" value="Editar" onclick="@("window.location.href='" + @Url.Action("Edit", "Productoes", new { id = Model.Id_Producto }) + "'");" /> |
-<input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Productoes") + "'");" />
-
+<input type="button" class="btn btn-success" value="Editar" onclick="@("window.location.href='" + @Url.Action("Edit", "Productoes", new { id = Model.Id_Producto }) + "'");" /> |
+<input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Productoes") + "'");" />

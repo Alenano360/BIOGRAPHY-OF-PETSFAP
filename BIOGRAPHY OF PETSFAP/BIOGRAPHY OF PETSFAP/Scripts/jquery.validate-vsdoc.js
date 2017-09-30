@@ -1,24 +1,10 @@
-﻿/* NUGET: BEGIN LICENSE TEXT
- *
- * Microsoft grants you the right to use these script files for the sole
- * purpose of either: (i) interacting through your browser with the Microsoft
- * website or online service, subject to the applicable licensing or use
- * terms; or (ii) using the files as included with a Microsoft product subject
- * to that product's license terms. Microsoft reserves all other rights to the
- * files not expressly granted by Microsoft, whether by implication, estoppel
- * or otherwise. Insofar as a script file is dual licensed under GPL,
- * Microsoft neither took the code under GPL nor distributes it thereunder but
- * under the terms set out in this paragraph. All notices and licenses
- * below are for informational purposes only.
- *
- * NUGET: END LICENSE TEXT */
-/*
+﻿/*
 * This file has been commented to support Visual Studio Intellisense.
 * You should not use this file at runtime inside the browser--it is only
 * intended to be used only for design-time IntelliSense.  Please use the
 * standard jQuery library for all production use.
 *
-* Comment version: 1.11.1
+* Comment version: 1.16.0
 */
 
 /*
@@ -29,7 +15,7 @@
 * for informational purposes only and are not the license terms under
 * which Microsoft distributed this file.
 *
-* jQuery Validation Plugin - v1.11.1 - 2/4/2013
+* jQuery Validation Plugin - v1.16.0 - 12/5/2016
 * https://github.com/jzaefferer/jquery-validation
 * Copyright (c) 2013 Jörn Zaefferer; Licensed MIT
 *
@@ -52,7 +38,7 @@ $.extend($.fn, {
 
 		// if nothing is selected, return nothing; can't chain anyway
 		if (!this.length) {
-			options && options.debug && window.console && console.warn( "nothing selected, can't validate, returning nothing" );
+		    options && options.debug && window.console && console.warn( "nada seleccionado, no se puede validar, no devuelve nada" );
 			return;
 		}
 
@@ -329,23 +315,23 @@ $.extend($.validator, {
 	},
 
 	messages: {
-		required: "This field is required.",
-		remote: "Please fix this field.",
-		email: "Please enter a valid email address.",
-		url: "Please enter a valid URL.",
-		date: "Please enter a valid date.",
-		dateISO: "Please enter a valid date (ISO).",
-		number: "Please enter a valid number.",
-		digits: "Please enter only digits.",
-		creditcard: "Please enter a valid credit card number.",
-		equalTo: "Please enter the same value again.",
-		accept: "Please enter a value with a valid extension.",
-		maxlength: $.validator.format("Please enter no more than {0} characters."),
-		minlength: $.validator.format("Please enter at least {0} characters."),
-		rangelength: $.validator.format("Please enter a value between {0} and {1} characters long."),
-		range: $.validator.format("Please enter a value between {0} and {1}."),
-		max: $.validator.format("Please enter a value less than or equal to {0}."),
-		min: $.validator.format("Please enter a value greater than or equal to {0}.")
+		required: "Este campo es requerido.",
+		remote: "Por favor arrgle este campo.",
+		email: "Por favor ingresar un correo valido",
+		url: "Por favor ingresar un URL valido.",
+		date: "Por favor ingresar una fecha valida.",
+		dateISO: "Por favor ingresar una fecha valida.(ISO).",
+		number: "Por favor ingresar un numero valido.",
+		digits: "Por favor ingresar solo digitos.",
+		creditcard: "Por favor ingresar un numero de tarjeta de credito valido.",
+		equalTo: "Por favor ingresar el mismo valor otra vez.",
+		accept: "Por favor ingresar un valor con una extencion valida.",
+		maxlength: $.validator.format("Escriba no más de {0} caracteres."),
+		minlength: $.validator.format("Introduzca por lo menos {0} caracteres."),
+		rangelength: $.validator.format("Introduzca un valor entre {0} y {1} caracteres de largo."),
+		range: $.validator.format("Especifique un valor entre {0} y {1}."),
+		max: $.validator.format("Especifique un valor menor que o igual a {0}."),
+		min: $.validator.format("Especifique un valor mayor o igual a {0}.")
 	},
 	
 	autoCreateRanges: false,
@@ -622,8 +608,8 @@ $.extend($.validator, {
 						return false;
 					}
 				} catch(e) {
-					this.settings.debug && window.console && console.log("exception occured when checking element " + element.id
-						 + ", check the '" + rule.method + "' method", e);
+				    this.settings.debug && window.console && console.log("se produjo una excepción al comprobar el elemento" + element.id
+						 + ", compruebe el '" + rule.method + "' método", e);
 					throw e;
 				}
 			}

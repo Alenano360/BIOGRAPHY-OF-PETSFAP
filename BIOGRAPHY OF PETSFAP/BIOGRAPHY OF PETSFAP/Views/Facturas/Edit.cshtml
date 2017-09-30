@@ -1,14 +1,11 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Factura
-
 @{
     ViewBag.Title = "Editar";
 }
-
 @using (Html.BeginForm("Edit", "Facturas", FormMethod.Post,
  new { id = "editarFactura" }))
 {
     @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
         <h4>Editar Factura</h4>
         <hr />
@@ -110,28 +107,23 @@
                                 <td id="Precio_Total_Producto"></td>
                                 <td id="Id_Detalle"></td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
             </div>
-
         </fieldset>
     </div>
-
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <div style="margin-right:25%; float:left">
-                <input type="button" value="Agregar" class="btn btn-default" id="addFactura" />
+                <input type="button" value="Agregar" class="btn btn-success" id="addFactura" />
             </div>
             <div style="float:left;">
-                <input type="button" class="btn btn-default" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Facturas") + "'");" />
+                <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Facturas") + "'");" />
             </div>
         </div>
     </div>
 }
-
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

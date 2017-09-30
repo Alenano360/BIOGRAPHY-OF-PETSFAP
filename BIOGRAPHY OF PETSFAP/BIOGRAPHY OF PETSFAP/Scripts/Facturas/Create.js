@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿
+
+$(document).ready(function () {
     var t = $('#tablaFactura').DataTable({
         "columnDefs": [
             {
@@ -29,7 +31,7 @@
         }
         $('#txt_totalFactura').val(total);
     }
-
+    
     $('#addRow').on('click', function () {
         debugger
         var ddlProductos = $('#ddl_Productos')[0];
@@ -57,9 +59,7 @@
                         }
                     }
                 }
-            }
-
-            if (producto != "" && txtCantidad != "") {
+            }if (producto != "" && txtCantidad != "") {
                 t.row.add([
                     idproducto,
                     producto,
@@ -77,8 +77,7 @@
                 $("#alerta_Error").show();
 
             }
-        }
-        else if (producto != "" && txtCantidad != "") {
+        }else if (producto != "" && txtCantidad != "") {
             t.row.add([
                 idproducto,
                 producto,
@@ -99,10 +98,8 @@
     });
 });
 
-
 $(document).ready(function () {
     var table = $('#tablaFactura').DataTable();
-
     $('#tablaFactura tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
@@ -112,14 +109,13 @@ $(document).ready(function () {
             $(this).addClass('selected');
         }
     });
-
     $('#removeRow').click(function () {
-        debugger
         if (table.row('.selected').hasClass != "noEliminar") {
-            table.row('.selected').remove().draw(false);
-
+            table.row('.selected').remove().draw(false)
+           
         }
     });
+   
 });
 
 $('#ddl_Productos').change(function () {
@@ -168,16 +164,12 @@ $('#txt_cantidad').change(function () {
 });
 
 $('#addFactura').click(function () {
-    debugger
     var rows = $('#tablaFactura').dataTable().api().rows().data();
     rows.toArray();
     $.ajax({
         type: "POST",
         url: "/Facturas/Detalle?rows=" + setJson(rows.toArray()),
         contentType: 'application/json; charset=utf-8',
-        //traditional: true,
-        //data:JSON.stringify({ 'rows': setJson(rows.toArray())}),
-        //dataType: 'json',
         success: function (response) {
             debugger
             $("#crearFactura").submit();
@@ -190,7 +182,6 @@ $('#addFactura').click(function () {
 });
 
 function setJson(rows) {
-    debugger
     var json = '[';
 
     for (var i = 0, len = rows.length; i < len; i++) {
@@ -214,3 +205,33 @@ function setJson(rows) {
     json += ']';
     return json;
 }
+
+$(document).ready(function () {
+    $('#crearFactura').submit(function (e) {
+        debugger
+        e.preventDefault();
+        var ddlEmpleados = $('#Id_Empleado')[0];
+        var empleado = ddlEmpleados.options[ddlEmpleados.selectedIndex].innerHTML;
+        var ddlClientes = $('#Id_Cliente')[0];
+        var rol = ddlClientes.options[ddlClientes.selectedIndex].innerHTML;
+        if (empleado == "") {
+            $('#Empleado-error').show();
+            $('#Empleado-error').text("El campo de Empleado es requerido");
+        } else {
+            $('#Empleado-error').hide();
+        }
+        if (rol == "") {
+            $('#Cliente-error').show();
+            $('#Cliente-error').text("El campo de Cliente es requerido");
+        } else {
+            $('#Cliente-error').hide();
+        }
+        var rows = $(tablaFactura).dataTable().api().rows().data();
+        if (rows.length == 0) {
+            $('#Tabla-error').show();
+            $('#Tabla-error').text("Los detalles de la factura son requeridos");
+        } else {
+            $('#Tabla-error').hide();
+        }
+    });
+});
