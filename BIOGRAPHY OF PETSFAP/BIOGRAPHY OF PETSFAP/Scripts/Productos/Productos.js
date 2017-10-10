@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     $('#tablaProductos').DataTable();
-    debugger
     var rol = $('#rol').val();
     if (rol == "Cajero") {
         $('#liHome')[0].firstChild.className = '';

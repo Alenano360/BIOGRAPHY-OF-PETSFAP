@@ -23,8 +23,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         }
     
         public int Id_Cliente { get; set; }
-        [Required(ErrorMessage = "El campo de Persona es requerido")]
-        [Display(Name = "Persona")] 
+        //[Required(ErrorMessage = "El campo de Persona es requerido")]
+        //[Display(Name = "Persona")] 
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }
         public string NombreCompleto

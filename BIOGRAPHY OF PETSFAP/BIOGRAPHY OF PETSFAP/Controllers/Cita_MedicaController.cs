@@ -41,7 +41,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto");
             ViewBag.Id_Medicina = new SelectList(db.Medicina.Where(x => x.Id_Estado == 1), "Id_Medicina", "Nombre");
-            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "Animal");
+            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "PacienteCompleto");
             return View();
         }
 
@@ -50,7 +50,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Cita_Medica,Fecha,Hora,Id_Medicina,Id_Cliente,Id_Paciente,Descripcion,Id_Estado")] Cita_Medica cita_Medica)
+        public ActionResult Create(Cita_Medica cita_Medica)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita_Medica.Id_Cliente);
             ViewBag.Id_Medicina = new SelectList(db.Medicina.Where(x => x.Id_Estado == 1), "Id_Medicina", "Nombre", cita_Medica.Id_Medicina);
-            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "Animal", cita_Medica.Id_Paciente);
+            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "PacienteCompleto", cita_Medica.Id_Paciente);
             return View(cita_Medica);
         }
 

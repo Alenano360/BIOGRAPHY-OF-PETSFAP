@@ -31,7 +31,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { id = "txt_fechaFactura", @class = "form-control", @Value = @DateTime.Now.ToString("yyyy/MM/dd"), @readonly = "readonly" } })
+                    @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { id = "txt_fechaFactura", @class = "form-control", @readonly = "readonly" } })
                     @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
                 </div>
             </div>

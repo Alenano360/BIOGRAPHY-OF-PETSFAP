@@ -60,7 +60,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model._proveedor.Direccion_Empresa, "Direccion Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.TextAreaFor(model => model._proveedor.Direccion_Empresa, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model._proveedor.Direccion_Empresa, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model._proveedor.Direccion_Empresa, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -81,6 +81,7 @@
                 @Html.ValidationMessageFor(model => model._persona.Chk_Empleado, "", new { @class = "text-danger" })
             </div>
         </div>
+        @Html.HiddenFor(model => model._persona.Id_Estado, new { htmlAttributes = new { @Value = 1} })
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <div style="margin-right:25%; float:left">

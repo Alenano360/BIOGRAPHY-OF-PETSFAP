@@ -206,10 +206,10 @@ function setJson(rows) {
     return json;
 }
 
-$(document).ready(function () {
+/*$(document).ready(function () {
     $('#crearFactura').submit(function (e) {
         debugger
-        e.preventDefault();
+        
         var ddlEmpleados = $('#Id_Empleado')[0];
         var empleado = ddlEmpleados.options[ddlEmpleados.selectedIndex].innerHTML;
         var ddlClientes = $('#Id_Cliente')[0];
@@ -234,4 +234,4 @@ $(document).ready(function () {
             $('#Tabla-error').hide();
         }
     });
-});
+});*/

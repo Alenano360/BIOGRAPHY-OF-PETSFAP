@@ -108,8 +108,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         }
 
         //POST: Personas/Create
-        //Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        //más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Tipo_Persona tipo_persona)
@@ -254,8 +252,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]        
         public ActionResult Edit(Tipo_Persona tipo_persona)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 Persona persona = db.Persona.FirstOrDefault(x => x.Id_Persona == tipo_persona._persona.Id_Persona);
                     persona.Id_Persona = tipo_persona._persona.Id_Persona;
                     persona.Nombre = tipo_persona._persona.Nombre;
@@ -287,7 +285,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                     db.Cliente.Add(cliente);
                 }
                 Proveedor proveedor = db.Proveedor.FirstOrDefault(x => x.Id_Persona == tipo_persona._persona.Id_Persona);
-                //
                 if ((proveedor!=null)&&(!tipo_persona._persona.Chk_Proveedor))
                 {
                         proveedor.Id_Persona = persona.Id_Persona;
@@ -295,9 +292,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                         proveedor.Nombre_Empresa = tipo_persona._proveedor.Nombre_Empresa;
                         proveedor.Telefono_Empresa = tipo_persona._proveedor.Telefono_Empresa;
                         proveedor.Direccion_Empresa = tipo_persona._proveedor.Direccion_Empresa;
-                    
                     db.Entry(proveedor).State = EntityState.Modified;
-
                 }
                 else if ((proveedor == null) && (tipo_persona._persona.Chk_Proveedor))
                 {
@@ -310,7 +305,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                         Direccion_Empresa = tipo_persona._proveedor.Direccion_Empresa
                     };
                     db.Proveedor.Add(proveedor);
-
                 }
                 else if ((proveedor != null) && (tipo_persona._persona.Chk_Proveedor))
                 {
@@ -319,16 +313,13 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                         proveedor.Nombre_Empresa = tipo_persona._proveedor.Nombre_Empresa;
                         proveedor.Telefono_Empresa = tipo_persona._proveedor.Telefono_Empresa;
                         proveedor.Direccion_Empresa = tipo_persona._proveedor.Direccion_Empresa;
-                   
                     db.Entry(proveedor).State = EntityState.Modified;
                 }
                 Empleado empleado = db.Empleado.FirstOrDefault(x => x.Id_Persona == tipo_persona._persona.Id_Persona);
                 if ((empleado!=null)&&(!tipo_persona._persona.Chk_Empleado))
                 {
-
                     empleado.Id_Persona = tipo_persona._persona.Id_Persona;
                     empleado.Id_Estado = 2;
-                    
                     db.Entry(empleado).State = EntityState.Modified;
                 }
                 else if ((empleado == null) && (tipo_persona._persona.Chk_Empleado))
@@ -342,9 +333,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 }
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }
+            //}
 
-            return View(tipo_persona);
+            //return View(tipo_persona);
         }
 
         // GET: Personas/Delete/5

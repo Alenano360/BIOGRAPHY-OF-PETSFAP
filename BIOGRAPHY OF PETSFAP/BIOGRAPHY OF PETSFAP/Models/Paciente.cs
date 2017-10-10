@@ -46,7 +46,13 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         [Display(Name = "Sexo")]
         public string Sexo { get; set; }
         public int Id_Estado { get; set; }
-        
+        public string PacienteCompleto
+        {
+            get
+            {
+                return Animal + " " + Raza + " " + Nombre;
+            }
+        }
     
         public virtual ICollection<Cita_Medica> Cita_Medica { get; set; }
         public virtual Cliente Cliente { get; set; }

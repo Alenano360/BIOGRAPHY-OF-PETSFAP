@@ -2,7 +2,8 @@
 @{
     ViewBag.Title = "Agregar";
 }
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Personas", FormMethod.Post,
+ new { id = "crearPersona" }))
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
@@ -58,31 +59,29 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model._proveedor.Direccion_Empresa, "Direccion Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextAreaFor(model => model._proveedor.Direccion_Empresa, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model._proveedor.Direccion_Empresa, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model._proveedor.Direccion_Empresa, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
         <div class="form-group">
+            <span id="Persona-error" style="color: #a94442;" hidden></span>
             @Html.LabelFor(model => model._persona.Id_Persona, "Persona", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.LabelFor(model => model._persona.Chk_Cliente, "Cliente")
-                @Html.CheckBoxFor(model => model._persona.Chk_Cliente, new { htmlAttributes = new { @class = "form-control"} })
-                @Html.ValidationMessageFor(model => model._persona.Chk_Cliente, "", new { @class = "text-danger" })
+                @Html.CheckBoxFor(model => model._persona.Chk_Cliente, new { id = "chk_Cliente", htmlAttributes = new { @class = "form-control" } })
                 <br/>
                 @Html.LabelFor(model => model._persona.Chk_Proveedor, "Proveedor")
                 @Html.CheckBoxFor(model => model._persona.Chk_Proveedor, new { id = "chk_Proveedor", htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model._persona.Chk_Proveedor, "", new { @class = "text-danger" })
                 <br />
                 @Html.LabelFor(model => model._persona.Chk_Empleado, "Empleado")
-                @Html.CheckBoxFor(model => model._persona.Chk_Empleado, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model._persona.Chk_Empleado, "", new { @class = "text-danger" })
+                @Html.CheckBoxFor(model => model._persona.Chk_Empleado, new { id = "chk_Empleado", htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <div style="margin-right:25%; float:left">
-                    <input type="submit" value="Agregar" class="btn btn-success" />
+                    <input type="submit" id="btn_addPersona" value="Agregar" class="btn btn-success" />
                 </div>
                 <div style="float:left;">
                     <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
@@ -102,4 +101,19 @@
         else
             $(".Proveedor_Div").hide();
     });
+
+        $('#crearPersona').submit(function () {
+        debugger
+        var proveedor=$('#chk_Proveedor').is(":checked");
+        var cliente=$('#chk_Cliente').is(":checked");
+        var empleado=$('#chk_Empleado').is(":checked");
+        if (empleado == false&&proveedor==false&&cliente==false) {
+            $('#Persona-error').show();
+            $('#Persona-error').text("Debe seleccionar al menos una de las opciones");
+        } else {
+            $('#Persona-error').hide();
+        }
+        return true;
+    });
+    
 </script>

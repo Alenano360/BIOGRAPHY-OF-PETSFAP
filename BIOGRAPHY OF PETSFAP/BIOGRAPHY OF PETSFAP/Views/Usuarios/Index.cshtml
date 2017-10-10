@@ -4,19 +4,10 @@
     ViewBag.Title = "Usuarios";
 }
 
-<input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Usuarios") + "'");"/>
+<input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Usuarios") + "'");"/>
 <table id="tablaUsuarios">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Correo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contraseña)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Empleado)
             </th>
@@ -31,15 +22,6 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Correo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Usuario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contraseña)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Empleado.NombreCompleto)
                 </td>
                 <td>
@@ -53,7 +35,6 @@
             </tr>
         }
     </tbody>
-
 </table>
 <input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
 <script src="~/Scripts/Usuarios/Usuarios.js"></script>

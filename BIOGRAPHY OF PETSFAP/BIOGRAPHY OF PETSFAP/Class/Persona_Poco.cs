@@ -48,15 +48,15 @@ namespace BIOGRAPHY_OF_PETSFAP.Class
         public int Id_Proveedor { get; set; }
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }
-        [Required(ErrorMessage = "El campo de Nombre Empresa es requerido")]
+        //[Required(ErrorMessage = "El campo de Nombre Empresa es requerido")]
         [DataType(DataType.Text, ErrorMessage = "El campo solo puede llevar texto")]
         [Display(Name = "Nombre_Empresa")]
         public string Nombre_Empresa { get; set; }
-        [Required(ErrorMessage = "El campo de Telefono Empresa es requerido")]
+        //[Required(ErrorMessage = "El campo de Telefono Empresa es requerido")]
         [DataType(DataType.Text, ErrorMessage = "El campo solo puede llevar texto")]
         [Display(Name = "Telefono_Empresa")]
         public string Telefono_Empresa { get; set; }
-        [Required(ErrorMessage = "El campo de Direccion_Empresa es requerido")]
+        //[Required(ErrorMessage = "El campo de Direccion Empresa es requerido")]
         [DataType(DataType.Text, ErrorMessage = "El campo solo puede llevar texto")]
         [Display(Name = "Direccion_Empresa")]
         public string Direccion_Empresa { get; set; }

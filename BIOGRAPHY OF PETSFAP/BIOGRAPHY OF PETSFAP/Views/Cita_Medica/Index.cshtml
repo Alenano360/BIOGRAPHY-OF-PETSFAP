@@ -16,16 +16,7 @@
                     @Html.DisplayNameFor(model => model.Hora)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Descripcion)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.Cliente.Id_Cliente)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Estado.Descripcion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Medicina.Nombre)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Paciente.Animal)
@@ -44,19 +35,10 @@
                         @Html.DisplayFor(modelItem => item.Hora)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Descripcion)
+                        @Html.DisplayFor(modelItem => item.Cliente.NombreCompleto)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Cliente.Id_Cliente)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Estado.Descripcion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Medicina.Nombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Paciente.Animal)
+                        @Html.DisplayFor(modelItem => item.Paciente.PacienteCompleto)
                     </td>
                     <td>
                         @Html.ActionLink("Editar", "Edit", new { id = item.Id_Cita_Medica }) |

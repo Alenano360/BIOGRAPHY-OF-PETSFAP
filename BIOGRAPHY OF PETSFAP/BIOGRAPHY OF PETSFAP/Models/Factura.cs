@@ -27,11 +27,11 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         [Required(ErrorMessage = "El campo de Cliente es requerido")]
         [Display(Name = "Cliente")] 
         public Nullable<int> Id_Cliente { get; set; }
-        [Required(ErrorMessage = "El campo de Proveedor es requerido")]
-        [Display(Name = "Proveedor")] 
+        //[Required(ErrorMessage = "El campo de Proveedor es requerido")]
+        //[Display(Name = "Proveedor")] 
         public Nullable<int> Id_Proveedor { get; set; }
         [Required(ErrorMessage = "El campo de Fecha es requerido")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         [Display(Name = "Fecha")] 
         public System.DateTime Fecha { get; set; }
         [Required(ErrorMessage = "El campo de Precio Total es requerido")]

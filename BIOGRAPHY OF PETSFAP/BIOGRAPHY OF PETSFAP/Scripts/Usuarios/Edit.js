@@ -1,6 +1,5 @@
-﻿$(document).ready(function () {
-    $('#editarUsuario').submit(function (e) {
-        e.preventDefault();
+﻿
+    $('#editarUsuario').submit(function () {
         var ddlEmpleados = $('#Id_Empleado')[0];
         var empleado = ddlEmpleados.options[ddlEmpleados.selectedIndex].innerHTML;
         var ddlRoles = $('#Id_Rol')[0];
@@ -17,5 +16,5 @@
         } else {
             $('#Rol-error').hide();
         }
+        return true;
     });
-});
