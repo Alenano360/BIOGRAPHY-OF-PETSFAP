@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
 using Newtonsoft.Json;
 using BIOGRAPHY_OF_PETSFAP.Class;
+using System.IO;
+using CrystalDecisions.CrystalReports.Engine;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
@@ -279,6 +281,29 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             json += ']';
             return json;
+        }
+        public ActionResult getReport()
+        {
+            List<Factura> factura = new List<Factura>();
+            factura = db.Factura.ToList();
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "facturas.rpt"));
+            rd.SetDataSource(factura);
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", "Factura.pdf");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

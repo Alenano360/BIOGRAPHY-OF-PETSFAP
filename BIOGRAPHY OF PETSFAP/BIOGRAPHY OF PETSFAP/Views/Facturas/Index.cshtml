@@ -5,7 +5,7 @@
 }
 
 <input type="button" class="btn btn-default" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Facturas") + "'");" />
-
+<div><a href="@Url.Action("getReport")" style="color:red">Descargar en PDF</a></div>
     <table id="tablaFactura">
         <thead>
             <tr>

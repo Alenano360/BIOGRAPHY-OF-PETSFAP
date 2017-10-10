@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
@@ -140,6 +142,30 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult getReport()
+        {
+            List<Producto> productos = new List<Producto>();
+            productos = db.Producto.ToList();
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "productos.rpt"));
+            rd.SetDataSource(productos);
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", "Productos.pdf");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
