@@ -1,0 +1,665 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VeterinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Cita_Medica">
+    <Key>
+      <PropertyRef Name="Id_Cita_Medica" />
+    </Key>
+    <Property Name="Id_Cita_Medica" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="Id_Medicina" Type="Int32" Nullable="false" />
+    <Property Name="Id_Cliente" Type="Int32" Nullable="false" />
+    <Property Name="Id_Paciente" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="600" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Cliente" Relationship="Self.FK_Cita_Medica_Cliente" FromRole="Cita_Medica" ToRole="Cliente" />
+    <NavigationProperty Name="Estado" Relationship="Self.FK_Cita_Medica_Estado" FromRole="Cita_Medica" ToRole="Estado" />
+    <NavigationProperty Name="Medicina" Relationship="Self.FK_Cita_Medica_Medicina" FromRole="Cita_Medica" ToRole="Medicina" />
+    <NavigationProperty Name="Paciente" Relationship="Self.FK_Cita_Medica_Paciente" FromRole="Cita_Medica" ToRole="Paciente" />
+  </EntityType>
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="Id_Cliente" />
+    </Key>
+    <Property Name="Id_Cliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_Persona" Type="Int32" Nullable="false" />
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Cita_Medica" Relationship="Self.FK_Cita_Medica_Cliente" FromRole="Cliente" ToRole="Cita_Medica" />
+    <NavigationProperty Name="Estado" Relationship="Self.FK_Clientea_Estado" FromRole="Cliente" ToRole="Estado" />
+    <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Cliente" FromRole="Cliente" ToRole="Factura" />
+    <NavigationProperty Name="Paciente" Relationship="Self.FK_Paciente_Cliente" FromRole="Cliente" ToRole="Paciente" />
+    <NavigationProperty Name="Persona" Relationship="Self.FK_Persona_Cliente" FromRole="Cliente" ToRole="Persona" />
+  </EntityType>
+  <EntityType Name="Detalle_Factura">
+    <Key>
+      <PropertyRef Name="Id_Detalle" />
+    </Key>
+    <Property Name="Id_Detalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Numero_Factura" Type="Int32" Nullable="false" />
+    <Property Name="Id_Producto" Type="Int32" Nullable="false" />
+    <Property Name="Cantidad" Type="Int32" Nullable="false" />
+    <Property Name="Precio_Total_Producto" Type="Int32" Nullable="false" />
+    <Property Name="Precio_Unitario" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Detalle_Factura" FromRole="Detalle_Factura" ToRole="Factura" />
+    <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Detalle_Factura" FromRole="Detalle_Factura" ToRole="Producto" />
+    <Property Name="Precio" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Empleado">
+    <Key>
+      <PropertyRef Name="Id_Empleado" />
+    </Key>
+    <Property Name="Id_Empleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_Persona" Type="Int32" Nullable="false" />
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Estado" Relationship="Self.FK_Empleado_Estado" FromRole="Empleado" ToRole="Estado" />
+    <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Empleado" FromRole="Empleado" ToRole="Factura" />
+    <NavigationProperty Name="Persona" Relationship="Self.FK_Persona_Empleado" FromRole="Empleado" ToRole="Persona" />
+    <NavigationProperty Name="Usuarios" Relationship="Self.FK_Usuarios_Empleado" FromRole="Empleado" ToRole="Usuarios" />
+  </EntityType>
+  <EntityType Name="Estado">
+    <Key>
+      <PropertyRef Name="Id_Estado" />
+    </Key>
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Cita_Medica" Relationship="Self.FK_Cita_Medica_Estado" FromRole="Estado" ToRole="Cita_Medica" />
+    <NavigationProperty Name="Cliente" Relationship="Self.FK_Clientea_Estado" FromRole="Estado" ToRole="Cliente" />
+    <NavigationProperty Name="Empleado" Relationship="Self.FK_Empleado_Estado" FromRole="Estado" ToRole="Empleado" />
+    <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Estado" FromRole="Estado" ToRole="Factura" />
+    <NavigationProperty Name="Medicina" Relationship="Self.FK_Medicina_Estado" FromRole="Estado" ToRole="Medicina" />
+    <NavigationProperty Name="Paciente" Relationship="Self.FK_Paciente_Estado" FromRole="Estado" ToRole="Paciente" />
+    <NavigationProperty Name="Persona" Relationship="Self.FK_Persona_Estado" FromRole="Estado" ToRole="Persona" />
+    <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Estado" FromRole="Estado" ToRole="Producto" />
+    <NavigationProperty Name="Proveedor" Relationship="Self.FK_Proveedor_Estado" FromRole="Estado" ToRole="Proveedor" />
+    <NavigationProperty Name="Roles" Relationship="Self.FK_Roles_Estado" FromRole="Estado" ToRole="Roles" />
+    <NavigationProperty Name="Usuarios" Relationship="Self.FK_Usuarios_Estado" FromRole="Estado" ToRole="Usuarios" />
+  </EntityType>
+  <EntityType Name="Factura">
+    <Key>
+      <PropertyRef Name="Numero_Factura" />
+    </Key>
+    <Property Name="Numero_Factura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_Empleado" Type="Int32" Nullable="false" />
+    <Property Name="Id_Cliente" Type="Int32" />
+    <Property Name="Id_Proveedor" Type="Int32" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Precio_Total" Type="Int32" Nullable="false" />
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Cliente" Relationship="Self.FK_Factura_Cliente" FromRole="Factura" ToRole="Cliente" />
+    <NavigationProperty Name="Detalle_Factura" Relationship="Self.FK_Factura_Detalle_Factura" FromRole="Factura" ToRole="Detalle_Factura" />
+    <NavigationProperty Name="Empleado" Relationship="Self.FK_Factura_Empleado" FromRole="Factura" ToRole="Empleado" />
+    <NavigationProperty Name="Estado" Relationship="Self.FK_Factura_Estado" FromRole="Factura" ToRole="Estado" />
+    <NavigationProperty Name="Proveedor" Relationship="Self.FK_Proveedor_Factura" FromRole="Factura" ToRole="Proveedor" />
+    <Property Name="Estado1" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Medicina">
+    <Key>
+      <PropertyRef Name="Id_Medicina" />
+    </Key>
+    <Property Name="Id_Medicina" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Cita_Medica" Relationship="Self.FK_Cita_Medica_Medicina" FromRole="Medicina" ToRole="Cita_Medica" />
+    <NavigationProperty Name="Estado" Relationship="Self.FK_Medicina_Estado" FromRole="Medicina" ToRole="Estado" />
+  </EntityType>
+  <EntityType Name="Paciente">
+    <Key>
+      <PropertyRef Name="Id_Paciente" />
+    </Key>
+    <Property Name="Id_Paciente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_Cliente" Type="Int32" Nullable="false" />
+    <Property Name="Animal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Raza" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Edad" Type="Int32" Nullable="false" />
+    <Property Name="Peso" Type="Int32" Nullable="false" />
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Cita_Medica" Relationship="Self.FK_Cita_Medica_Paciente" FromRole="Paciente" ToRole="Cita_Medica" />
+    <NavigationProperty Name="Cliente" Relationship="Self.FK_Paciente_Cliente" FromRole="Paciente" ToRole="Cliente" />
+    <NavigationProperty Name="Estado" Relationship="Self.FK_Paciente_Estado" FromRole="Paciente" ToRole="Estado" />
+  </EntityType>
+  <EntityType Name="Persona">
+    <Key>
+      <PropertyRef Name="Id_Persona" />
+    </Key>
+    <Property Name="Id_Persona" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Apellidos" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Direccion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Telefono" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+    <Property Name="Chk_Cliente" Type="Boolean" Nullable="false" />
+    <Property Name="Chk_Empleado" Type="Boolean" Nullable="false" />
+    <Property Name="Chk_Proveedor" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Cliente" Relationship="Self.FK_Persona_Cliente" FromRole="Persona" ToRole="Cliente" />
+    <NavigationProperty Name="Empleado" Relationship="Self.FK_Persona_Empleado" FromRole="Persona" ToRole="Empleado" />
+    <NavigationProperty Name="Estado" Relationship="Self.FK_Persona_Estado" FromRole="Persona" ToRole="Estado" />
+    <NavigationProperty Name="Proveedor" Relationship="Self.FK_Persona_Proveedor" FromRole="Persona" ToRole="Proveedor" />
+  </EntityType>
+  <EntityType Name="Producto">
+    <Key>
+      <PropertyRef Name="Id_Producto" />
+    </Key>
+    <Property Name="Id_Producto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Precio" Type="Double" Nullable="false" />
+    <Property Name="Cantidad" Type="Int32" Nullable="false" />
+    <Property Name="Id_Proveedor" Type="Int32" Nullable="false" />
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Detalle_Factura" Relationship="Self.FK_Producto_Detalle_Factura" FromRole="Producto" ToRole="Detalle_Factura" />
+    <NavigationProperty Name="Estado" Relationship="Self.FK_Producto_Estado" FromRole="Producto" ToRole="Estado" />
+    <NavigationProperty Name="Proveedor" Relationship="Self.FK_Proveedor_Producto" FromRole="Producto" ToRole="Proveedor" />
+  </EntityType>
+  <EntityType Name="Proveedor">
+    <Key>
+      <PropertyRef Name="Id_Proveedor" />
+    </Key>
+    <Property Name="Id_Proveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_Persona" Type="Int32" Nullable="false" />
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+    <Property Name="Nombre_Empresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Telefono_Empresa" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Direccion_Empresa" Type="String" MaxLength="400" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Estado" Relationship="Self.FK_Proveedor_Estado" FromRole="Proveedor" ToRole="Estado" />
+    <NavigationProperty Name="Factura" Relationship="Self.FK_Proveedor_Factura" FromRole="Proveedor" ToRole="Factura" />
+    <NavigationProperty Name="Persona" Relationship="Self.FK_Persona_Proveedor" FromRole="Proveedor" ToRole="Persona" />
+    <NavigationProperty Name="Producto" Relationship="Self.FK_Proveedor_Producto" FromRole="Proveedor" ToRole="Producto" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="Id_Rol" />
+    </Key>
+    <Property Name="Id_Rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Estado" Relationship="Self.FK_Roles_Estado" FromRole="Roles" ToRole="Estado" />
+    <NavigationProperty Name="Usuarios" Relationship="Self.FK_Usuarios_Roles" FromRole="Roles" ToRole="Usuarios" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="Id_Usuario" />
+    </Key>
+    <Property Name="Id_Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_Empleado" Type="Int32" Nullable="false" />
+    <Property Name="Correo" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contraseña" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Rol" Type="Int32" Nullable="false" />
+    <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Empleado" Relationship="Self.FK_Usuarios_Empleado" FromRole="Usuarios" ToRole="Empleado" />
+    <NavigationProperty Name="Estado" Relationship="Self.FK_Usuarios_Estado" FromRole="Usuarios" ToRole="Estado" />
+    <NavigationProperty Name="Roles" Relationship="Self.FK_Usuarios_Roles" FromRole="Usuarios" ToRole="Roles" />
+  </EntityType>
+  <Association Name="FK_Cita_Medica_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+    <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="Id_Cliente" />
+      </Principal>
+      <Dependent Role="Cita_Medica">
+        <PropertyRef Name="Id_Cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cita_Medica_Estado">
+    <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+    <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id_Estado" />
+      </Principal>
+      <Dependent Role="Cita_Medica">
+        <PropertyRef Name="Id_Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cita_Medica_Medicina">
+    <End Role="Medicina" Type="Self.Medicina" Multiplicity="1" />
+    <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Medicina">
+        <PropertyRef Name="Id_Medicina" />
+      </Principal>
+      <Dependent Role="Cita_Medica">
+        <PropertyRef Name="Id_Medicina" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cita_Medica_Paciente">
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+    <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="Id_Paciente" />
+      </Principal>
+      <Dependent Role="Cita_Medica">
+        <PropertyRef Name="Id_Paciente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Clientea_Estado">
+    <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id_Estado" />
+      </Principal>
+      <Dependent Role="Cliente">
+        <PropertyRef Name="Id_Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factura_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+    <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="Id_Cliente" />
+      </Principal>
+      <Dependent Role="Factura">
+        <PropertyRef Name="Id_Cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="Id_Cliente" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="Id_Cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Persona_Cliente">
+    <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persona">
+        <PropertyRef Name="Id_Persona" />
+      </Principal>
+      <Dependent Role="Cliente">
+        <PropertyRef Name="Id_Persona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factura_Detalle_Factura">
+    <End Role="Factura" Type="Self.Factura" Multiplicity="1" />
+    <End Role="Detalle_Factura" Type="Self.Detalle_Factura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Factura">
+        <PropertyRef Name="Numero_Factura" />
+      </Principal>
+      <Dependent Role="Detalle_Factura">
+        <PropertyRef Name="Numero_Factura" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Producto_Detalle_Factura">
+    <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+    <End Role="Detalle_Factura" Type="Self.Detalle_Factura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Producto">
+        <PropertyRef Name="Id_Producto" />
+      </Principal>
+      <Dependent Role="Detalle_Factura">
+        <PropertyRef Name="Id_Producto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Empleado_Estado">
+    <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id_Estado" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="Id_Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factura_Empleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="Id_Empleado" />
+      </Principal>
+      <Dependent Role="Factura">
+        <PropertyRef Name="Id_Empleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Persona_Empleado">
+    <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persona">
+        <PropertyRef Name="Id_Persona" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="Id_Persona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuarios_Empleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="Id_Empleado" />
+      </Principal>
+      <Dependent Role="Usuarios">
+        <PropertyRef Name="Id_Empleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factura_Estado">
+    <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+    <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id_Estado" />
+      </Principal>
+      <Dependent Role="Factura">
+        <PropertyRef Name="Id_Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Medicina_Estado">
+    <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+    <End Role="Medicina" Type="Self.Medicina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id_Estado" />
+      </Principal>
+      <Dependent Role="Medicina">
+        <PropertyRef Name="Id_Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Estado">
+    <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id_Estado" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="Id_Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Persona_Estado">
+    <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+    <End Role="Persona" Type="Self.Persona" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id_Estado" />
+      </Principal>
+      <Dependent Role="Persona">
+        <PropertyRef Name="Id_Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Producto_Estado">
+    <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+    <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id_Estado" />
+      </Principal>
+      <Dependent Role="Producto">
+        <PropertyRef Name="Id_Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proveedor_Estado">
+    <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+    <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id_Estado" />
+      </Principal>
+      <Dependent Role="Proveedor">
+        <PropertyRef Name="Id_Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Roles_Estado">
+    <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+    <End Role="Roles" Type="Self.Roles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id_Estado" />
+      </Principal>
+      <Dependent Role="Roles">
+        <PropertyRef Name="Id_Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuarios_Estado">
+    <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estado">
+        <PropertyRef Name="Id_Estado" />
+      </Principal>
+      <Dependent Role="Usuarios">
+        <PropertyRef Name="Id_Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proveedor_Factura">
+    <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="0..1" />
+    <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proveedor">
+        <PropertyRef Name="Id_Proveedor" />
+      </Principal>
+      <Dependent Role="Factura">
+        <PropertyRef Name="Id_Proveedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Persona_Proveedor">
+    <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+    <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persona">
+        <PropertyRef Name="Id_Persona" />
+      </Principal>
+      <Dependent Role="Proveedor">
+        <PropertyRef Name="Id_Persona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Proveedor_Producto">
+    <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="1" />
+    <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proveedor">
+        <PropertyRef Name="Id_Proveedor" />
+      </Principal>
+      <Dependent Role="Producto">
+        <PropertyRef Name="Id_Proveedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuarios_Roles">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="Id_Rol" />
+      </Principal>
+      <Dependent Role="Usuarios">
+        <PropertyRef Name="Id_Rol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="VeterinariaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cita_Medica" EntityType="Self.Cita_Medica" />
+    <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+    <EntitySet Name="Detalle_Factura" EntityType="Self.Detalle_Factura" />
+    <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+    <EntitySet Name="Estado" EntityType="Self.Estado" />
+    <EntitySet Name="Factura" EntityType="Self.Factura" />
+    <EntitySet Name="Medicina" EntityType="Self.Medicina" />
+    <EntitySet Name="Paciente" EntityType="Self.Paciente" />
+    <EntitySet Name="Persona" EntityType="Self.Persona" />
+    <EntitySet Name="Producto" EntityType="Self.Producto" />
+    <EntitySet Name="Proveedor" EntityType="Self.Proveedor" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
+    <AssociationSet Name="FK_Cita_Medica_Cliente" Association="Self.FK_Cita_Medica_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Cita_Medica" EntitySet="Cita_Medica" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cita_Medica_Estado" Association="Self.FK_Cita_Medica_Estado">
+      <End Role="Estado" EntitySet="Estado" />
+      <End Role="Cita_Medica" EntitySet="Cita_Medica" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cita_Medica_Medicina" Association="Self.FK_Cita_Medica_Medicina">
+      <End Role="Medicina" EntitySet="Medicina" />
+      <End Role="Cita_Medica" EntitySet="Cita_Medica" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cita_Medica_Paciente" Association="Self.FK_Cita_Medica_Paciente">
+      <End Role="Paciente" EntitySet="Paciente" />
+      <End Role="Cita_Medica" EntitySet="Cita_Medica" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Clientea_Estado" Association="Self.FK_Clientea_Estado">
+      <End Role="Estado" EntitySet="Estado" />
+      <End Role="Cliente" EntitySet="Cliente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factura_Cliente" Association="Self.FK_Factura_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Factura" EntitySet="Factura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Cliente" Association="Self.FK_Paciente_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Paciente" EntitySet="Paciente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Persona_Cliente" Association="Self.FK_Persona_Cliente">
+      <End Role="Persona" EntitySet="Persona" />
+      <End Role="Cliente" EntitySet="Cliente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factura_Detalle_Factura" Association="Self.FK_Factura_Detalle_Factura">
+      <End Role="Factura" EntitySet="Factura" />
+      <End Role="Detalle_Factura" EntitySet="Detalle_Factura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Producto_Detalle_Factura" Association="Self.FK_Producto_Detalle_Factura">
+      <End Role="Producto" EntitySet="Producto" />
+      <End Role="Detalle_Factura" EntitySet="Detalle_Factura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Empleado_Estado" Association="Self.FK_Empleado_Estado">
+      <End Role="Estado" EntitySet="Estado" />
+      <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factura_Empleado" Association="Self.FK_Factura_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Factura" EntitySet="Factura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Persona_Empleado" Association="Self.FK_Persona_Empleado">
+      <End Role="Persona" EntitySet="Persona" />
+      <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuarios_Empleado" Association="Self.FK_Usuarios_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Usuarios" EntitySet="Usuarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factura_Estado" Association="Self.FK_Factura_Estado">
+      <End Role="Estado" EntitySet="Estado" />
+      <End Role="Factura" EntitySet="Factura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Medicina_Estado" Association="Self.FK_Medicina_Estado">
+      <End Role="Estado" EntitySet="Estado" />
+      <End Role="Medicina" EntitySet="Medicina" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Estado" Association="Self.FK_Paciente_Estado">
+      <End Role="Estado" EntitySet="Estado" />
+      <End Role="Paciente" EntitySet="Paciente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Persona_Estado" Association="Self.FK_Persona_Estado">
+      <End Role="Estado" EntitySet="Estado" />
+      <End Role="Persona" EntitySet="Persona" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Producto_Estado" Association="Self.FK_Producto_Estado">
+      <End Role="Estado" EntitySet="Estado" />
+      <End Role="Producto" EntitySet="Producto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proveedor_Estado" Association="Self.FK_Proveedor_Estado">
+      <End Role="Estado" EntitySet="Estado" />
+      <End Role="Proveedor" EntitySet="Proveedor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Roles_Estado" Association="Self.FK_Roles_Estado">
+      <End Role="Estado" EntitySet="Estado" />
+      <End Role="Roles" EntitySet="Roles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuarios_Estado" Association="Self.FK_Usuarios_Estado">
+      <End Role="Estado" EntitySet="Estado" />
+      <End Role="Usuarios" EntitySet="Usuarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proveedor_Factura" Association="Self.FK_Proveedor_Factura">
+      <End Role="Proveedor" EntitySet="Proveedor" />
+      <End Role="Factura" EntitySet="Factura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Persona_Proveedor" Association="Self.FK_Persona_Proveedor">
+      <End Role="Persona" EntitySet="Persona" />
+      <End Role="Proveedor" EntitySet="Proveedor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Proveedor_Producto" Association="Self.FK_Proveedor_Producto">
+      <End Role="Proveedor" EntitySet="Proveedor" />
+      <End Role="Producto" EntitySet="Producto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuarios_Roles" Association="Self.FK_Usuarios_Roles">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Usuarios" EntitySet="Usuarios" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(VeterinariaModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(VeterinariaModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>
