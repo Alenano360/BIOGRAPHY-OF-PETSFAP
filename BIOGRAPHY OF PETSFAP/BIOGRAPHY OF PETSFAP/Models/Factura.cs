@@ -11,7 +11,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Factura
     {
@@ -21,21 +20,10 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         }
     
         public int Numero_Factura { get; set; }
-        [Required(ErrorMessage = "El campo de Empleado es requerido")]
-        [Display(Name = "Empleado")] 
         public int Id_Empleado { get; set; }
-        [Required(ErrorMessage = "El campo de Cliente es requerido")]
-        [Display(Name = "Cliente")] 
         public Nullable<int> Id_Cliente { get; set; }
-        //[Required(ErrorMessage = "El campo de Proveedor es requerido")]
-        //[Display(Name = "Proveedor")] 
         public Nullable<int> Id_Proveedor { get; set; }
-        [Required(ErrorMessage = "El campo de Fecha es requerido")]
-        [DataType(DataType.DateTime)]
-        [Display(Name = "Fecha")] 
         public System.DateTime Fecha { get; set; }
-        [Required(ErrorMessage = "El campo de Precio Total es requerido")]
-        [Display(Name = "Precio_Total")] 
         public int Precio_Total { get; set; }
         public int Id_Estado { get; set; }
     

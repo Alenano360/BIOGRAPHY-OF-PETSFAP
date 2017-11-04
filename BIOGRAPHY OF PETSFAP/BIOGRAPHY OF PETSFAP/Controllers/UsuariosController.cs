@@ -17,23 +17,39 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         private VeterinariaEntities db = new VeterinariaEntities();
         public ActionResult Index()
         {
-            ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
-            var usuarios = db.Usuarios.Include(u => u.Empleado).Include(u => u.Estado).Include(u => u.Roles).Where(x => x.Id_Estado == 1);
-            return View(usuarios.ToList());
-            
+            try
+            {
+                ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
+                var usuarios = db.Usuarios.Include(u => u.Empleado).Include(u => u.Estado).Include(u => u.Roles).Where(x => x.Id_Estado == 1);
+                return View(usuarios.ToList());
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar los Usuarios.";
+                return View();
+            }
+
         }
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Usuarios usuarios = db.Usuarios.Find(id);
+                if (usuarios == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(usuarios);
             }
-            Usuarios usuarios = db.Usuarios.Find(id);
-            if (usuarios == null)
+            catch (Exception)
             {
-                return HttpNotFound();
+                ViewBag.Exception = "Error al cargar los Usuarios.";
+                return View();
             }
-            return View(usuarios);
         }
         public ActionResult Create()
         {
@@ -45,73 +61,112 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id_Usuario,Id_Empleado,Correo,Usuario,Contraseña,Id_Rol,Id_Estado")] Usuarios usuarios)
         {
-            if (ModelState.IsValid)
+            try
             {
-                usuarios.Id_Estado = 1;
-                db.Usuarios.Add(usuarios);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    usuarios.Id_Estado = 1;
+                    db.Usuarios.Add(usuarios);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", usuarios.Id_Empleado);
+                ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
+                return View(usuarios);
             }
-
-            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", usuarios.Id_Empleado);
-            ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
-            return View(usuarios);
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al crear el Usuario.";
+                return View();
+            }
         }
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Usuarios usuarios = db.Usuarios.Find(id);
+                if (usuarios == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", usuarios.Id_Empleado);
+                ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
+                return View(usuarios);
             }
-            Usuarios usuarios = db.Usuarios.Find(id);
-            if (usuarios == null)
+            catch (Exception)
             {
-                return HttpNotFound();
+                ViewBag.Exception = "Error al editar el Usuario.";
+                return View();
             }
-            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", usuarios.Id_Empleado);
-            ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
-            return View(usuarios);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id_Usuario,Id_Empleado,Correo,Usuario,Contraseña,Id_Rol,Id_Estado")] Usuarios usuarios)
         {
-            if (ModelState.IsValid)
+            try
             {
-                usuarios.Id_Estado = 1;
-                db.Entry(usuarios).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    usuarios.Id_Estado = 1;
+                    db.Entry(usuarios).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", usuarios.Id_Empleado);
+                ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
+                return View(usuarios);
             }
-            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", usuarios.Id_Empleado);
-            ViewBag.Id_Rol = new SelectList(db.Roles.Where(x => x.Id_Estado == 1), "Id_Rol", "Descripcion", usuarios.Id_Rol);
-            return View(usuarios);
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al editar el Usuario.";
+                return View();
+            }
         }
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Usuarios usuarios = db.Usuarios.Find(id);
+                if (usuarios == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(usuarios);
             }
-            Usuarios usuarios = db.Usuarios.Find(id);
-            if (usuarios == null)
+            catch (Exception)
             {
-                return HttpNotFound();
+                ViewBag.Exception = "Error al editar el Usuario.";
+                return View();
             }
-            return View(usuarios);
         }
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Usuarios usuarios = db.Usuarios.Find(id);
-            if (usuarios.Id_Estado == 1)
+            try
             {
-                usuarios.Id_Estado = 2;
-                db.Entry(usuarios).State = EntityState.Modified;
-                db.SaveChanges();
+                Usuarios usuarios = db.Usuarios.Find(id);
+                if (usuarios.Id_Estado == 1)
+                {
+                    usuarios.Id_Estado = 2;
+                    db.Entry(usuarios).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al editar el Usuario.";
+                return View();
+            }
         }
         protected override void Dispose(bool disposing)
         {
@@ -154,9 +209,11 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 {
                     ViewBag.Error = "Login Fallido, Compruebe su Usuario o Contraseña";
                 }
-            }catch(Exception e){
+            }
+            catch (Exception)
+            {
                 ViewBag.Error = "Ocurrio un Error en el Sistema...";
-            } 
+            }
             return View(user);
         }
         private bool IsValid(string usuario, string contrasena)
@@ -164,10 +221,10 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             try
             {
                 bool IsValid = false;
-            
+
                 using (var db = new BIOGRAPHY_OF_PETSFAP.Models.VeterinariaEntities())
                 {
-                    var user = db.Usuarios.FirstOrDefault(u => u.Usuario == usuario && u.Contraseña==contrasena);
+                    var user = db.Usuarios.FirstOrDefault(u => u.Usuario == usuario && u.Contraseña == contrasena);
 
                     if (user != null)
                     {
@@ -175,7 +232,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                         Session.Add("RolUsuarioSession", user.Roles.Descripcion);
                         IsValid = true;
                     }
-                    if (IsValid==true)
+                    if (IsValid == true)
                     {
                         if (user.Roles.Descripcion.Equals("Administrador"))
                         {
@@ -194,9 +251,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                             RolUsuario = user.Roles.Descripcion;
                         }
                     }
-                }         
+                }
 
-            return IsValid;
+                return IsValid;
             }
             catch (Exception e)
             {

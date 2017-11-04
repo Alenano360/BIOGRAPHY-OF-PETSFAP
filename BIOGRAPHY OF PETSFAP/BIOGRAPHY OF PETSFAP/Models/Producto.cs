@@ -11,36 +11,27 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Producto
     {
         public Producto()
         {
             this.Detalle_Factura = new HashSet<Detalle_Factura>();
+            this.Detalle_Medicina = new HashSet<Detalle_Medicina>();
         }
     
         public int Id_Producto { get; set; }
-        [Required(ErrorMessage = "El campo de Nombre es requerido")]
-        [DataType(DataType.Text)]
-        [Display(Name = "Nombre")]
         public string Nombre { get; set; }
-        [Required(ErrorMessage = "El campo de Descripcion es requerido")]
-        [DataType(DataType.Text)]
-        [Display(Name = "Descripcion")]
         public string Descripcion { get; set; }
-        [Required(ErrorMessage = "El campo de Precio es requerido")]
-        [Display(Name = "Precio")]
         public double Precio { get; set; }
-        [Required(ErrorMessage = "El campo de Cantidad es requerido")]
-        [Display(Name = "Cantidad")]
         public int Cantidad { get; set; }
-        [Required(ErrorMessage = "El campo de Proveedor es requerido")]
-        [Display(Name = "Proveedor")]
         public int Id_Proveedor { get; set; }
+        public int Id_Categoria { get; set; }
         public int Id_Estado { get; set; }
     
+        public virtual Categoria Categoria { get; set; }
         public virtual ICollection<Detalle_Factura> Detalle_Factura { get; set; }
+        public virtual ICollection<Detalle_Medicina> Detalle_Medicina { get; set; }
         public virtual Estado Estado { get; set; }
         public virtual Proveedor Proveedor { get; set; }
     }

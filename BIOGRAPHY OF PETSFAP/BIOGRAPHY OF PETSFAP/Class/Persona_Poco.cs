@@ -71,7 +71,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Class
     {
         public Cliente_Poco()
         {
-            this.Cita_Medica = new HashSet<Cita_Medica>();
+            this.Cita_Medica = new HashSet<Cita>();
             this.Factura = new HashSet<Factura>();
             this.Paciente = new HashSet<Paciente>();
         }
@@ -80,7 +80,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Class
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }
 
-        public virtual ICollection<Cita_Medica> Cita_Medica { get; set; }
+        public virtual ICollection<Cita> Cita_Medica { get; set; }
         public virtual Estado Estado { get; set; }
         public virtual ICollection<Factura> Factura { get; set; }
         public virtual ICollection<Paciente> Paciente { get; set; }

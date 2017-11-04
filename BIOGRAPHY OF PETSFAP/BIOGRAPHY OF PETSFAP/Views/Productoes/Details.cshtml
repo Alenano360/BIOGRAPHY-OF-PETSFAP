@@ -3,7 +3,7 @@
     ViewBag.Title = "Detalle";
 }
     <div>
-        <h4>Detalle Productos</h4>
+        <h4>Detalle de Producto</h4>
         <hr />
         <dl class="dl-horizontal">
             <dt>
@@ -31,16 +31,16 @@
                 @Html.DisplayFor(model => model.Cantidad)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.Estado.Descripcion)
+                @Html.DisplayNameFor(model => model.Categoria)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Estado.Descripcion)
+                @Html.DisplayFor(model => model.Categoria.Nombre)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.Proveedor.Id_Proveedor)
+                @Html.DisplayNameFor(model => model.Proveedor)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Proveedor.Id_Proveedor)
+                @Html.DisplayFor(model => model.Proveedor.NombreCompleto)
             </dd>
         </dl>
     </div>

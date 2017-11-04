@@ -1,6 +1,4 @@
-﻿
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     var t = $('#tablaFactura').DataTable({
         "columnDefs": [
             {

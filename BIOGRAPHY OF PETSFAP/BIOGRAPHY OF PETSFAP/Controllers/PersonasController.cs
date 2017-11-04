@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
 using BIOGRAPHY_OF_PETSFAP.Class;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
@@ -463,6 +465,30 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult getReport()
+        {
+            List<Persona> persona = new List<Persona>();
+            persona = db.Persona.ToList();
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "Empleados.rpt"));
+            rd.SetDataSource(persona);
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                Response.AddHeader("Content-Disposition", "inline; filename=Empleados.pdf");
+                return File(stream, "application/pdf");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

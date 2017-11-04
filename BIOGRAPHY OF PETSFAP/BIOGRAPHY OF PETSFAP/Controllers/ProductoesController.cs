@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
@@ -17,7 +19,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Productoes
         public ActionResult Index()
         {
-            var producto = db.Producto.Include(p => p.Estado).Include(p => p.Proveedor).Where(x => x.Id_Estado == 1);
+            var producto = db.Producto.Include(p => p.Estado).Include(p => p.Proveedor).Include(p => p.Categoria).Where(x => x.Id_Estado == 1);
             ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
             return View(producto.ToList());
            
@@ -41,17 +43,16 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Productoes/Create
         public ActionResult Create()
         {
-            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion");
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto");
+            ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre");
+
             return View();
         }
 
         // POST: Productoes/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Producto,Nombre,Descripcion,Precio,Cantidad,Id_Proveedor,Id_Estado")] Producto producto)
+        public ActionResult Create(Producto producto)
         {
             if (ModelState.IsValid)
             {
@@ -60,9 +61,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
+            ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
             return View(producto);
         }
 
@@ -78,7 +78,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
+            ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
             return View(producto);
         }
@@ -88,7 +88,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_Producto,Nombre,Descripcion,Precio,Cantidad,Id_Proveedor,Id_Estado")] Producto producto)
+        public ActionResult Edit(Producto producto)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +97,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //ViewBag.Id_Estado = new SelectList(db.Estado, "Id_Estado", "Descripcion", producto.Id_Estado);
+            ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
             return View(producto);
         }
@@ -140,6 +140,31 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult getReport()
+        {
+            List<Producto> productos = new List<Producto>();
+            productos = db.Producto.ToList();
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "productos.rpt"));
+            rd.SetDataSource(productos);
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                Response.AddHeader("Content-Disposition", "inline; filename=Productos.pdf");
+                return File(stream, "application/pdf");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

@@ -1,0 +1,102 @@
+﻿@model BIOGRAPHY_OF_PETSFAP.Models.Cita
+@{
+    ViewBag.Title = "Eliminar";
+}
+<h3>Esta seguro de que quiere eliminar esto?</h3>
+<div>
+    <h4>Eliminar Cita Medica</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hora_Inico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hora_Inico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hora_Final)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hora_Final)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado_Cita)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado_Cita)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Empleado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Empleado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Costo_Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Costo_Total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.Id_Cliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.Id_Cliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente.Animal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente.Animal)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Cita") + "'");" />
+        </div>
+    }
+</div>
+

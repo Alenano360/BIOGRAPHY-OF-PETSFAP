@@ -11,34 +11,34 @@
     <script src="~/Scripts/jquery.min.js"></script>
 </head>
 <body>
-        <!-- header-section-starts -->
-        <div class="header">
-            <div class="container">
-                <div class="logo">
-                    <a href="@Url.Action("Index", "Home")"><img src="~/images/logo.png" alt="" /></a>
-                </div>
-                <div class="tollfree">
-                    <ul>
-                        <li>
-                            @if (Session["NombreUsuarioSession"] != null)
-                            {
-                                <p class="phone">@Session["NombreUsuarioSession"].ToString()</p>
-                            }
-                            else
-                            {
-                                @Url.Action("Login", "Usuarios")
-                            }
-                            <input type="button" class="btn btn-success" value="Cerrar Sesion" id="CerrarSession_txt" onclick="@("window.location.href='" + @Url.Action("Login", "Usuarios") + "'");" />
-                        </li>
-                    </ul>
-                </div>
-                <div class="clearfix"></div>
-                <div class="navigation">
-                    <div class="navigation-bar">
-                        <span class="menu"></span>
-                        <div class="top-menu">
-                            <ul>
-                                @{
+    <!-- header-section-starts -->
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="~/images/logo.png" alt="" />
+            </div>
+            <div class="tollfree">
+                <ul>
+                    <li>
+                        @if (Session["NombreUsuarioSession"] != null)
+                        {
+                            <p class="phone">@Session["NombreUsuarioSession"].ToString()</p>
+                        }
+                        else
+                        {
+                            @Url.Action("Login", "Usuarios")
+                        }
+                        <input type="button" class="btn btn-success" value="Cerrar Sesion" id="CerrarSession_txt" onclick="@("window.location.href='" + @Url.Action("Login", "Usuarios") + "'");" />
+                    </li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+            <div class="navigation">
+                <div class="navigation-bar">
+                    <span class="menu"></span>
+                    <div class="top-menu">
+                        <ul>
+                            @{
                                 try
                                 {
                                     if (Session["RolUsuarioSession"].ToString() == "")
@@ -49,37 +49,31 @@
                                     {
                                         if (Session["RolUsuarioSession"].ToString() == "Administrador")
                                         {
-                                            <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
                                             <li id="liUser">@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
                                             <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
-                                            <li id="liMedi">@Html.ActionLink("Medicinas", "Index", "Medicinas")</li>
-                                            <li id="liPaci">@Html.ActionLink("Pacientes", "Index", "Pacientes")</li>
+                                            <li id="liPaci">@Html.ActionLink("Mascotas", "Index", "Pacientes")</li>
                                             <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
-                                            <li id="liCita">@Html.ActionLink("Citas", "Index", "Cita_Medica")</li>
+                                            <li id="liCita">@Html.ActionLink("Citas", "Index", "Cita")</li>
+                                            <li id="liCat">@Html.ActionLink("Servicios", "Index", "Servicios")</li>
                                             <li id="liFac">@Html.ActionLink("Factura", "Index", "Facturas")</li>
                                         }
                                         else if (Session["RolUsuarioSession"].ToString() == "Cajero")
                                         {
-                                            <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
                                             <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
                                             <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
                                             <li id="liFac">@Html.ActionLink("Factura", "Index", "Facturas")</li>
                                         }
                                         else if (Session["RolUsuarioSession"].ToString() == "Doctor")
                                         {
-                                            <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
                                             <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
-                                            <li id="liMedi">@Html.ActionLink("Medicinas", "Index", "Medicinas")</li>
-                                            <li id="liPaci">@Html.ActionLink("Pacientes", "Index", "Pacientes")</li>
-                                            <li id="liCita">@Html.ActionLink("Citas", "Index", "Cita_Medica")</li>
+                                            <li id="liPaci">@Html.ActionLink("Mascotas", "Index", "Pacientes")</li>
+                                            @*<li id="liCita">@Html.ActionLink("Citas", "Index", "Cita")</li>*@
+                                            <li id="liCat">@Html.ActionLink("Servicios", "Index", "Servicios")</li>
                                             <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
                                         }
                                         else if (Session["RolUsuarioSession"].ToString() == "Inventario")
                                         {
-                                            <li id="liHome">@Html.ActionLink("Inicio", "Index", "Home")</li>
-                                            <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
                                             <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
-                                            <li id="liFac">@Html.ActionLink("Factura", "Index", "Facturas")</li>
                                         }
                                     }
                                 }
@@ -97,7 +91,7 @@
         </div>
     </div>
     <!-- header-section-ends -->
-    <div >
+    <div>
         <div class="container" style="margin-top:70px">
             @RenderBody()
 

@@ -1,0 +1,45 @@
+﻿@model BIOGRAPHY_OF_PETSFAP.Models.Servicio
+@{
+    ViewBag.Title = "Eliminar";
+}
+<h3>Esta seguro de que quiere eliminar esto?</h3>
+<div>
+    <h4>Eliminar Servicio</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Detalle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Detalle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Costo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Costo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tiempo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tiempo)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Servicios") + "'");" />
+        </div>
+    }
+</div>
+

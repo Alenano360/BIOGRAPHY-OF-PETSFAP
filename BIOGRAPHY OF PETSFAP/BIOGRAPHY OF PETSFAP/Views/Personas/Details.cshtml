@@ -43,7 +43,7 @@
                 {
                     <label>No</label>
                 }
-}
+            }
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model._persona.Empleado)
@@ -68,22 +68,22 @@
                 if (Model._persona.Chk_Proveedor)
                 {
                     <label>Si</label>
-                <dt>@Html.DisplayNameFor(model=>model._proveedor.Nombre_Empresa)</dt>
+                <dt>@Html.DisplayName("Nombre de Empresa")</dt>
                 <dd>@Html.DisplayFor(model => model._proveedor.Nombre_Empresa)</dd>
-                <dt>@Html.DisplayNameFor(model => model._proveedor.Telefono_Empresa)</dt>
+                <dt>@Html.DisplayName("Telefono de Empresa")</dt>
                 <dd>@Html.DisplayFor(model => model._proveedor.Telefono_Empresa)</dd>
-                <dt>@Html.DisplayNameFor(model => model._proveedor.Direccion_Empresa)</dt>
+                <dt>@Html.DisplayName("Direccion de Empresa")</dt>
                 <dd>@Html.DisplayFor(model => model._proveedor.Direccion_Empresa)</dd>
                 }
                 else
                 {
                     <label>No</label>
                 }
-}
-        <dd />
-    </dl>
-</div>
-<div class="form-group">
-    <input type="button" class="btn btn-success" value="Editar" onclick="@("window.location.href='" + @Url.Action("Edit", "Personas", new { id = Model._persona.Id_Persona }) + "'");" /> |
-    <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
-</div>
+            }
+            <dd />
+        </dl>
+    </div>
+    <div class="form-group">
+        <input type="button" class="btn btn-success" value="Editar" onclick="@("window.location.href='" + @Url.Action("Edit", "Personas", new { id = Model._persona.Id_Persona }) + "'");" /> |
+        <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
+    </div>

@@ -11,20 +11,17 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Cliente
     {
         public Cliente()
         {
-            this.Cita_Medica = new HashSet<Cita_Medica>();
+            this.Cita = new HashSet<Cita>();
             this.Factura = new HashSet<Factura>();
             this.Paciente = new HashSet<Paciente>();
         }
     
         public int Id_Cliente { get; set; }
-        //[Required(ErrorMessage = "El campo de Persona es requerido")]
-        //[Display(Name = "Persona")] 
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }
         public string NombreCompleto
@@ -34,7 +31,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
                 return Persona.Nombre + " " + Persona.Apellidos;
             }
         }
-        public virtual ICollection<Cita_Medica> Cita_Medica { get; set; }
+        public virtual ICollection<Cita> Cita { get; set; }
         public virtual Estado Estado { get; set; }
         public virtual ICollection<Factura> Factura { get; set; }
         public virtual ICollection<Paciente> Paciente { get; set; }

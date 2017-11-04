@@ -16,32 +16,32 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
     {
         public Estado()
         {
-            this.Cita_Medica = new HashSet<Cita_Medica>();
+            this.Cita = new HashSet<Cita>();
             this.Cliente = new HashSet<Cliente>();
             this.Empleado = new HashSet<Empleado>();
             this.Factura = new HashSet<Factura>();
-            this.Medicina = new HashSet<Medicina>();
             this.Paciente = new HashSet<Paciente>();
             this.Persona = new HashSet<Persona>();
             this.Producto = new HashSet<Producto>();
             this.Proveedor = new HashSet<Proveedor>();
             this.Roles = new HashSet<Roles>();
+            this.Servicio = new HashSet<Servicio>();
             this.Usuarios = new HashSet<Usuarios>();
         }
     
         public int Id_Estado { get; set; }
         public string Descripcion { get; set; }
     
-        public virtual ICollection<Cita_Medica> Cita_Medica { get; set; }
+        public virtual ICollection<Cita> Cita { get; set; }
         public virtual ICollection<Cliente> Cliente { get; set; }
         public virtual ICollection<Empleado> Empleado { get; set; }
         public virtual ICollection<Factura> Factura { get; set; }
-        public virtual ICollection<Medicina> Medicina { get; set; }
         public virtual ICollection<Paciente> Paciente { get; set; }
         public virtual ICollection<Persona> Persona { get; set; }
         public virtual ICollection<Producto> Producto { get; set; }
         public virtual ICollection<Proveedor> Proveedor { get; set; }
         public virtual ICollection<Roles> Roles { get; set; }
+        public virtual ICollection<Servicio> Servicio { get; set; }
         public virtual ICollection<Usuarios> Usuarios { get; set; }
     }
 }

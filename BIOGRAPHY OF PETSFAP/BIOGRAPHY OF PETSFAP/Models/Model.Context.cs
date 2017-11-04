@@ -27,18 +27,21 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Cita_Medica> Cita_Medica { get; set; }
+        public virtual DbSet<Categoria> Categoria { get; set; }
+        public virtual DbSet<Cita> Cita { get; set; }
         public virtual DbSet<Cliente> Cliente { get; set; }
         public virtual DbSet<Detalle_Factura> Detalle_Factura { get; set; }
+        public virtual DbSet<Detalle_Medicina> Detalle_Medicina { get; set; }
+        public virtual DbSet<Detalle_Servicio> Detalle_Servicio { get; set; }
         public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<Estado> Estado { get; set; }
         public virtual DbSet<Factura> Factura { get; set; }
-        public virtual DbSet<Medicina> Medicina { get; set; }
         public virtual DbSet<Paciente> Paciente { get; set; }
         public virtual DbSet<Persona> Persona { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<Proveedor> Proveedor { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<Servicio> Servicio { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
     

@@ -6,100 +6,98 @@
  new { id = "crearFactura" }))
 {
     @Html.AntiForgeryToken()
+    <legend>Factura</legend>
     <div class="form-horizontal">
-            <legend>Factura</legend>
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div style="float:left; width:50%;">
-                <div class="form-group">
-                    @Html.LabelFor(model => model._factura.Id_Empleado, "Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("_factura.Id_Empleado", null, string.Empty, htmlAttributes: new { id = "Id_Empleado", @class = "form-control" })
-                        <span id="Empleado-error" style="color: #a94442;" hidden></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model._factura.Id_Cliente, "Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("_factura.Id_Cliente", null, string.Empty, htmlAttributes: new { id = "Id_Cliente", @class = "form-control" })
-                        <span id="Cliente-error" style="color: #a94442;" hidden></span>
-                    </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div style="float:left; width:50%;">
+            <div class="form-group">
+                @Html.LabelFor(model => model._factura.Id_Empleado, "Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("_factura.Id_Empleado", null, string.Empty, htmlAttributes: new { id = "Id_Empleado", @class = "form-control" })
+                    <span id="Empleado-error" style="color: #a94442;" hidden></span>
                 </div>
             </div>
-            <div style="float:right; width:50%;">
-                <div class="form-group">
-                    @Html.LabelFor(model => model._factura.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model._factura.Fecha, new { htmlAttributes = new { id = "txt_fechaFactura", @class = "form-control", @Value = @DateTime.Now.ToString("yyyy/MM/dd"), @readonly = "readonly" } })
-                        @Html.ValidationMessageFor(model => model._factura.Fecha, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model._factura.Precio_Total, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model._factura.Precio_Total, new { htmlAttributes = new { id = "txt_totalFactura", @class = "form-control", @readonly = "readonly" } })
-                        @Html.ValidationMessageFor(model => model._factura.Precio_Total, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model._factura.Id_Cliente, "Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("_factura.Id_Cliente", null, string.Empty, htmlAttributes: new { id = "Id_Cliente", @class = "form-control" })
+                    <span id="Cliente-error" style="color: #a94442;" hidden></span>
                 </div>
             </div>
-            <fieldset style="width:100%;display:block;">
-                <legend>Detalles</legend>
-                <div class="form-group">
-                    <div>
-                        <div style="float:left;width:50%;">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model._detalle.FirstOrDefault().Producto, "Producto", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("Id_Producto", null, string.Empty, htmlAttributes: new { id = "ddl_Productos", @class = "form-control" })
-                                    <span id="alerta_Error1" style="color: #a94442;" hidden>Debe seleccionar un Producto</span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model._detalle.FirstOrDefault().Precio_Unitario, "Precio Unitario", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.Label("0", htmlAttributes: new { id = "lbl_precioUnitario", @class = "control-label col-md-2" })
-                                </div>
+        </div>
+        <div style="float:right; width:50%;">
+            <div class="form-group">
+                @Html.LabelFor(model => model._factura.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model._factura.Fecha, new { htmlAttributes = new { id = "txt_fechaFactura", @class = "form-control", @Value = @DateTime.Now.ToString("yyyy/MM/dd"), @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model._factura.Fecha, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model._factura.Precio_Total, "Precio Total", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model._factura.Precio_Total, new { htmlAttributes = new { id = "txt_totalFactura", @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model._factura.Precio_Total, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <fieldset style="width:100%;display:block;">
+            <legend>Detalles</legend>
+            <div class="form-group">
+                <div>
+                    <div style="float:left;width:50%;">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model._detalle.FirstOrDefault().Producto, "Producto", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("Id_Producto", null, string.Empty, htmlAttributes: new { id = "ddl_Productos", @class = "form-control" })
+                                <span id="alerta_Error1" style="color: #a94442;" hidden>Debe seleccionar un Producto</span>
                             </div>
                         </div>
-                        <div style="float:right;width:50%;">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model._detalle.FirstOrDefault().Cantidad, "Cantidad", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.Editor("txt_cantidad", new { htmlAttributes = new { id = "txt_cantidad", @class = "form-control" } })
-                                    <span id="alerta_Error" style="color: #a94442;" hidden>Debe llenar todos los campos</span>
-                                 </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model._detalle.FirstOrDefault().Precio_Total_Producto, "Precio Total Producto", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.Label("0", htmlAttributes: new { id = "lbl_totalProducto", @class = "control-label col-md-2" })
-                                </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model._detalle.FirstOrDefault().Precio_Unitario, "Precio Unitario", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Label("0", htmlAttributes: new { id = "lbl_precioUnitario", @class = "control-label col-md-2" })
                             </div>
                         </div>
                     </div>
-                    <div style="display:block;width:100%;">
-                        <div style="display:block;width:100%;margin-bottom:30px;align-items:center;">
-                            <input type="button" class="btn btn-success" value="Agregar Detalle" id="addRow" /> 
-                            <input type="button" class="btn btn-warning" value="Eliminar Detalle" id="removeRow" />
+                    <div style="float:right;width:50%;">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model._detalle.FirstOrDefault().Cantidad, "Cantidad", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Editor("txt_cantidad", new { htmlAttributes = new { id = "txt_cantidad", @class = "form-control" } })
+                                <span id="alerta_Error" style="color: #a94442;" hidden>Debe llenar todos los campos</span>
+                            </div>
                         </div>
-                        <table id="tablaFactura">
-                            <thead>
-                                <tr>
-                                    <th>@Html.DisplayNameFor(model => model._detalle.FirstOrDefault().Id_Producto)</th>
-                                    <th>@Html.DisplayNameFor(model => model._detalle.FirstOrDefault().Producto)</th>
-                                    <th>@Html.DisplayNameFor(model => model._detalle.FirstOrDefault().Cantidad)</th>
-                                    <th>@Html.DisplayNameFor(model => model._detalle.FirstOrDefault().Precio_Unitario)</th>
-                                    <th>@Html.DisplayNameFor(model => model._detalle.FirstOrDefault().Precio_Total_Producto)</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                        <span id="Tabla-error" style="color: #a94442;" hidden></span>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model._detalle.FirstOrDefault().Precio_Total_Producto, "Precio Total Producto", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Label("0", htmlAttributes: new { id = "lbl_totalProducto", @class = "control-label col-md-2" })
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-            </fieldset>
+                <div style="display:block;width:100%;">
+                    <div style="display:block;width:100%;margin-bottom:30px;align-items:center;">
+                        <input type="button" class="btn btn-success" value="Agregar Detalle" id="addRow" />
+                        <input type="button" class="btn btn-warning" value="Eliminar Detalle" id="removeRow" />
+                    </div>
+                    <table id="tablaFactura">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model._detalle.FirstOrDefault().Id_Producto)</th>
+                                <th>@Html.DisplayNameFor(model => model._detalle.FirstOrDefault().Producto)</th>
+                                <th>@Html.DisplayNameFor(model => model._detalle.FirstOrDefault().Cantidad)</th>
+                                <th>@Html.DisplayName("Precio Unitario")</th>
+                                <th>@Html.DisplayName("Precio Total Producto")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <span id="Tabla-error" style="color: #a94442;" hidden></span>
+                </div>
+            </div>
+        </fieldset>
     </div>
-
     <div class="form-group" style="margin-bottom:50px;">
         <div class="col-md-offset-2 col-md-10">
             <div style="margin-right:25%; float:left">
@@ -111,8 +109,6 @@
         </div>
     </div>
 }
-
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

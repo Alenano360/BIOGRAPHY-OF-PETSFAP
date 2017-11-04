@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
 using Newtonsoft.Json;
 using BIOGRAPHY_OF_PETSFAP.Class;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
@@ -17,8 +19,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         private VeterinariaEntities db = new VeterinariaEntities();
         public static List<Detalle_Factura> listDetalles = new List<Detalle_Factura>();
         public static List<Detalle_Factura> listaDetalles = new List<Detalle_Factura>();
-
-
+        IEnumerable<string> listaCategorias = new List<string>() { "Medicina", "Producto" };
 
         // GET: Facturas
         public ActionResult Index()
@@ -39,11 +40,10 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             var detalle = db.Detalle_Factura.Include(f => f.Producto).Where(m => m.Numero_Factura == id);
             listaDetalles = null;
             listaDetalles = detalle.ToList();
-            //var producto = db.Producto.Where(x => detalle.Select(y => y.Id_Producto).Contains(x.Id_Producto));
-
             ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
+            ViewBag.Categoria = new SelectList(listaCategorias);
             return View(factura);
         }
 
@@ -53,8 +53,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             ViewData["_factura.Id_Cliente"] = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto");
             ViewData["_factura.Id_Empleado"] = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto");
             ViewData["_factura.Id_Proveedor"] = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto");
-            ViewBag.Id_Producto = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
-
+            ViewBag.Id_Producto = new SelectList(db.Producto.Include(x => x.Categoria).Where(x => x.Categoria.Nombre.Equals("Producto")).Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
+            ViewBag.Categoria = listaCategorias;
             return View();
         }
 
@@ -63,7 +63,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Facturacion_Poco factura_poco)
         {
-
             if (ModelState.IsValid)
             {
                 Factura factura = new Factura
@@ -78,7 +77,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
 
                 db.Factura.Add(factura);
                 db.SaveChanges();
-                //List<Detalle_Factura> detalles = (List<Detalle_Factura>) ViewData["detallesFactura"];
                 foreach (Detalle_Factura detalle in listDetalles)
                 {
                     detalle.Numero_Factura = factura.Numero_Factura;
@@ -107,7 +105,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
-            ViewBag.Id_Producto = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
+            ViewBag.Id_Producto = new SelectList(db.Producto.Where(x => x.Id_Estado == 1).Where(x => x.Categoria.Nombre.Equals("Producto")), "Id_Producto", "Nombre");
+            factura.Fecha.ToString("dd/MM/yyyy");
             return View(factura);
         }
 
@@ -162,7 +161,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                         }
 
                     }
-
                     foreach (Detalle_Factura detalle in listaDetalles)
                     {
                         if (eliminados.Contains(detalle.Id_Detalle))
@@ -193,14 +191,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             var detalle = db.Detalle_Factura.Include(f => f.Producto).Where(m => m.Numero_Factura == id);
             listaDetalles = null;
             listaDetalles = detalle.ToList();
-            //var producto = db.Producto.Where(x => detalle.Select(y => y.Id_Producto).Contains(x.Id_Producto));
-
+            ViewBag.Categoria = listaCategorias;
             ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
             return View(factura);
         }
-
         // POST: Facturas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -215,7 +211,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             return RedirectToAction("Index");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -224,7 +219,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             base.Dispose(disposing);
         }
-
         [System.Web.Services.WebMethod]
         public string SelectPrecio(int id)
         {
@@ -232,7 +226,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             return Convert.ToString(precio);
 
         }
-
         [System.Web.Services.WebMethod]
         public string Detalle(string rows)
         {
@@ -240,15 +233,13 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 var detalles = JsonConvert.DeserializeObject<List<Detalle_Factura>>(rows);
                 listDetalles = detalles;
-                //ViewData["detallesFactura"] = detalles;
                 return "ok";
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return "error";
             }
         }
-
         [System.Web.Services.WebMethod]
         public string setJson()
         {
@@ -279,6 +270,55 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             json += ']';
             return json;
+        }
+
+        public ActionResult getReport()
+        {
+            List<Factura> factura = new List<Factura>();
+            factura = db.Factura.Include(x => x.Detalle_Factura).Include(x => x.Cliente).Include(x => x.Empleado).ToList(); 
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "Facturas.rpt"));
+            rd.SetDataSource(factura);
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                Response.AddHeader("Content-Disposition", "inline; filename=Factura.pdf");
+                return File(stream, "application/pdf");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public ActionResult getReportFact()
+        {
+            List<Factura> factura = new List<Factura>();
+            factura = db.Factura.Include(x => x.Detalle_Factura).Include(x => x.Cliente).Include(x => x.Empleado).ToList();
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "TotalFacturas.rpt"));
+            rd.SetDataSource(factura);
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                Response.AddHeader("Content-Disposition", "inline; filename=TotalFactura.pdf");
+                return File(stream, "application/pdf");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

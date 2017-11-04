@@ -4,18 +4,28 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="VeterinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Cita_Medica">
+      <Schema Namespace="VeterinariaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categoria">
           <Key>
-            <PropertyRef Name="Id_Cita_Medica" />
+            <PropertyRef Name="Id_Categoria" />
           </Key>
-          <Property Name="Id_Cita_Medica" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Categoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cita">
+          <Key>
+            <PropertyRef Name="Id_Cita" />
+          </Key>
+          <Property Name="Id_Cita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
-          <Property Name="Hora" Type="time" Precision="7" Nullable="false" />
-          <Property Name="Id_Medicina" Type="int" Nullable="false" />
+          <Property Name="Hora_Inico" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Hora_Final" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Estado_Cita" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Id_Cliente" Type="int" Nullable="false" />
+          <Property Name="Id_Empleado" Type="int" Nullable="false" />
           <Property Name="Id_Paciente" Type="int" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="600" Nullable="false" />
+          <Property Name="Costo_Total" Type="int" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Cliente">
@@ -34,8 +44,28 @@
           <Property Name="Numero_Factura" Type="int" Nullable="false" />
           <Property Name="Id_Producto" Type="int" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
-          <Property Name="Precio_Total_Producto" Type="int" Nullable="false" />
           <Property Name="Precio_Unitario" Type="int" Nullable="false" />
+          <Property Name="Precio_Total_Producto" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Detalle_Medicina">
+          <Key>
+            <PropertyRef Name="Id_Detalle_Medicina" />
+          </Key>
+          <Property Name="Id_Detalle_Medicina" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Cita" Type="int" Nullable="false" />
+          <Property Name="Id_Producto" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Precio_Total" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Detalle_Servicio">
+          <Key>
+            <PropertyRef Name="Id_Detalle_Servicio" />
+          </Key>
+          <Property Name="Id_Detalle_Servicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Cita" Type="int" Nullable="false" />
+          <Property Name="Id_Servicio" Type="int" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Precio_Total" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Empleado">
           <Key>
@@ -62,14 +92,6 @@
           <Property Name="Id_Proveedor" Type="int" />
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="Precio_Total" Type="int" Nullable="false" />
-          <Property Name="Id_Estado" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Medicina">
-          <Key>
-            <PropertyRef Name="Id_Medicina" />
-          </Key>
-          <Property Name="Id_Medicina" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Paciente">
@@ -110,6 +132,7 @@
           <Property Name="Precio" Type="float" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
           <Property Name="Id_Proveedor" Type="int" Nullable="false" />
+          <Property Name="Id_Categoria" Type="int" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Proveedor">
@@ -129,6 +152,17 @@
           </Key>
           <Property Name="Id_Rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_Estado" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Servicio">
+          <Key>
+            <PropertyRef Name="Id_Servicio" />
+          </Key>
+          <Property Name="Id_Servicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Detalle" Type="varchar" MaxLength="600" Nullable="false" />
+          <Property Name="Costo" Type="int" Nullable="false" />
+          <Property Name="Tiempo" Type="float" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -153,50 +187,74 @@
           <Property Name="Id_Rol" Type="int" Nullable="false" />
           <Property Name="Id_Estado" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Cita_Medica_Cliente">
+        <Association Name="FK_Cita_Cliente">
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
-          <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cliente">
               <PropertyRef Name="Id_Cliente" />
             </Principal>
-            <Dependent Role="Cita_Medica">
+            <Dependent Role="Cita">
               <PropertyRef Name="Id_Cliente" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Cita_Medica_Estado">
+        <Association Name="FK_Cita_Detalle_Medicina">
+          <End Role="Cita" Type="Self.Cita" Multiplicity="1" />
+          <End Role="Detalle_Medicina" Type="Self.Detalle_Medicina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cita">
+              <PropertyRef Name="Id_Cita" />
+            </Principal>
+            <Dependent Role="Detalle_Medicina">
+              <PropertyRef Name="Id_Cita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cita_Detalle_Servicio">
+          <End Role="Cita" Type="Self.Cita" Multiplicity="1" />
+          <End Role="Detalle_Servicio" Type="Self.Detalle_Servicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cita">
+              <PropertyRef Name="Id_Cita" />
+            </Principal>
+            <Dependent Role="Detalle_Servicio">
+              <PropertyRef Name="Id_Cita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cita_Empleado">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="Id_Empleado" />
+            </Principal>
+            <Dependent Role="Cita">
+              <PropertyRef Name="Id_Empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cita_Estado">
           <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
-          <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Estado">
               <PropertyRef Name="Id_Estado" />
             </Principal>
-            <Dependent Role="Cita_Medica">
+            <Dependent Role="Cita">
               <PropertyRef Name="Id_Estado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Cita_Medica_Medicina">
-          <End Role="Medicina" Type="Self.Medicina" Multiplicity="1" />
-          <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Medicina">
-              <PropertyRef Name="Id_Medicina" />
-            </Principal>
-            <Dependent Role="Cita_Medica">
-              <PropertyRef Name="Id_Medicina" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Cita_Medica_Paciente">
+        <Association Name="FK_Cita_Paciente">
           <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
-          <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Paciente">
               <PropertyRef Name="Id_Paciente" />
             </Principal>
-            <Dependent Role="Cita_Medica">
+            <Dependent Role="Cita">
               <PropertyRef Name="Id_Paciente" />
             </Dependent>
           </ReferentialConstraint>
@@ -210,6 +268,18 @@
             </Principal>
             <Dependent Role="Cliente">
               <PropertyRef Name="Id_Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Detalle_Servicio_Servicio">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+          <End Role="Detalle_Servicio" Type="Self.Detalle_Servicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="Id_Servicio" />
+            </Principal>
+            <Dependent Role="Detalle_Servicio">
+              <PropertyRef Name="Id_Servicio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -269,18 +339,6 @@
               <PropertyRef Name="Id_Estado" />
             </Principal>
             <Dependent Role="Factura">
-              <PropertyRef Name="Id_Estado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Medicina_Estado">
-          <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
-          <End Role="Medicina" Type="Self.Medicina" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Estado">
-              <PropertyRef Name="Id_Estado" />
-            </Principal>
-            <Dependent Role="Medicina">
               <PropertyRef Name="Id_Estado" />
             </Dependent>
           </ReferentialConstraint>
@@ -369,6 +427,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Producto_Detalle_Medicina">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Detalle_Medicina" Type="Self.Detalle_Medicina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="Id_Producto" />
+            </Principal>
+            <Dependent Role="Detalle_Medicina">
+              <PropertyRef Name="Id_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Producto_Estado">
           <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
           <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
@@ -378,6 +448,18 @@
             </Principal>
             <Dependent Role="Producto">
               <PropertyRef Name="Id_Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proveedor_Categoria">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="Id_Categoria" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="Id_Categoria" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -425,6 +507,18 @@
               <PropertyRef Name="Id_Estado" />
             </Principal>
             <Dependent Role="Roles">
+              <PropertyRef Name="Id_Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Servicio_Estado">
+          <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado">
+              <PropertyRef Name="Id_Estado" />
+            </Principal>
+            <Dependent Role="Servicio">
               <PropertyRef Name="Id_Estado" />
             </Dependent>
           </ReferentialConstraint>
@@ -497,39 +591,54 @@
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="VeterinariaModelStoreContainer">
-          <EntitySet Name="Cita_Medica" EntityType="Self.Cita_Medica" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cita" EntityType="Self.Cita" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Detalle_Factura" EntityType="Self.Detalle_Factura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Detalle_Medicina" EntityType="Self.Detalle_Medicina" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Detalle_Servicio" EntityType="Self.Detalle_Servicio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estado" EntityType="Self.Estado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Factura" EntityType="Self.Factura" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Medicina" EntityType="Self.Medicina" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Persona" EntityType="Self.Persona" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Servicio" EntityType="Self.Servicio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Cita_Medica_Cliente" Association="Self.FK_Cita_Medica_Cliente">
+          <AssociationSet Name="FK_Cita_Cliente" Association="Self.FK_Cita_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
-            <End Role="Cita_Medica" EntitySet="Cita_Medica" />
+            <End Role="Cita" EntitySet="Cita" />
           </AssociationSet>
-          <AssociationSet Name="FK_Cita_Medica_Estado" Association="Self.FK_Cita_Medica_Estado">
+          <AssociationSet Name="FK_Cita_Detalle_Medicina" Association="Self.FK_Cita_Detalle_Medicina">
+            <End Role="Cita" EntitySet="Cita" />
+            <End Role="Detalle_Medicina" EntitySet="Detalle_Medicina" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cita_Detalle_Servicio" Association="Self.FK_Cita_Detalle_Servicio">
+            <End Role="Cita" EntitySet="Cita" />
+            <End Role="Detalle_Servicio" EntitySet="Detalle_Servicio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cita_Empleado" Association="Self.FK_Cita_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Cita" EntitySet="Cita" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cita_Estado" Association="Self.FK_Cita_Estado">
             <End Role="Estado" EntitySet="Estado" />
-            <End Role="Cita_Medica" EntitySet="Cita_Medica" />
+            <End Role="Cita" EntitySet="Cita" />
           </AssociationSet>
-          <AssociationSet Name="FK_Cita_Medica_Medicina" Association="Self.FK_Cita_Medica_Medicina">
-            <End Role="Medicina" EntitySet="Medicina" />
-            <End Role="Cita_Medica" EntitySet="Cita_Medica" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Cita_Medica_Paciente" Association="Self.FK_Cita_Medica_Paciente">
+          <AssociationSet Name="FK_Cita_Paciente" Association="Self.FK_Cita_Paciente">
             <End Role="Paciente" EntitySet="Paciente" />
-            <End Role="Cita_Medica" EntitySet="Cita_Medica" />
+            <End Role="Cita" EntitySet="Cita" />
           </AssociationSet>
           <AssociationSet Name="FK_Clientea_Estado" Association="Self.FK_Clientea_Estado">
             <End Role="Estado" EntitySet="Estado" />
             <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Detalle_Servicio_Servicio" Association="Self.FK_Detalle_Servicio_Servicio">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Detalle_Servicio" EntitySet="Detalle_Servicio" />
           </AssociationSet>
           <AssociationSet Name="FK_Empleado_Estado" Association="Self.FK_Empleado_Estado">
             <End Role="Estado" EntitySet="Estado" />
@@ -550,10 +659,6 @@
           <AssociationSet Name="FK_Factura_Estado" Association="Self.FK_Factura_Estado">
             <End Role="Estado" EntitySet="Estado" />
             <End Role="Factura" EntitySet="Factura" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Medicina_Estado" Association="Self.FK_Medicina_Estado">
-            <End Role="Estado" EntitySet="Estado" />
-            <End Role="Medicina" EntitySet="Medicina" />
           </AssociationSet>
           <AssociationSet Name="FK_Paciente_Cliente" Association="Self.FK_Paciente_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
@@ -583,8 +688,16 @@
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Detalle_Factura" EntitySet="Detalle_Factura" />
           </AssociationSet>
+          <AssociationSet Name="FK_Producto_Detalle_Medicina" Association="Self.FK_Producto_Detalle_Medicina">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Detalle_Medicina" EntitySet="Detalle_Medicina" />
+          </AssociationSet>
           <AssociationSet Name="FK_Producto_Estado" Association="Self.FK_Producto_Estado">
             <End Role="Estado" EntitySet="Estado" />
+            <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proveedor_Categoria" Association="Self.FK_Proveedor_Categoria">
+            <End Role="Categoria" EntitySet="Categoria" />
             <End Role="Producto" EntitySet="Producto" />
           </AssociationSet>
           <AssociationSet Name="FK_Proveedor_Estado" Association="Self.FK_Proveedor_Estado">
@@ -603,6 +716,10 @@
             <End Role="Estado" EntitySet="Estado" />
             <End Role="Roles" EntitySet="Roles" />
           </AssociationSet>
+          <AssociationSet Name="FK_Servicio_Estado" Association="Self.FK_Servicio_Estado">
+            <End Role="Estado" EntitySet="Estado" />
+            <End Role="Servicio" EntitySet="Servicio" />
+          </AssociationSet>
           <AssociationSet Name="FK_Usuarios_Empleado" Association="Self.FK_Usuarios_Empleado">
             <End Role="Empleado" EntitySet="Empleado" />
             <End Role="Usuarios" EntitySet="Usuarios" />
@@ -616,26 +733,40 @@
             <End Role="Usuarios" EntitySet="Usuarios" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VeterinariaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Cita_Medica">
+        <EntityType Name="Categoria">
           <Key>
-            <PropertyRef Name="Id_Cita_Medica" />
+            <PropertyRef Name="Id_Categoria" />
           </Key>
-          <Property Name="Id_Cita_Medica" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Categoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK_Proveedor_Categoria" FromRole="Categoria" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Cita">
+          <Key>
+            <PropertyRef Name="Id_Cita" />
+          </Key>
+          <Property Name="Id_Cita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="Id_Medicina" Type="Int32" Nullable="false" />
+          <Property Name="Hora_Inico" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Hora_Final" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Estado_Cita" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Id_Cliente" Type="Int32" Nullable="false" />
+          <Property Name="Id_Empleado" Type="Int32" Nullable="false" />
           <Property Name="Id_Paciente" Type="Int32" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="600" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Costo_Total" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Cliente" Relationship="Self.FK_Cita_Medica_Cliente" FromRole="Cita_Medica" ToRole="Cliente" />
-          <NavigationProperty Name="Estado" Relationship="Self.FK_Cita_Medica_Estado" FromRole="Cita_Medica" ToRole="Estado" />
-          <NavigationProperty Name="Medicina" Relationship="Self.FK_Cita_Medica_Medicina" FromRole="Cita_Medica" ToRole="Medicina" />
-          <NavigationProperty Name="Paciente" Relationship="Self.FK_Cita_Medica_Paciente" FromRole="Cita_Medica" ToRole="Paciente" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK_Cita_Cliente" FromRole="Cita" ToRole="Cliente" />
+          <NavigationProperty Name="Detalle_Medicina" Relationship="Self.FK_Cita_Detalle_Medicina" FromRole="Cita" ToRole="Detalle_Medicina" />
+          <NavigationProperty Name="Detalle_Servicio" Relationship="Self.FK_Cita_Detalle_Servicio" FromRole="Cita" ToRole="Detalle_Servicio" />
+          <NavigationProperty Name="Empleado" Relationship="Self.FK_Cita_Empleado" FromRole="Cita" ToRole="Empleado" />
+          <NavigationProperty Name="Estado" Relationship="Self.FK_Cita_Estado" FromRole="Cita" ToRole="Estado" />
+          <NavigationProperty Name="Paciente" Relationship="Self.FK_Cita_Paciente" FromRole="Cita" ToRole="Paciente" />
         </EntityType>
         <EntityType Name="Cliente">
           <Key>
@@ -644,7 +775,7 @@
           <Property Name="Id_Cliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_Persona" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Cita_Medica" Relationship="Self.FK_Cita_Medica_Cliente" FromRole="Cliente" ToRole="Cita_Medica" />
+          <NavigationProperty Name="Cita" Relationship="Self.FK_Cita_Cliente" FromRole="Cliente" ToRole="Cita" />
           <NavigationProperty Name="Estado" Relationship="Self.FK_Clientea_Estado" FromRole="Cliente" ToRole="Estado" />
           <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Cliente" FromRole="Cliente" ToRole="Factura" />
           <NavigationProperty Name="Paciente" Relationship="Self.FK_Paciente_Cliente" FromRole="Cliente" ToRole="Paciente" />
@@ -658,10 +789,34 @@
           <Property Name="Numero_Factura" Type="Int32" Nullable="false" />
           <Property Name="Id_Producto" Type="Int32" Nullable="false" />
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="Precio_Total_Producto" Type="Int32" Nullable="false" />
           <Property Name="Precio_Unitario" Type="Int32" Nullable="false" />
+          <Property Name="Precio_Total_Producto" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Detalle_Factura" FromRole="Detalle_Factura" ToRole="Factura" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Detalle_Factura" FromRole="Detalle_Factura" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Detalle_Medicina">
+          <Key>
+            <PropertyRef Name="Id_Detalle_Medicina" />
+          </Key>
+          <Property Name="Id_Detalle_Medicina" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Cita" Type="Int32" Nullable="false" />
+          <Property Name="Id_Producto" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Precio_Total" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cita" Relationship="Self.FK_Cita_Detalle_Medicina" FromRole="Detalle_Medicina" ToRole="Cita" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Detalle_Medicina" FromRole="Detalle_Medicina" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Detalle_Servicio">
+          <Key>
+            <PropertyRef Name="Id_Detalle_Servicio" />
+          </Key>
+          <Property Name="Id_Detalle_Servicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Cita" Type="Int32" Nullable="false" />
+          <Property Name="Id_Servicio" Type="Int32" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Precio_Total" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cita" Relationship="Self.FK_Cita_Detalle_Servicio" FromRole="Detalle_Servicio" ToRole="Cita" />
+          <NavigationProperty Name="Servicio" Relationship="Self.FK_Detalle_Servicio_Servicio" FromRole="Detalle_Servicio" ToRole="Servicio" />
         </EntityType>
         <EntityType Name="Empleado">
           <Key>
@@ -670,6 +825,7 @@
           <Property Name="Id_Empleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_Persona" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cita" Relationship="Self.FK_Cita_Empleado" FromRole="Empleado" ToRole="Cita" />
           <NavigationProperty Name="Estado" Relationship="Self.FK_Empleado_Estado" FromRole="Empleado" ToRole="Estado" />
           <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Empleado" FromRole="Empleado" ToRole="Factura" />
           <NavigationProperty Name="Persona" Relationship="Self.FK_Persona_Empleado" FromRole="Empleado" ToRole="Persona" />
@@ -681,16 +837,16 @@
           </Key>
           <Property Name="Id_Estado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Cita_Medica" Relationship="Self.FK_Cita_Medica_Estado" FromRole="Estado" ToRole="Cita_Medica" />
+          <NavigationProperty Name="Cita" Relationship="Self.FK_Cita_Estado" FromRole="Estado" ToRole="Cita" />
           <NavigationProperty Name="Cliente" Relationship="Self.FK_Clientea_Estado" FromRole="Estado" ToRole="Cliente" />
           <NavigationProperty Name="Empleado" Relationship="Self.FK_Empleado_Estado" FromRole="Estado" ToRole="Empleado" />
           <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Estado" FromRole="Estado" ToRole="Factura" />
-          <NavigationProperty Name="Medicina" Relationship="Self.FK_Medicina_Estado" FromRole="Estado" ToRole="Medicina" />
           <NavigationProperty Name="Paciente" Relationship="Self.FK_Paciente_Estado" FromRole="Estado" ToRole="Paciente" />
           <NavigationProperty Name="Persona" Relationship="Self.FK_Persona_Estado" FromRole="Estado" ToRole="Persona" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Estado" FromRole="Estado" ToRole="Producto" />
           <NavigationProperty Name="Proveedor" Relationship="Self.FK_Proveedor_Estado" FromRole="Estado" ToRole="Proveedor" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Roles_Estado" FromRole="Estado" ToRole="Roles" />
+          <NavigationProperty Name="Servicio" Relationship="Self.FK_Servicio_Estado" FromRole="Estado" ToRole="Servicio" />
           <NavigationProperty Name="Usuarios" Relationship="Self.FK_Usuarios_Estado" FromRole="Estado" ToRole="Usuarios" />
         </EntityType>
         <EntityType Name="Factura">
@@ -710,16 +866,6 @@
           <NavigationProperty Name="Estado" Relationship="Self.FK_Factura_Estado" FromRole="Factura" ToRole="Estado" />
           <NavigationProperty Name="Proveedor" Relationship="Self.FK_Proveedor_Factura" FromRole="Factura" ToRole="Proveedor" />
         </EntityType>
-        <EntityType Name="Medicina">
-          <Key>
-            <PropertyRef Name="Id_Medicina" />
-          </Key>
-          <Property Name="Id_Medicina" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Cita_Medica" Relationship="Self.FK_Cita_Medica_Medicina" FromRole="Medicina" ToRole="Cita_Medica" />
-          <NavigationProperty Name="Estado" Relationship="Self.FK_Medicina_Estado" FromRole="Medicina" ToRole="Estado" />
-        </EntityType>
         <EntityType Name="Paciente">
           <Key>
             <PropertyRef Name="Id_Paciente" />
@@ -727,15 +873,15 @@
           <Property Name="Id_Paciente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_Cliente" Type="Int32" Nullable="false" />
           <Property Name="Animal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sexo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Raza" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Edad" Type="Int32" Nullable="false" />
           <Property Name="Peso" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Cita_Medica" Relationship="Self.FK_Cita_Medica_Paciente" FromRole="Paciente" ToRole="Cita_Medica" />
+          <NavigationProperty Name="Cita" Relationship="Self.FK_Cita_Paciente" FromRole="Paciente" ToRole="Cita" />
           <NavigationProperty Name="Cliente" Relationship="Self.FK_Paciente_Cliente" FromRole="Paciente" ToRole="Cliente" />
           <NavigationProperty Name="Estado" Relationship="Self.FK_Paciente_Estado" FromRole="Paciente" ToRole="Estado" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Sexo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Persona">
           <Key>
@@ -765,8 +911,11 @@
           <Property Name="Precio" Type="Double" Nullable="false" />
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
           <Property Name="Id_Proveedor" Type="Int32" Nullable="false" />
+          <Property Name="Id_Categoria" Type="Int32" Nullable="false" />
           <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Categoria" Relationship="Self.FK_Proveedor_Categoria" FromRole="Producto" ToRole="Categoria" />
           <NavigationProperty Name="Detalle_Factura" Relationship="Self.FK_Producto_Detalle_Factura" FromRole="Producto" ToRole="Detalle_Factura" />
+          <NavigationProperty Name="Detalle_Medicina" Relationship="Self.FK_Producto_Detalle_Medicina" FromRole="Producto" ToRole="Detalle_Medicina" />
           <NavigationProperty Name="Estado" Relationship="Self.FK_Producto_Estado" FromRole="Producto" ToRole="Estado" />
           <NavigationProperty Name="Proveedor" Relationship="Self.FK_Proveedor_Producto" FromRole="Producto" ToRole="Proveedor" />
         </EntityType>
@@ -795,6 +944,19 @@
           <NavigationProperty Name="Estado" Relationship="Self.FK_Roles_Estado" FromRole="Roles" ToRole="Estado" />
           <NavigationProperty Name="Usuarios" Relationship="Self.FK_Usuarios_Roles" FromRole="Roles" ToRole="Usuarios" />
         </EntityType>
+        <EntityType Name="Servicio">
+          <Key>
+            <PropertyRef Name="Id_Servicio" />
+          </Key>
+          <Property Name="Id_Servicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Detalle" Type="String" MaxLength="600" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Costo" Type="Int32" Nullable="false" />
+          <Property Name="Tiempo" Type="Double" Nullable="false" />
+          <Property Name="Id_Estado" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Detalle_Servicio" Relationship="Self.FK_Detalle_Servicio_Servicio" FromRole="Servicio" ToRole="Detalle_Servicio" />
+          <NavigationProperty Name="Estado" Relationship="Self.FK_Servicio_Estado" FromRole="Servicio" ToRole="Estado" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -820,50 +982,86 @@
           <NavigationProperty Name="Estado" Relationship="Self.FK_Usuarios_Estado" FromRole="Usuarios" ToRole="Estado" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Usuarios_Roles" FromRole="Usuarios" ToRole="Roles" />
         </EntityType>
-        <Association Name="FK_Cita_Medica_Cliente">
+        <Association Name="FK_Proveedor_Categoria">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="Id_Categoria" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="Id_Categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cita_Cliente">
           <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
-          <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cliente">
               <PropertyRef Name="Id_Cliente" />
             </Principal>
-            <Dependent Role="Cita_Medica">
+            <Dependent Role="Cita">
               <PropertyRef Name="Id_Cliente" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Cita_Medica_Estado">
+        <Association Name="FK_Cita_Detalle_Medicina">
+          <End Role="Cita" Type="Self.Cita" Multiplicity="1" />
+          <End Role="Detalle_Medicina" Type="Self.Detalle_Medicina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cita">
+              <PropertyRef Name="Id_Cita" />
+            </Principal>
+            <Dependent Role="Detalle_Medicina">
+              <PropertyRef Name="Id_Cita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cita_Detalle_Servicio">
+          <End Role="Cita" Type="Self.Cita" Multiplicity="1" />
+          <End Role="Detalle_Servicio" Type="Self.Detalle_Servicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cita">
+              <PropertyRef Name="Id_Cita" />
+            </Principal>
+            <Dependent Role="Detalle_Servicio">
+              <PropertyRef Name="Id_Cita" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cita_Empleado">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="Id_Empleado" />
+            </Principal>
+            <Dependent Role="Cita">
+              <PropertyRef Name="Id_Empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cita_Estado">
           <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
-          <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Estado">
               <PropertyRef Name="Id_Estado" />
             </Principal>
-            <Dependent Role="Cita_Medica">
+            <Dependent Role="Cita">
               <PropertyRef Name="Id_Estado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Cita_Medica_Medicina">
-          <End Role="Medicina" Type="Self.Medicina" Multiplicity="1" />
-          <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Medicina">
-              <PropertyRef Name="Id_Medicina" />
-            </Principal>
-            <Dependent Role="Cita_Medica">
-              <PropertyRef Name="Id_Medicina" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Cita_Medica_Paciente">
+        <Association Name="FK_Cita_Paciente">
           <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
-          <End Role="Cita_Medica" Type="Self.Cita_Medica" Multiplicity="*" />
+          <End Role="Cita" Type="Self.Cita" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Paciente">
               <PropertyRef Name="Id_Paciente" />
             </Principal>
-            <Dependent Role="Cita_Medica">
+            <Dependent Role="Cita">
               <PropertyRef Name="Id_Paciente" />
             </Dependent>
           </ReferentialConstraint>
@@ -940,6 +1138,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Producto_Detalle_Medicina">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Detalle_Medicina" Type="Self.Detalle_Medicina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="Id_Producto" />
+            </Principal>
+            <Dependent Role="Detalle_Medicina">
+              <PropertyRef Name="Id_Producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Detalle_Servicio_Servicio">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+          <End Role="Detalle_Servicio" Type="Self.Detalle_Servicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="Id_Servicio" />
+            </Principal>
+            <Dependent Role="Detalle_Servicio">
+              <PropertyRef Name="Id_Servicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Empleado_Estado">
           <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
           <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
@@ -1000,18 +1222,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Medicina_Estado">
-          <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
-          <End Role="Medicina" Type="Self.Medicina" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Estado">
-              <PropertyRef Name="Id_Estado" />
-            </Principal>
-            <Dependent Role="Medicina">
-              <PropertyRef Name="Id_Estado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Paciente_Estado">
           <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
           <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
@@ -1068,6 +1278,18 @@
               <PropertyRef Name="Id_Estado" />
             </Principal>
             <Dependent Role="Roles">
+              <PropertyRef Name="Id_Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Servicio_Estado">
+          <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado">
+              <PropertyRef Name="Id_Estado" />
+            </Principal>
+            <Dependent Role="Servicio">
               <PropertyRef Name="Id_Estado" />
             </Dependent>
           </ReferentialConstraint>
@@ -1133,35 +1355,50 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="VeterinariaEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Cita_Medica" EntityType="Self.Cita_Medica" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" />
+          <EntitySet Name="Cita" EntityType="Self.Cita" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" />
           <EntitySet Name="Detalle_Factura" EntityType="Self.Detalle_Factura" />
+          <EntitySet Name="Detalle_Medicina" EntityType="Self.Detalle_Medicina" />
+          <EntitySet Name="Detalle_Servicio" EntityType="Self.Detalle_Servicio" />
           <EntitySet Name="Empleado" EntityType="Self.Empleado" />
           <EntitySet Name="Estado" EntityType="Self.Estado" />
           <EntitySet Name="Factura" EntityType="Self.Factura" />
-          <EntitySet Name="Medicina" EntityType="Self.Medicina" />
           <EntitySet Name="Paciente" EntityType="Self.Paciente" />
           <EntitySet Name="Persona" EntityType="Self.Persona" />
           <EntitySet Name="Producto" EntityType="Self.Producto" />
           <EntitySet Name="Proveedor" EntityType="Self.Proveedor" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="Servicio" EntityType="Self.Servicio" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
-          <AssociationSet Name="FK_Cita_Medica_Cliente" Association="Self.FK_Cita_Medica_Cliente">
+          <AssociationSet Name="FK_Proveedor_Categoria" Association="Self.FK_Proveedor_Categoria">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cita_Cliente" Association="Self.FK_Cita_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
-            <End Role="Cita_Medica" EntitySet="Cita_Medica" />
+            <End Role="Cita" EntitySet="Cita" />
           </AssociationSet>
-          <AssociationSet Name="FK_Cita_Medica_Estado" Association="Self.FK_Cita_Medica_Estado">
+          <AssociationSet Name="FK_Cita_Detalle_Medicina" Association="Self.FK_Cita_Detalle_Medicina">
+            <End Role="Cita" EntitySet="Cita" />
+            <End Role="Detalle_Medicina" EntitySet="Detalle_Medicina" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cita_Detalle_Servicio" Association="Self.FK_Cita_Detalle_Servicio">
+            <End Role="Cita" EntitySet="Cita" />
+            <End Role="Detalle_Servicio" EntitySet="Detalle_Servicio" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cita_Empleado" Association="Self.FK_Cita_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Cita" EntitySet="Cita" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cita_Estado" Association="Self.FK_Cita_Estado">
             <End Role="Estado" EntitySet="Estado" />
-            <End Role="Cita_Medica" EntitySet="Cita_Medica" />
+            <End Role="Cita" EntitySet="Cita" />
           </AssociationSet>
-          <AssociationSet Name="FK_Cita_Medica_Medicina" Association="Self.FK_Cita_Medica_Medicina">
-            <End Role="Medicina" EntitySet="Medicina" />
-            <End Role="Cita_Medica" EntitySet="Cita_Medica" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Cita_Medica_Paciente" Association="Self.FK_Cita_Medica_Paciente">
+          <AssociationSet Name="FK_Cita_Paciente" Association="Self.FK_Cita_Paciente">
             <End Role="Paciente" EntitySet="Paciente" />
-            <End Role="Cita_Medica" EntitySet="Cita_Medica" />
+            <End Role="Cita" EntitySet="Cita" />
           </AssociationSet>
           <AssociationSet Name="FK_Clientea_Estado" Association="Self.FK_Clientea_Estado">
             <End Role="Estado" EntitySet="Estado" />
@@ -1187,6 +1424,14 @@
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Detalle_Factura" EntitySet="Detalle_Factura" />
           </AssociationSet>
+          <AssociationSet Name="FK_Producto_Detalle_Medicina" Association="Self.FK_Producto_Detalle_Medicina">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Detalle_Medicina" EntitySet="Detalle_Medicina" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Detalle_Servicio_Servicio" Association="Self.FK_Detalle_Servicio_Servicio">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Detalle_Servicio" EntitySet="Detalle_Servicio" />
+          </AssociationSet>
           <AssociationSet Name="FK_Empleado_Estado" Association="Self.FK_Empleado_Estado">
             <End Role="Estado" EntitySet="Estado" />
             <End Role="Empleado" EntitySet="Empleado" />
@@ -1207,10 +1452,6 @@
             <End Role="Estado" EntitySet="Estado" />
             <End Role="Factura" EntitySet="Factura" />
           </AssociationSet>
-          <AssociationSet Name="FK_Medicina_Estado" Association="Self.FK_Medicina_Estado">
-            <End Role="Estado" EntitySet="Estado" />
-            <End Role="Medicina" EntitySet="Medicina" />
-          </AssociationSet>
           <AssociationSet Name="FK_Paciente_Estado" Association="Self.FK_Paciente_Estado">
             <End Role="Estado" EntitySet="Estado" />
             <End Role="Paciente" EntitySet="Paciente" />
@@ -1230,6 +1471,10 @@
           <AssociationSet Name="FK_Roles_Estado" Association="Self.FK_Roles_Estado">
             <End Role="Estado" EntitySet="Estado" />
             <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Servicio_Estado" Association="Self.FK_Servicio_Estado">
+            <End Role="Estado" EntitySet="Estado" />
+            <End Role="Servicio" EntitySet="Servicio" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuarios_Estado" Association="Self.FK_Usuarios_Estado">
             <End Role="Estado" EntitySet="Estado" />
@@ -1299,16 +1544,27 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="VeterinariaModelStoreContainer" CdmEntityContainer="VeterinariaEntities">
-          <EntitySetMapping Name="Cita_Medica">
-            <EntityTypeMapping TypeName="VeterinariaModel.Cita_Medica">
-              <MappingFragment StoreEntitySet="Cita_Medica">
-                <ScalarProperty Name="Id_Cita_Medica" ColumnName="Id_Cita_Medica" />
+          <EntitySetMapping Name="Categoria">
+            <EntityTypeMapping TypeName="VeterinariaModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="Id_Categoria" ColumnName="Id_Categoria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cita">
+            <EntityTypeMapping TypeName="VeterinariaModel.Cita">
+              <MappingFragment StoreEntitySet="Cita">
+                <ScalarProperty Name="Id_Cita" ColumnName="Id_Cita" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Hora" ColumnName="Hora" />
-                <ScalarProperty Name="Id_Medicina" ColumnName="Id_Medicina" />
+                <ScalarProperty Name="Hora_Inico" ColumnName="Hora_Inico" />
+                <ScalarProperty Name="Hora_Final" ColumnName="Hora_Final" />
+                <ScalarProperty Name="Estado_Cita" ColumnName="Estado_Cita" />
                 <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
+                <ScalarProperty Name="Id_Empleado" ColumnName="Id_Empleado" />
                 <ScalarProperty Name="Id_Paciente" ColumnName="Id_Paciente" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Costo_Total" ColumnName="Costo_Total" />
                 <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1329,8 +1585,30 @@
                 <ScalarProperty Name="Numero_Factura" ColumnName="Numero_Factura" />
                 <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="Precio_Total_Producto" ColumnName="Precio_Total_Producto" />
                 <ScalarProperty Name="Precio_Unitario" ColumnName="Precio_Unitario" />
+                <ScalarProperty Name="Precio_Total_Producto" ColumnName="Precio_Total_Producto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Detalle_Medicina">
+            <EntityTypeMapping TypeName="VeterinariaModel.Detalle_Medicina">
+              <MappingFragment StoreEntitySet="Detalle_Medicina">
+                <ScalarProperty Name="Id_Detalle_Medicina" ColumnName="Id_Detalle_Medicina" />
+                <ScalarProperty Name="Id_Cita" ColumnName="Id_Cita" />
+                <ScalarProperty Name="Id_Producto" ColumnName="Id_Producto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio_Total" ColumnName="Precio_Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Detalle_Servicio">
+            <EntityTypeMapping TypeName="VeterinariaModel.Detalle_Servicio">
+              <MappingFragment StoreEntitySet="Detalle_Servicio">
+                <ScalarProperty Name="Id_Detalle_Servicio" ColumnName="Id_Detalle_Servicio" />
+                <ScalarProperty Name="Id_Cita" ColumnName="Id_Cita" />
+                <ScalarProperty Name="Id_Servicio" ColumnName="Id_Servicio" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio_Total" ColumnName="Precio_Total" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1364,23 +1642,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Medicina">
-            <EntityTypeMapping TypeName="VeterinariaModel.Medicina">
-              <MappingFragment StoreEntitySet="Medicina">
-                <ScalarProperty Name="Id_Medicina" ColumnName="Id_Medicina" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Paciente">
             <EntityTypeMapping TypeName="VeterinariaModel.Paciente">
               <MappingFragment StoreEntitySet="Paciente">
-                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Id_Paciente" ColumnName="Id_Paciente" />
                 <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
                 <ScalarProperty Name="Animal" ColumnName="Animal" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
                 <ScalarProperty Name="Raza" ColumnName="Raza" />
                 <ScalarProperty Name="Edad" ColumnName="Edad" />
                 <ScalarProperty Name="Peso" ColumnName="Peso" />
@@ -1412,6 +1681,7 @@
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="Id_Proveedor" ColumnName="Id_Proveedor" />
+                <ScalarProperty Name="Id_Categoria" ColumnName="Id_Categoria" />
                 <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1433,6 +1703,18 @@
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="Id_Rol" ColumnName="Id_Rol" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Servicio">
+            <EntityTypeMapping TypeName="VeterinariaModel.Servicio">
+              <MappingFragment StoreEntitySet="Servicio">
+                <ScalarProperty Name="Id_Servicio" ColumnName="Id_Servicio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+                <ScalarProperty Name="Costo" ColumnName="Costo" />
+                <ScalarProperty Name="Tiempo" ColumnName="Tiempo" />
                 <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
               </MappingFragment>
             </EntityTypeMapping>
