@@ -144,10 +144,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
 
         public ActionResult getReport()
         {
-            List<Producto> productos = new List<Producto>();
-            productos = db.Producto.ToList();
+            List<Producto> productos = db.Producto.ToList();
             ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "productos.rpt"));
+            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "Productos.rpt"));
             rd.SetDataSource(productos);
             Response.Buffer = false;
             Response.ClearContent();

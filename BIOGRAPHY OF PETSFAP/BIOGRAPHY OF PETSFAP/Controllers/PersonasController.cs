@@ -469,7 +469,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         public ActionResult getReport()
         {
             List<Persona> persona = new List<Persona>();
-            persona = db.Persona.ToList();
+            persona = db.Persona.Include(x => x.Empleado).ToList();
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "Empleados.rpt"));
             rd.SetDataSource(persona);

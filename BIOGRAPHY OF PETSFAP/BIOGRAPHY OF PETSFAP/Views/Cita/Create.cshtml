@@ -5,7 +5,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <legend>Citas</legend>
+    <legend>Agregar Citas</legend>
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -75,7 +75,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model._detalle_servicio.Id_Servicio, "Servicio", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownList("Id_Servicio", null, string.Empty, htmlAttributes: new { id = "ddl_Servicios", @class = "form-control" })
+                                @Html.DropDownList("_detalle_servicio.Id_Servicio", null, string.Empty, htmlAttributes: new { id = "ddl_Servicios", @class = "form-control" })
                                 <span id="alerta_Error1" style="color: #a94442;" hidden>Debe seleccionar un Producto</span>
                             </div>
                         </div>
@@ -131,7 +131,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model._detalle_medicina.Producto, "Medicina", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownList("Id_Medicina", null, string.Empty, htmlAttributes: new { id = "ddl_Productos", @class = "form-control" })
+                                @Html.DropDownList("_detalle_medicina.Producto", null, string.Empty, htmlAttributes: new { id = "ddl_Productos", @class = "form-control" })
                                 <span id="alerta_Error1" style="color: #a94442;" hidden>Debe seleccionar un Producto</span>
                             </div>
                         </div>

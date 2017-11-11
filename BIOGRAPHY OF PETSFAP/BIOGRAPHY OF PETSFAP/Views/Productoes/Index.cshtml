@@ -4,7 +4,7 @@
     ViewBag.Title = "Productos";
 }
 <input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Productoes") + "'");" />
-<div><a href="@Url.Action("getReport")" target="_blank" style="color:red">Descargar en PDF</a></div>
+<div><a href="@Url.Action("getReport")" target="_blank" style="color:red">Reporte de Productos</a></div>
 <table class="table" id="tablaProductos">
         <thead>
             <tr>

@@ -1,0 +1,130 @@
+﻿@model BIOGRAPHY_OF_PETSFAP.Models.Factura
+@{
+    ViewBag.Title = "Editar";
+}
+@using (Html.BeginForm("Edit", "Facturas", FormMethod.Post,
+ new { id = "editarFactura" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Editar Factura</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Numero_Factura, new { id = "hdf_numeroFactura" })
+        <div style="float:left; width:50%;">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Empleado, "Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Empleado", null, string.Empty, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Empleado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cliente, "Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Cliente", null, string.Empty, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Cliente, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div style="float:right; width:50%;">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { id = "txt_fechaFactura", @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Precio_Total, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Precio_Total, new { htmlAttributes = new { id = "txt_totalFactura", @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Precio_Total, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <fieldset style="width:100%;display:block;">
+            <legend>Detalles</legend>
+            <div class="alert alert-danger" id="alerta_Error" hidden>
+                <strong>Debe llenar todos los campos</strong>
+            </div>
+            <div class="alert alert-danger" id="alerta_Error1" hidden>
+                <strong>Debe seleccionar un Producto</strong>
+            </div>
+            <div class="form-group">
+                <div>
+                    <div style="float:left;width:50%;">
+                        <div class="form-group">
+                            @Html.Label("Producto", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("Id_Producto", null, string.Empty, htmlAttributes: new { id = "ddl_Productos", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Precio Unitario", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Label("0", htmlAttributes: new { id = "lbl_precioUnitario", @class = "control-label col-md-2" })
+                            </div>
+                        </div>
+                    </div>
+                    <div style="float:right;width:50%;">
+                        <div class="form-group">
+                            @Html.Label("Cantidad", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Editor("txt_cantidad", new { htmlAttributes = new { id = "txt_cantidad", @class = "form-control" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Precio Total Producto", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Label("0", htmlAttributes: new { id = "lbl_totalProducto", @class = "control-label col-md-2" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display:block;width:100%;">
+                    <div class="form-group">
+                        <input type="button" class="btn btn-success" value="Agregar Detalle" id="addRow" /> |
+                        <input type="button" class="btn btn-warning" value="Eliminar Detalle" id="removeRow" />
+                    </div>
+                    <table id="tablaFactura">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>@Html.DisplayName("Producto")</th>
+                                <th>@Html.DisplayName("Cantidad")</th>
+                                <th>@Html.DisplayName("Precio Unitario")</th>
+                                <th>@Html.DisplayName("Precio Total Producto")</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="Id_Producto"></td>
+                                <td id="Producto"></td>
+                                <td id="Cantidad"></td>
+                                <td id="Precio_Unitario"></td>
+                                <td id="Precio_Total_Producto"></td>
+                                <td id="Id_Detalle"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <div style="margin-right:25%; float:left">
+                <input type="button" value="Agregar" class="btn btn-success" id="addFactura" />
+            </div>
+            <div style="float:left;">
+                <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Facturas") + "'");" />
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/Facturas/Edit.js"></script>

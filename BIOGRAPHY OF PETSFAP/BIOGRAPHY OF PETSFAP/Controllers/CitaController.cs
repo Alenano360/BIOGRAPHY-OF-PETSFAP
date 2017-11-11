@@ -13,17 +13,22 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
     public class CitaController : Controller
     {
         private VeterinariaEntities db = new VeterinariaEntities();
+        public static List<Detalle_Medicina> listMedicina = new List<Detalle_Medicina>();
+        public static List<Detalle_Medicina> listaMedicina = new List<Detalle_Medicina>();
+        public static List<Detalle_Servicio> listServicio = new List<Detalle_Servicio>();
+        public static List<Detalle_Servicio> listaServicio = new List<Detalle_Servicio>();
         // GET: Cita
         public ActionResult Index()
         {
-            try { 
-            ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
-            var cita = db.Cita.Include(c => c.Cliente).Include(c => c.Estado).Include(c => c.Detalle_Medicina).Include(c => c.Detalle_Servicio).Include(c => c.Paciente).Where(x => x.Id_Estado == 1);
-            return View(cita.ToList());
+            try
+            {
+                ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
+                var cita = db.Cita.Include(c => c.Cliente).Include(c => c.Estado).Include(c => c.Detalle_Medicina).Include(c => c.Detalle_Servicio).Include(c => c.Paciente).Where(x => x.Id_Estado == 1);
+                return View(cita.ToList());
             }
             catch (Exception)
             {
-                ViewBag.Exception="Error al cargas las citas.";
+                ViewBag.Exception = "Error al cargas las citas.";
                 return View();
             }
         }
@@ -35,43 +40,79 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Cita.Find(id);
+            Cita cita = db.Cita.FirstOrDefault(x => x.Id_Cita == id);
+            var detalleMedicina = db.Detalle_Medicina.Include(f => f.Producto).Where(m => m.Id_Cita == id);
+            listaMedicina = null;
+            listaMedicina = detalleMedicina.ToList();
+            var detalleServicio = db.Detalle_Servicio.Include(f => f.Servicio).Where(m => m.Id_Cita == id);
+            listaServicio = null;
+            listaServicio = detalleServicio.ToList();
             if (cita == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita.Id_Cliente);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita.Id_Empleado);
+            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "NombreCompleto", cita.Id_Paciente);
             return View(cita);
         }
 
         // GET: Cita/Create
         public ActionResult Create()
         {
-            ViewData["_cita.Id_Cliente"]= new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto");
+            ViewData["_cita.Id_Cliente"] = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto");
             ViewData["_cita.Id_Empleado"] = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto");
-            ViewData["Id_Medicina"] = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
+            ViewData["_detalle_medicina.Producto"] = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
             ViewData["_cita.Id_Paciente"] = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "PacienteCompleto");
-            ViewData["Id_Servicio"] = new SelectList(db.Servicio.Where(x => x.Id_Estado == 1), "Id_Servicio", "Nombre");
+            ViewData["_detalle_servicio.Id_Servicio"] = new SelectList(db.Servicio.Where(x => x.Id_Estado == 1), "Id_Servicio", "Nombre");
             return View();
         }
 
         // POST: Cita/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Cita cita)
+        public ActionResult Create(Cita_Medica_Poco cita_Medicina_Poco)
         {
             if (ModelState.IsValid)
             {
-                cita.Id_Estado = 1;
+                Cita cita = new Cita
+                {
+                    Costo_Total = cita_Medicina_Poco._cita.Costo_Total,
+                    Descripcion = cita_Medicina_Poco._cita.Descripcion,
+                    Estado_Cita = cita_Medicina_Poco._cita.Estado_Cita,
+                    Fecha = cita_Medicina_Poco._cita.Fecha,
+                    Hora_Final = cita_Medicina_Poco._cita.Hora_Final,
+                    Hora_Inico = cita_Medicina_Poco._cita.Hora_Inico,
+                    Id_Cliente = cita_Medicina_Poco._cita.Id_Cliente,
+                    Id_Empleado = cita_Medicina_Poco._cita.Id_Empleado,
+                    Id_Paciente = cita_Medicina_Poco._cita.Id_Paciente,
+                    Id_Estado = 1
+                };
                 db.Cita.Add(cita);
+                db.SaveChanges();
+                foreach (Detalle_Medicina detalle in listMedicina)
+                {
+                    detalle.Id_Cita = cita.Id_Cita;
+                    db.Detalle_Medicina.Add(detalle);
+                    var producto = db.Producto.FirstOrDefault(x => x.Id_Producto == detalle.Id_Producto);
+                    producto.Cantidad -= detalle.Cantidad;
+                    db.Entry(producto).State = EntityState.Modified;
+                }
+                db.SaveChanges();
+                foreach (Detalle_Servicio detalle in listServicio)
+                {
+                    detalle.Id_Cita = cita.Id_Cita;
+                    db.Detalle_Servicio.Add(detalle);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["_cita.Id_Cliente"] = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita.Id_Cliente);
-            ViewData["_cita.Id_Empleado"] = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita.Id_Empleado);
-            ViewData["Id_Medicina"] = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
-            ViewData["_cita.Id_Paciente"] = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "PacienteCompleto", cita.Id_Paciente);
-            ViewData["Id_Servicio"] = new SelectList(db.Servicio.Where(x => x.Id_Estado == 1), "Id_Servicio", "Nombre");
-            return View(cita);
+            ViewData["_cita.Id_Cliente"] = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita_Medicina_Poco._cita.Id_Cliente);
+            ViewData["_cita.Id_Empleado"] = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita_Medicina_Poco._cita.Id_Empleado);
+            ViewData["_detalle_medicina.Producto"] = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
+            ViewData["_cita.Id_Paciente"] = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "PacienteCompleto", cita_Medicina_Poco._cita.Id_Paciente);
+            ViewData["_detalle_servicio.Id_Servicio"] = new SelectList(db.Servicio.Where(x => x.Id_Estado == 1), "Id_Servicio", "Nombre");
+            return View(cita_Medicina_Poco);
         }
 
         // GET: Cita/Edit/5
@@ -81,16 +122,20 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Cita.Find(id);
+            Cita cita = db.Cita.FirstOrDefault(x => x.Id_Cita == id);
+            var detalleMedicina = db.Detalle_Medicina.Include(f => f.Producto).Where(m => m.Id_Cita == id);
+            listaMedicina = null;
+            listaMedicina = detalleMedicina.ToList();
+            var detalleServicio = db.Detalle_Servicio.Include(f => f.Servicio).Where(m => m.Id_Cita == id);
+            listaServicio = null;
+            listaServicio = detalleServicio.ToList();
             if (cita == null)
             {
                 return HttpNotFound();
             }
-            ViewData["_cita.Id_Cliente"] = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita.Id_Cliente);
-            ViewData["_cita.Id_Empleado"] = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita.Id_Empleado);
-            ViewData["Id_Medicina"] = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
-            ViewData["_cita.Id_Paciente"] = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "PacienteCompleto", cita.Id_Paciente);
-            ViewData["Id_Servicio"] = new SelectList(db.Servicio.Where(x => x.Id_Estado == 1), "Id_Servicio", "Nombre");
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita.Id_Cliente);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita.Id_Empleado);
+            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "NombreCompleto", cita.Id_Paciente);
             return View(cita);
         }
 
@@ -99,19 +144,98 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Cita cita)
         {
-            if (ModelState.IsValid)
-            {
-                cita.Id_Estado = 1;
-                db.Entry(cita).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewData["_cita.Id_Cliente"] = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita.Id_Cliente);
-            ViewData["_cita.Id_Empleado"] = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita.Id_Empleado);
-            ViewData["Id_Medicina"] = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
-            ViewData["_cita.Id_Paciente"] = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "PacienteCompleto", cita.Id_Paciente);
-            ViewData["Id_Servicio"] = new SelectList(db.Servicio.Where(x => x.Id_Estado == 1), "Id_Servicio", "Nombre");
+            try {
+                if (ModelState.IsValid)
+                {
+                    var citaEdit = db.Cita.FirstOrDefault(x => x.Id_Cita == cita.Id_Cita);
+                    citaEdit.Id_Empleado = cita.Id_Empleado;
+                    citaEdit.Costo_Total = cita.Costo_Total;
+                    citaEdit.Descripcion = cita.Descripcion;
+                    citaEdit.Estado_Cita = citaEdit.Estado_Cita;
+                    citaEdit.Fecha = cita.Fecha;
+                    citaEdit.Hora_Final = cita.Hora_Final;
+                    citaEdit.Hora_Inico = cita.Hora_Inico;
+                    citaEdit.Id_Cliente = cita.Id_Cliente;
+                    citaEdit.Id_Paciente = cita.Id_Paciente;
+                    citaEdit.Id_Estado = 1;
+                    db.Entry(citaEdit).State = EntityState.Modified;
+                    List<int> listaMedicinaBaseDatos = listaMedicina.Select(x => x.Id_Detalle_Medicina).ToList();
+                    List<int> listaMedicinaDataTable = listMedicina.Select(x => x.Id_Detalle_Medicina).ToList();
+                    List<int> listaServicioBaseDatos = listaServicio.Select(x => x.Id_Detalle_Servicio).ToList();
+                    List<int> listaServicioDataTable = listServicio.Select(x => x.Id_Detalle_Servicio).ToList();
+                    var nuevosMedicina = listaMedicinaDataTable.Where(x => !listaMedicinaBaseDatos.Contains(x));
+                    var eliminadosMedicina = listaMedicinaBaseDatos.Where(x => !listaMedicinaDataTable.Contains(x));
+                    var editadosMedicina = listaMedicinaDataTable.Where(x => listaMedicinaBaseDatos.Contains(x));
+                    var nuevosServicio = listaServicioDataTable.Where(x => !listaServicioBaseDatos.Contains(x));
+                    var eliminadosServicio = listaServicioBaseDatos.Where(x => !listaServicioDataTable.Contains(x));
+                    var editadosServicio = listaServicioDataTable.Where(x => listaServicioBaseDatos.Contains(x));
+                    foreach (Detalle_Medicina detalleMedicina in listMedicina)
+	                {
+		                if (nuevosMedicina.Contains(detalleMedicina.Id_Detalle_Medicina))
+	                    {
+		                    Detalle_Medicina newdetalleMedicina = new Detalle_Medicina{
+                                Id_Detalle_Medicina=detalleMedicina.Id_Detalle_Medicina,
+                                Cantidad=detalleMedicina.Cantidad,
+                                Id_Producto=detalleMedicina.Id_Producto,
+                                Precio_Total=detalleMedicina.Precio_Total
+                            };
+                            db.Detalle_Medicina.Add(newdetalleMedicina);
+	                    }else if(editadosMedicina.Contains(detalleMedicina.Id_Detalle_Medicina)){
+                            var editMedicina = db.Detalle_Medicina.FirstOrDefault(x=>x.Id_Detalle_Medicina==detalleMedicina.Id_Detalle_Medicina);
+                            editMedicina.Cantidad=detalleMedicina.Cantidad;
+                            editMedicina.Id_Cita=detalleMedicina.Id_Cita;
+                            editMedicina.Id_Detalle_Medicina=detalleMedicina.Id_Detalle_Medicina;
+                            editMedicina.Id_Producto=detalleMedicina.Id_Producto;
+                            editMedicina.Precio_Total=detalleMedicina.Precio_Total;
+                            db.Entry(editMedicina).State=EntityState.Modified;
+                        }
+	                }
+                    foreach(Detalle_Medicina detalleMedicina in listaMedicina){
+                        if(eliminadosMedicina.Contains(detalleMedicina.Id_Detalle_Medicina)){
+                            var deleteMedicina = db.Detalle_Medicina.FirstOrDefault(x=>x.Id_Detalle_Medicina==detalleMedicina.Id_Detalle_Medicina);
+                            db.Detalle_Medicina.Remove(detalleMedicina);
+                        }
+                    }
 
+                    foreach (Detalle_Servicio detalleServicio in listServicio)
+                    {
+                        if (nuevosServicio.Contains(detalleServicio.Id_Detalle_Servicio))
+                        {
+                            Detalle_Servicio newdetalleServicio = new Detalle_Servicio
+                            {
+                                Id_Detalle_Servicio = detalleServicio.Id_Detalle_Servicio,
+                                Cantidad = detalleServicio.Cantidad,
+                                Id_Servicio = detalleServicio.Id_Servicio,
+                                Precio_Total = detalleServicio.Precio_Total
+                            };
+                            db.Detalle_Servicio.Add(newdetalleServicio);
+                        }
+                        else if (editadosServicio.Contains(detalleServicio.Id_Detalle_Servicio))
+                        {
+                            var editServicio = db.Detalle_Servicio.FirstOrDefault(x => x.Id_Detalle_Servicio == detalleServicio.Id_Detalle_Servicio);
+                            editServicio.Cantidad = detalleServicio.Cantidad;
+                            editServicio.Id_Cita = detalleServicio.Id_Cita;
+                            editServicio.Id_Detalle_Servicio = detalleServicio.Id_Detalle_Servicio;
+                            editServicio.Id_Servicio = detalleServicio.Id_Servicio;
+                            editServicio.Precio_Total = detalleServicio.Precio_Total;
+                            db.Entry(editServicio).State = EntityState.Modified;
+                        }
+                    }
+                    foreach (Detalle_Servicio detalleServicio in listaServicio)
+                    {
+                        if (eliminadosServicio.Contains(detalleServicio.Id_Detalle_Servicio))
+                        {
+                            var deleteServicio = db.Detalle_Servicio.FirstOrDefault(x => x.Id_Detalle_Servicio == detalleServicio.Id_Detalle_Servicio);
+                            db.Detalle_Servicio.Remove(detalleServicio);
+                        }
+                    }
+                     db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex) {
+             Response.Write("<script>alert('" + Server.HtmlEncode(ex.ToString()) + "')</script>");
+            }
             return View(cita);
         }
 
@@ -122,11 +246,20 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Cita.Find(id);
+            Cita cita = db.Cita.FirstOrDefault(x => x.Id_Cita == id);
+            var detalleMedicina = db.Detalle_Medicina.Include(f => f.Producto).Where(m => m.Id_Cita == id);
+            listaMedicina = null;
+            listaMedicina = detalleMedicina.ToList();
+            var detalleServicio = db.Detalle_Servicio.Include(f => f.Servicio).Where(m => m.Id_Cita == id);
+            listaServicio = null;
+            listaServicio = detalleServicio.ToList();
             if (cita == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita.Id_Cliente);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita.Id_Empleado);
+            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "NombreCompleto", cita.Id_Paciente);
             return View(cita);
         }
 
@@ -135,8 +268,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Cita cita = db.Cita.Find(id);
-            if(cita.Id_Estado==1)
+            Cita cita = db.Cita.FirstOrDefault(x => x.Id_Cita == id);
+            if (cita.Id_Estado == 1)
             {
                 cita.Id_Estado = 2;
                 db.Entry(cita).State = EntityState.Modified;

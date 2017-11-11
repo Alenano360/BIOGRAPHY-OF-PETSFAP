@@ -19,14 +19,20 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         private VeterinariaEntities db = new VeterinariaEntities();
         public static List<Detalle_Factura> listDetalles = new List<Detalle_Factura>();
         public static List<Detalle_Factura> listaDetalles = new List<Detalle_Factura>();
-        IEnumerable<string> listaCategorias = new List<string>() { "Medicina", "Producto" };
 
         // GET: Facturas
         public ActionResult Index()
         {
+            try { 
             var factura = db.Factura.Include(f => f.Cliente).Include(f => f.Empleado).Include(f => f.Estado).Include(f => f.Proveedor).Include(f => f.Detalle_Factura).Where(x => x.Id_Estado == 1);
             ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
             return View(factura.ToList());
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargas las Facturas.";
+                return View();
+            }
         }
 
         // GET: Facturas/Details/5
@@ -43,7 +49,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
-            ViewBag.Categoria = new SelectList(listaCategorias);
             return View(factura);
         }
 
@@ -54,7 +59,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             ViewData["_factura.Id_Empleado"] = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto");
             ViewData["_factura.Id_Proveedor"] = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto");
             ViewBag.Id_Producto = new SelectList(db.Producto.Include(x => x.Categoria).Where(x => x.Categoria.Nombre.Equals("Producto")).Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
-            ViewBag.Categoria = listaCategorias;
             return View();
         }
 
@@ -106,7 +110,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
             ViewBag.Id_Producto = new SelectList(db.Producto.Where(x => x.Id_Estado == 1).Where(x => x.Categoria.Nombre.Equals("Producto")), "Id_Producto", "Nombre");
-            factura.Fecha.ToString("dd/MM/yyyy");
             return View(factura);
         }
 
@@ -191,7 +194,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             var detalle = db.Detalle_Factura.Include(f => f.Producto).Where(m => m.Numero_Factura == id);
             listaDetalles = null;
             listaDetalles = detalle.ToList();
-            ViewBag.Categoria = listaCategorias;
             ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", factura.Id_Cliente);
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
@@ -275,7 +277,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         public ActionResult getReport()
         {
             List<Factura> factura = new List<Factura>();
-            factura = db.Factura.Include(x => x.Detalle_Factura).Include(x => x.Cliente).Include(x => x.Empleado).ToList(); 
+            factura = db.Factura.Include(x => x.Detalle_Factura).Include(x => x.Cliente).Include(x => x.Empleado).ToList();
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "Facturas.rpt"));
             rd.SetDataSource(factura);

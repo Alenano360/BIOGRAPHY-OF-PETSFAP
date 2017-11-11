@@ -1,0 +1,94 @@
+﻿@model BIOGRAPHY_OF_PETSFAP.Models.Tipo_Persona
+@{
+    ViewBag.Title = "Eliminar";
+}
+<h3>Esta seguro de que quiere eliminar esto?</h3>
+<div>
+    <h4>Eliminar Personas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model._persona.Nombre)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._persona.Nombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model._persona.Apellidos)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._persona.Apellidos)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model._persona.Direccion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._persona.Direccion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model._persona.Telefono)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._persona.Telefono)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model._persona.Cliente)
+        </dt>
+        <dd>
+            @{
+                if (Model._persona.Chk_Cliente)
+                {
+                    <label>Si</label>
+                }
+                else
+                {
+                    <label>No</label>
+                }
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model._persona.Empleado)
+        </dt>
+        <dd>
+            @{
+                if (Model._persona.Chk_Empleado)
+                {
+                    <label>Si</label>
+                }
+                else
+                {
+                    <label>No</label>
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model._persona.Proveedor)
+        </dt>
+        <dd>
+            @{
+                if (Model._persona.Chk_Proveedor)
+                {
+                    <label>Si</label>
+                <dt>@Html.DisplayNameFor(model => model._proveedor.Nombre_Empresa)</dt>
+                <dd>@Html.DisplayFor(model => model._proveedor.Nombre_Empresa)</dd>
+                <dt>@Html.DisplayNameFor(model => model._proveedor.Telefono_Empresa)</dt>
+                <dd>@Html.DisplayFor(model => model._proveedor.Telefono_Empresa)</dd>
+                <dt>@Html.DisplayNameFor(model => model._proveedor.Direccion_Empresa)</dt>
+                <dd>@Html.DisplayFor(model => model._proveedor.Direccion_Empresa)</dd>
+                }
+                else
+                {
+                    <label>No</label>
+                }
+}
+            <dd />
+        </dl>
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+    <div class="form-actions no-color">
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
+    </div>
+    }
+</div>
