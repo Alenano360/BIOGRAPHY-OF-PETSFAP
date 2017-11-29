@@ -5,6 +5,9 @@
 
 <input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Personas") + "'");" />
 <div><a href="@Url.Action("getReport")" target="_blank" style="color:red">Descargar Planilla en PDF</a></div>
+<hr />
+<span style="color: #a94442;">@ViewBag.Exception</span>
+<hr />
 <table class="table" id="tablaPersonas">
     <thead>
         <tr>

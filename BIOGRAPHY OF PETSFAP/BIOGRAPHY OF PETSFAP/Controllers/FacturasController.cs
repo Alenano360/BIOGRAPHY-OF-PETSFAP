@@ -30,7 +30,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             catch (Exception)
             {
-                ViewBag.Exception = "Error al cargas las Facturas.";
+                ViewBag.Exception = "Error al cargar las Facturas.";
                 return View();
             }
         }
@@ -38,6 +38,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Facturas/Details/5
         public ActionResult Details(int? id)
         {
+            try{
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -50,6 +51,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
             return View(factura);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar los datos de la Factura.";
+                return View();
+            }
         }
 
         // GET: Facturas/Create
@@ -67,6 +74,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Facturacion_Poco factura_poco)
         {
+            try { 
             if (ModelState.IsValid)
             {
                 Factura factura = new Factura
@@ -93,11 +101,18 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return RedirectToAction("Index");
             }
             return View(factura_poco);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al crear la Factura.";
+                return View();
+            }
         }
 
         // GET: Facturas/Edit/5
         public ActionResult Edit(int? id)
         {
+            try{
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -111,6 +126,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
             ViewBag.Id_Producto = new SelectList(db.Producto.Where(x => x.Id_Estado == 1).Where(x => x.Categoria.Nombre.Equals("Producto")), "Id_Producto", "Nombre");
             return View(factura);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar los datos de la Factura.";
+                return View();
+            }
         }
 
 
@@ -181,11 +202,13 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 Response.Write("<script>alert('" + Server.HtmlEncode(ex.ToString()) + "')</script>");
             }
             return View(factura);
+
         }
 
         // GET: Facturas/Delete/5
         public ActionResult Delete(int? id)
         {
+            try{
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -198,12 +221,19 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", factura.Id_Empleado);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", factura.Id_Proveedor);
             return View(factura);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar los datos de la Factura.";
+                return View();
+            }
         }
         // POST: Facturas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            try{
             Factura factura = db.Factura.FirstOrDefault(x => x.Numero_Factura == id);
             if (factura.Id_Estado == 1)
             {
@@ -212,6 +242,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al eliminar la Factura.";
+                return View();
+            }
         }
         protected override void Dispose(bool disposing)
         {

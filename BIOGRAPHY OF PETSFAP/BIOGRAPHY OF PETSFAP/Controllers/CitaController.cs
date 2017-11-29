@@ -7,6 +7,10 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
+using Newtonsoft.Json;
+using BIOGRAPHY_OF_PETSFAP.Class;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
@@ -53,7 +57,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita.Id_Cliente);
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita.Id_Empleado);
-            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "NombreCompleto", cita.Id_Paciente);
+            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "PacienteCompleto", cita.Id_Paciente);
             return View(cita);
         }
 
@@ -135,7 +139,10 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita.Id_Cliente);
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita.Id_Empleado);
-            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "NombreCompleto", cita.Id_Paciente);
+            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "PacienteCompleto", cita.Id_Paciente);
+            ViewBag.Id_Servicio = new SelectList(db.Servicio.Where(x => x.Id_Estado == 1), "Id_Servicio", "Nombre");
+            ViewBag.Id_Medicina = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
+
             return View(cita);
         }
 
@@ -259,7 +266,8 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita.Id_Cliente);
             ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita.Id_Empleado);
-            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "NombreCompleto", cita.Id_Paciente);
+            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "PacienteCompleto", cita.Id_Paciente);
+
             return View(cita);
         }
 
@@ -285,6 +293,58 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [System.Web.Services.WebMethod]
+        public string SelectPrecioServicio(int id)
+        {
+            var precio = db.Servicio.Where(x => x.Id_Servicio == id).Select(x => x.Costo).FirstOrDefault();
+            return Convert.ToString(precio);
+
+        }
+        [System.Web.Services.WebMethod]
+        public string DetalleServicio(string rows)
+        {
+            try
+            {
+                var detalles = JsonConvert.DeserializeObject<List<Detalle_Servicio>>(rows);
+                listServicio = detalles;
+                return "ok";
+            }
+            catch (Exception)
+            {
+                return "error";
+            }
+        }
+        [System.Web.Services.WebMethod]
+        public string setJson()
+        {
+            List<Detalle_Servicio> rows = listaServicio;
+            string json = "[";
+
+            for (int i = 0, len = rows.Count; i < len; i++)
+            {
+                if (i == 0)
+                {
+                    json += "['" + rows[i].Id_Servicio + "'" +
+                    ",'" + rows[i].Servicio.Nombre + "'" +
+                    ",'" + rows[i].Cantidad + "'" +
+                    ",'" + rows[i].Servicio.Costo + "'" +
+                    ",'" + rows[i].Precio_Total + "'" +
+                    ",'" + rows[i].Id_Detalle_Servicio + "']";
+                }
+                else
+                {
+                    json += ",['" + rows[i].Id_Servicio + "'" +
+                    ",'" + rows[i].Servicio.Nombre + "'" +
+                    ",'" + rows[i].Cantidad + "'" +
+                    ",'" + rows[i].Servicio.Costo + "'" +
+                    ",'" + rows[i].Precio_Total + "'" +
+                    ",'" + rows[i].Id_Detalle_Servicio + "']";
+                }
+            }
+            json += ']';
+            return json;
         }
     }
 }

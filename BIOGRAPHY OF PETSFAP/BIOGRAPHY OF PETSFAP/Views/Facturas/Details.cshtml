@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Detalle";
 }
-<h4>Detalle Factura</h4>
+<legend>Detalle Factura</legend>
+<span style="color: #a94442;">@ViewBag.Exception</span>
+
 @using (Html.BeginForm("Details", "Detalle Factura", FormMethod.Post,
  new { id = "detalleFactura" }))
 {

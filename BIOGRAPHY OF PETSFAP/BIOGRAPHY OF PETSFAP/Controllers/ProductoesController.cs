@@ -19,15 +19,23 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Productoes
         public ActionResult Index()
         {
+            try{
             var producto = db.Producto.Include(p => p.Estado).Include(p => p.Proveedor).Include(p => p.Categoria).Where(x => x.Id_Estado == 1);
             ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
             return View(producto.ToList());
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar los Productos.";
+                return View();
+            }
            
         }
 
         // GET: Productoes/Details/5
         public ActionResult Details(int? id)
         {
+            try{
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -38,6 +46,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return HttpNotFound();
             }
             return View(producto);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar los Productos.";
+                return View();
+            }
         }
 
         // GET: Productoes/Create
@@ -45,7 +59,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto");
             ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre");
-
             return View();
         }
 
@@ -54,6 +67,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Producto producto)
         {
+            try{
             if (ModelState.IsValid)
             {
                 producto.Id_Estado = 1;
@@ -64,11 +78,19 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
             ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
             return View(producto);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al crear los Productos.";
+                return View();
+            }
+
         }
 
         // GET: Productoes/Edit/5
         public ActionResult Edit(int? id)
         {
+            try{
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -81,15 +103,20 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
             return View(producto);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar los datos del Porducto.";
+                return View();
+            }
         }
 
         // POST: Productoes/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Producto producto)
         {
+            try{
             if (ModelState.IsValid)
             {
                 producto.Id_Estado = 1;
@@ -97,14 +124,26 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            //else
+            //{
+            //    ViewBag.Exception = "Error. El modelo de Producto no es valido.";
+            //    return View();
+            //}
             ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
             ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
             return View(producto);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al Editar el Porducto.";
+                return View();
+            }
         }
 
         // GET: Productoes/Delete/5
         public ActionResult Delete(int? id)
         {
+            try{
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -115,6 +154,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return HttpNotFound();
             }
             return View(producto);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar los datos del Porducto.";
+                return View();
+            }
         }
 
         // POST: Productoes/Delete/5
@@ -122,6 +167,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            try{
             Producto productos = db.Producto.Find(id);
             if (productos.Id_Estado == 1)
             {
@@ -131,6 +177,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             
             return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al Eliminar el Porducto.";
+                return View();
+            }
         }
 
         protected override void Dispose(bool disposing)

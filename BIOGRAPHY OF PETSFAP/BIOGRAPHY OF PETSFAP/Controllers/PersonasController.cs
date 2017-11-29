@@ -17,21 +17,27 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
     public class PersonasController : Controller
     {
         private IEnumerable<Persona> ListaPersona;
-        //private IEnumerable<Tipo_Persona> ListaTipoPersona;
         private VeterinariaEntities db = new VeterinariaEntities();
 
         // GET: Personas
         public ActionResult Index()
         {
-
+            try{
             ListaPersona = db.Persona.Include(c => c.Cliente).Include(c => c.Estado).Include(c => c.Empleado).Include(c => c.Proveedor).Where(x => x.Id_Estado == 1);
             ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
             return View(ListaPersona);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar las Personas.";
+                return View();
+            }
         }
 
         // GET: Personas/Details/5
         public ActionResult Details(int? id)
         {
+            try { 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -101,6 +107,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
 
             return View(tipo_persona);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar los datos de la Persona.";
+                return View();
+            }
         }
 
         //GET: Personas/Create
@@ -114,6 +126,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Tipo_Persona tipo_persona)
         {
+            try { 
             if (ModelState.IsValid)
             {
                 Persona personaObj = new Persona
@@ -166,11 +179,18 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return RedirectToAction("Index");
             }
             return View(tipo_persona);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al crear la Persona.";
+                return View();
+            }
         }
 
         //GET: Personas/Edit/5
         public ActionResult Edit(int? id)
         {
+            try{
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -240,11 +260,15 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
 
             return View(tipo_persona);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar los datos de la Persona.";
+                return View();
+            }
         }
 
         // POST: Personas/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         /// <summary>
         /// 
         /// </summary>
@@ -256,6 +280,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         {
             //if (ModelState.IsValid)
             //{
+            try { 
                 Persona persona = db.Persona.FirstOrDefault(x => x.Id_Persona == tipo_persona._persona.Id_Persona);
                     persona.Id_Persona = tipo_persona._persona.Id_Persona;
                     persona.Nombre = tipo_persona._persona.Nombre;
@@ -338,11 +363,18 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             //}
 
             //return View(tipo_persona);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al editar la Persona.";
+                return View();
+            }
         }
 
         // GET: Personas/Delete/5
         public ActionResult Delete(int? id)
         {
+            try { 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -409,6 +441,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return HttpNotFound();
             }
             return View(tipo_persona);
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al cargar los datos de la Persona.";
+                return View();
+            }
         }
 
         // POST: Personas/Delete/5
@@ -416,6 +454,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            try { 
             Persona persona = db.Persona.FirstOrDefault(x => x.Id_Persona == id);
             if (persona!=null)
             {
@@ -456,6 +495,12 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             
             db.SaveChanges();
             return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                ViewBag.Exception = "Error al eliminar la Persona.";
+                return View();
+            }
         }
 
         protected override void Dispose(bool disposing)

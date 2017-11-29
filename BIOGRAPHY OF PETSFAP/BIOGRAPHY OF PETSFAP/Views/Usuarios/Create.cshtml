@@ -5,6 +5,10 @@
 @using (Html.BeginForm("Create", "Usuarios", FormMethod.Post,
  new { id = "crearUsuario" }))
 {
+    <legend>Crear Servicio</legend>
+    <hr />
+    <span style="color: #a94442;">@ViewBag.Exception</span>
+    <hr />
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
         <h4>Agregar Usuarios</h4>
@@ -41,7 +45,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Id_Rol, "Rol", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Id_Rol", null,htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("Id_Rol", null, htmlAttributes: new { @class = "form-control" })
                 <span id="Rol-error" style="color: #a94442;" hidden></span>
             </div>
         </div>
@@ -51,10 +55,10 @@
                     <input type="submit" value="Agregar" class="btn btn-success" />
                 </div>
                 <div style="float:left;">
-                    <input type="button" class="btn btn-primary"  value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Usuarios") + "'");" />
+                    <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Usuarios") + "'");" />
                 </div>
+            </div>
         </div>
-    </div>
     </div>
 }
 @section Scripts {

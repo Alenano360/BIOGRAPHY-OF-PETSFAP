@@ -6,7 +6,8 @@
  new { id = "crearFactura" }))
 {
     @Html.AntiForgeryToken()
-    <legend>Factura</legend>
+    <legend>Crear Factura</legend>
+    <span style="color: #a94442;">@ViewBag.Exception</span>
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div style="float:left; width:50%;">

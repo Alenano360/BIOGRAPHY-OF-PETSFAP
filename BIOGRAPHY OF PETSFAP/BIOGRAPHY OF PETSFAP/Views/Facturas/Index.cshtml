@@ -5,7 +5,9 @@
 <div><a href="@Url.Action("getReport")" target="_blank" style="color:red">Descargar Factura en PDF</a></div> 
 <div><a href="@Url.Action("getReportFact")" target="_blank" style="color:red">Descargar Total Facturas en PDF</a></div>
 <input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Facturas") + "'");" />
-    <table id="tablaFactura">
+<span style="color: #a94442;">@ViewBag.Exception</span>
+    
+<table id="tablaFactura">
         <thead>
             <tr>
                 <th>

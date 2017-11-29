@@ -99,7 +99,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             catch (Exception)
             {
-                ViewBag.Exception = "Error al editar el Usuario.";
+                ViewBag.Exception = "Error al cargar datos del Usuario.";
                 return View();
             }
         }
@@ -143,7 +143,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             catch (Exception)
             {
-                ViewBag.Exception = "Error al editar el Usuario.";
+                ViewBag.Exception = "Error al cargar los datos  del Usuario.";
                 return View();
             }
         }
@@ -164,7 +164,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             catch (Exception)
             {
-                ViewBag.Exception = "Error al editar el Usuario.";
+                ViewBag.Exception = "Error al Eliminar el Usuario.";
                 return View();
             }
         }

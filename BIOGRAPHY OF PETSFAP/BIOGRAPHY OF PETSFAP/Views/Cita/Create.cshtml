@@ -2,10 +2,12 @@
 @{
     ViewBag.Title = "Agregar";
 }
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Cita", FormMethod.Post,
+ new { id = "crearCita" }))
 {
     @Html.AntiForgeryToken()
     <legend>Agregar Citas</legend>
+    <span style="color: #a94442;">@ViewBag.Exception</span>
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -17,7 +19,6 @@
                     @Html.ValidationMessageFor(model => model._cita.Fecha, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model._cita.Hora_Inico, "Hora Inico", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -25,7 +26,6 @@
                     @Html.ValidationMessageFor(model => model._cita.Hora_Inico, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model._cita.Hora_Final, "Hora Final", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -33,7 +33,6 @@
                     @Html.ValidationMessageFor(model => model._cita.Hora_Final, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model._cita.Estado_Cita, "Estado de Cita", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -50,7 +49,6 @@
                     @Html.ValidationMessageFor(model => model._cita.Id_Cliente, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model._cita.Id_Empleado, "Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -58,7 +56,6 @@
                     @Html.ValidationMessageFor(model => model._cita.Id_Empleado, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model._cita.Id_Paciente, "Paciente", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -90,7 +87,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model._detalle_medicina.Cantidad, "Cantidad", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.Editor("txt_cantidadServicio", new { htmlAttributes = new { id = "txt_cantidad", @class = "form-control", @Value = 1 } })
+                                @Html.Editor("txt_cantidadServicio", new { htmlAttributes = new { id = "txt_cantidadServicio", @class = "form-control", @Value = 1 } })
                                 <span id="alerta_Error" style="color: #a94442;" hidden>Debe llenar todos los campos</span>
                             </div>
                         </div>
@@ -104,10 +101,10 @@
                 </div>
                 <div style="display:block;width:100%;">
                     <div style="display:block;width:100%;margin-bottom:30px;align-items:center;">
-                        <input type="button" class="btn btn-success" value="Agregar Servicio" id="addRow" />
-                        <input type="button" class="btn btn-warning" value="Eliminar Servicio" id="removeRow" />
+                        <input type="button" class="btn btn-success" value="Agregar Servicio" id="addRowServicio" />
+                        <input type="button" class="btn btn-warning" value="Eliminar Servicio" id="removeRowServicio" />
                     </div>
-                    <table class="table" id="tablaMedicinas">
+                    <table class="table" id="tablaServicios">
                         <thead>
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model._detalle_servicio.Id_Servicio)</th>
@@ -186,7 +183,6 @@
                 @Html.ValidationMessageFor(model => model._cita.Descripcion, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model._cita.Costo_Total, "Costo Total",htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -194,11 +190,10 @@
                 @Html.ValidationMessageFor(model => model._cita.Costo_Total, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <div style="margin-right:25%; float:left">
-                    <input type="submit" value="Agregar" class="btn btn-success" />
+                    <input type="submit" value="Agregar" class="btn btn-success" id="addCita" />
                 </div>
                 <div style="float:left;">
                     <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Cita") + "'");" />
@@ -207,6 +202,4 @@
         </div>
     </div>
 }
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<script src="~/Scripts/Cita_Medica/Create.js"></script>

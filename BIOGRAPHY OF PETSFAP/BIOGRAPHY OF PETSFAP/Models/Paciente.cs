@@ -11,6 +11,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Paciente
     {
@@ -20,12 +21,30 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         }
     
         public int Id_Paciente { get; set; }
+        [Required(ErrorMessage = "El campo de Cliente es requerido")]
+        [Display(Name = "Cliente")]
         public int Id_Cliente { get; set; }
+        [Required(ErrorMessage = "El campo de Animal es requerido")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Animal")]
         public string Animal { get; set; }
+        [Required(ErrorMessage = "El campo de Nombre es requerido")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Nombre")]
         public string Nombre { get; set; }
+        [Required(ErrorMessage = "El campo de Sexo es requerido")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Sexo")]
         public string Sexo { get; set; }
+        [Required(ErrorMessage = "El campo de Raza es requerido")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Raza")]
         public string Raza { get; set; }
+        [Required(ErrorMessage = "El campo de Edad es requerido")]
+        [Display(Name = "Edad")]
         public int Edad { get; set; }
+        [Required(ErrorMessage = "El campo de Peso es requerido")]
+        [Display(Name = "Peso")]
         public int Peso { get; set; }
         public int Id_Estado { get; set; }
         public string PacienteCompleto

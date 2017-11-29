@@ -2,13 +2,14 @@
 @{
     ViewBag.Title = "Agregar";
 }
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+    <legend>Crear Servicio</legend>
+    <hr />
+    <span style="color: #a94442;">@ViewBag.Exception</span>
+    <hr />
     <div class="form-horizontal">
-        <h4>Agregar Servicio</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })

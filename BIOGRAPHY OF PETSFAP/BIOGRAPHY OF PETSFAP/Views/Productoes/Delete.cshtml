@@ -2,10 +2,12 @@
 @{
     ViewBag.Title = "Eliminar";
 }
-<h3>Esta seguro de que quiere eliminar esto?</h3>
+<legend>Eliminar Producto</legend>
+<hr />
+<span style="color: #a94442;">@ViewBag.Exception</span>
+<hr />
+<h4>Esta seguro de que quiere eliminar esto?</h4>
 <div>
-    <h4>Eliminar Producto</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Nombre)
