@@ -1,0 +1,55 @@
+﻿@model IEnumerable<BIOGRAPHY_OF_PETSFAP.Models.Factura>
+@{
+    ViewBag.Title = "Factura";
+}
+<input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Facturas") + "'");" />
+<span style="color: #a94442;">@ViewBag.Exception</span>
+    
+<table id="tablaFactura">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fecha)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cliente)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Empleado)
+                </th>
+                <th>
+                    @Html.DisplayName("Precio Total")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Persona.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Empleado.Persona.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio_Total)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Numero_Factura }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.Numero_Factura }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Numero_Factura })|
+                    @Html.ActionLink("Reporte en PDF", "Report", new { id = "PDF" , numeroFactura = item.Numero_Factura })|
+                    @Html.ActionLink("Reporte en Excel", "Report", new { id = "Excel", numeroFactura = item.Numero_Factura })|
+                    @Html.ActionLink("Reporte en Word", "Report", new { id = "Word", numeroFactura = item.Numero_Factura })
+                </td>
+            </tr>
+        }
+    </tbody>
+    </table>
+<input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
+<script src="~/Scripts/Facturas/Factura.js"></script>

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<BIOGRAPHY_OF_PETSFAP.Models.Usuarios>
+
+@{
+    ViewBag.Title = "Usuarios";
+}
+
+<input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Usuarios") + "'");"/>
+<hr />
+<span style="color: #a94442;">@ViewBag.Exception</span>
+<hr />
+<table id="tablaUsuarios">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Empleado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Roles)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Empleado.NombreCompleto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Roles.Descripcion)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id_Usuario }) |
+                    @Html.ActionLink("Detalle", "Details", new { id = item.Id_Usuario }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_Usuario })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
+<script src="~/Scripts/Usuarios/Usuarios.js"></script>

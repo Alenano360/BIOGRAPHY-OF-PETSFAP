@@ -1,0 +1,84 @@
+﻿@model IEnumerable<BIOGRAPHY_OF_PETSFAP.Models.Cita>
+
+@{
+    ViewBag.Title = "Citas";
+}
+
+<input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Cita") + "'");" />
+<span style="color: #a94442;">@ViewBag.Exception</span>
+<table class="table" id="tablaCitas">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayName("Hora Inico")
+            </th>
+            <th>
+                @Html.DisplayName("Hora Final")
+            </th>
+            <th>
+                @Html.DisplayName("Estado de Cita")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Empleado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayName("Mascota")
+            </th>
+            <th>
+                @Html.DisplayName("Costo Total")
+            </th>
+
+            <th></th>
+            <th>@Html.DisplayName("Reporte")</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hora_Inico)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hora_Final)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado_Cita)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Empleado.NombreCompleto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.NombreCompleto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Paciente.PacienteCompleto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Costo_Total)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id_Cita }) |
+                    @Html.ActionLink("Detalle", "Details", new { id = item.Id_Cita }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_Cita })
+                </td>
+                <td>
+                    @Html.ActionLink("PDF", "Report", new { id = "PDF", idC = item.Id_Cita })|
+                    @Html.ActionLink("Excel", "Report", new { id = "Excel", idC = item.Id_Cita })|
+                    @Html.ActionLink("Word", "Report", new { id = "Word", idC = item.Id_Cita })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
+<script src="~/Scripts/Cita_Medica/Cita_Medica.js"></script>

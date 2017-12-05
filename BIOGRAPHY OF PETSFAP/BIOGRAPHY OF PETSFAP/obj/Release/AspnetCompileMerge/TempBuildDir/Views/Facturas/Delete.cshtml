@@ -1,0 +1,79 @@
+﻿@model BIOGRAPHY_OF_PETSFAP.Models.Factura
+@{
+    ViewBag.Title = "Eliminar";
+}
+<legend>Eliminar Factura</legend>
+<span style="color: #a94442;">@ViewBag.Exception</span>
+<hr />
+<h4>Esta seguro de que quiere eliminar esto?</h4>
+<hr />
+<div>
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div style="float:left; width:50%;">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Empleado, "Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Empleado", null, string.Empty, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Empleado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cliente, "Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Cliente", null, string.Empty, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.Cliente, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div style="float:right; width:50%;">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { id = "txt_fechaFactura", @class = "form-control", @Value = @DateTime.Now.ToString("yyyy/MM/dd"), @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Precio_Total, "Precio Total", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Precio_Total, new { htmlAttributes = new { id = "txt_totalFactura", @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Precio_Total, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <fieldset style="width:100%;display:block;">
+            <legend>Detalles</legend>
+            <div class="form-group">
+                <div style="display:block;width:100%;">
+                    <table id="tablaFactura">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>@Html.DisplayName("Producto")</th>
+                                <th>@Html.DisplayName("Cantidad")</th>
+                                <th>@Html.DisplayName("Precio Unitario")</th>
+                                <th>@Html.DisplayName("Precio Total Producto")</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Facturas") + "'");" />
+        </div>
+    }
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/Facturas/Delete.js"></script>

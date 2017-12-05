@@ -1,0 +1,64 @@
+﻿@model IEnumerable<BIOGRAPHY_OF_PETSFAP.Models.Producto>
+
+@{
+    ViewBag.Title = "Productos";
+}
+<input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Productoes") + "'");" />
+<hr />
+<div style="padding:10px; border:1px solid black">
+    <div><a href="@Url.Action("Report", new { id = "PDF" })"> Get Report PDF</a></div>
+    <div><a href="@Url.Action("Report",new {id= "Excel"})"> Get Report Excel</a></div>
+    <div><a href="@Url.Action("Report",new {id= "Word"})"> Get Report Word</a></div>
+</div>
+<span style="color: #a94442;">@ViewBag.Exception</span>
+<table class="table" id="tablaProductos">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Categoria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Proveedor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Categoria.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Proveedor.NombreCompleto)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id_Producto }) |
+                    @Html.ActionLink("Detalle", "Details", new { id = item.Id_Producto }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_Producto })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
+<script src="~/Scripts/Productos/Productos.js"></script>

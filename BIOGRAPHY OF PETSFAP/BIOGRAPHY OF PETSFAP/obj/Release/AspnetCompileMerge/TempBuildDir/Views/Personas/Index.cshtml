@@ -1,0 +1,96 @@
+﻿@model IEnumerable<BIOGRAPHY_OF_PETSFAP.Models.Persona>
+@{
+    ViewBag.Title = "Personas";
+}
+<input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Personas") + "'");" />
+<div style="padding:10px; border:1px solid black">
+    <div><a href="@Url.Action("Report",new {id= "PDF"})"> Get Report PDF</a></div>
+    <div><a href="@Url.Action("Report",new {id= "Excel"})"> Get Report Excel</a></div>
+    <div><a href="@Url.Action("Report",new {id= "Word"})"> Get Report Word</a></div>
+</div>
+<span style="color: #a94442;">@ViewBag.Exception</span>
+<hr />
+<table class="table" id="tablaPersonas">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellidos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>@Html.DisplayNameFor(model => model.Cliente)</th>
+            <th>@Html.DisplayNameFor(model => model.Proveedor)</th>
+            <th>@Html.DisplayNameFor(model => model.Empleado)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellidos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td>
+                    @{
+                        if (item.Chk_Cliente)
+                        {
+                            @Html.CheckBox("Cliente", new { @disabled = "disabled",@checked="checked"})
+                        }
+                        else
+                        {
+                            @Html.CheckBox("Cliente", new { @disabled = "disabled" })
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (item.Chk_Proveedor)
+                        {
+                            @Html.CheckBox("Proveedor", new { @disabled = "disabled", @checked = "checked" })
+                        }
+                        else
+                        {
+                            @Html.CheckBox("Proveedor", new { @disabled = "disabled" })
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (item.Chk_Empleado)
+                        {
+                            @Html.CheckBox("Empleado", new { @disabled = "disabled", @checked = "checked" })
+                        }
+                        else
+                        {
+                            @Html.CheckBox("Empleado", new { @disabled = "disabled"})
+                        }
+}
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.Id_Persona }) |
+                    @Html.ActionLink("Detalle", "Details", new { id = item.Id_Persona }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_Persona })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<input type="hidden" id="rol" value="@ViewData["HiddenFieldRol"]">
+<script src="~/Scripts/Personas/Personas.js"></script>

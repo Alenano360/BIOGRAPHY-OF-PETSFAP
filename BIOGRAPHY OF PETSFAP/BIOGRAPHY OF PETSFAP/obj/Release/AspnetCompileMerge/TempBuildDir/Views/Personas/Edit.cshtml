@@ -1,0 +1,117 @@
+﻿@model BIOGRAPHY_OF_PETSFAP.Models.Tipo_Persona
+@{
+    ViewBag.Title = "Editar";
+}
+@using (Html.BeginForm())
+{
+    <legend>Editar Persona</legend>
+    <hr />
+    <span style="color: #a94442;">@ViewBag.Exception</span>
+    <hr />
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model._persona.Id_Persona)
+        @Html.HiddenFor(model => model._proveedor.Id_Proveedor)
+        <div class="form-group">
+            @Html.LabelFor(model => model._persona.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model._persona.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._persona.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model._persona.Apellidos, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model._persona.Apellidos, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._persona.Apellidos, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model._persona.Direccion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model._persona.Direccion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._persona.Direccion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model._persona.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model._persona.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._persona.Telefono, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="Proveedor_Div" hidden>
+            <div class="form-group">
+                @Html.Label("Proveedor", htmlAttributes: new { @class = "control-label col-md-2" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model._proveedor.Nombre_Empresa, "Nombre de Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model._proveedor.Nombre_Empresa, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model._proveedor.Nombre_Empresa, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model._proveedor.Telefono_Empresa, "Telefono de Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model._proveedor.Telefono_Empresa, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model._proveedor.Telefono_Empresa, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model._proveedor.Direccion_Empresa, "Direccion de Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model._proveedor.Direccion_Empresa, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model._proveedor.Direccion_Empresa, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model._persona.Id_Persona, "Persona", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.LabelFor(model => model._persona.Chk_Cliente, "Cliente")
+                @Html.CheckBoxFor(model => model._persona.Chk_Cliente, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._persona.Chk_Cliente, "", new { @class = "text-danger" })
+                <br />
+                @Html.LabelFor(model => model._persona.Chk_Proveedor, "Proveedor")
+                @Html.CheckBoxFor(model => model._persona.Chk_Proveedor, new { id = "chk_Proveedor", htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._persona.Chk_Proveedor, "", new { @class = "text-danger" })
+                <br />
+                @Html.LabelFor(model => model._persona.Chk_Empleado, "Empleado")
+                @Html.CheckBoxFor(model => model._persona.Chk_Empleado, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._persona.Chk_Empleado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model._persona.Id_Estado, new { htmlAttributes = new { @Value = 1} })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div style="margin-right:25%; float:left">
+                    <input type="submit" value="Guardar" class="btn btn-success" />
+                </div>
+                <div style="float:left;">
+                    <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($('#chk_Proveedor').is(":checked"))
+            $(".Proveedor_Div").show();
+        else
+            $(".Proveedor_Div").hide();
+        $('#chk_Proveedor').change(
+    function (e) {
+        if ($('#chk_Proveedor').is(":checked"))
+            $(".Proveedor_Div").show();
+        else
+            $(".Proveedor_Div").hide();
+    }
+    );
+    });
+</script>
