@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Detalle";
 }
-<h4>Detalle Factura</h4>
+<legend>Detalle Factura</legend>
+<span style="color: #a94442;">@ViewBag.Exception</span>
+
 @using (Html.BeginForm("Details", "Detalle Factura", FormMethod.Post,
  new { id = "detalleFactura" }))
 {
@@ -29,12 +31,12 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { id = "txt_fechaFactura", @class = "form-control", @Value = @DateTime.Now.ToString("yyyy/MM/dd"), @readonly = "readonly" } })
+                    @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { id = "txt_fechaFactura", @class = "form-control", @Value = Model.Fecha.ToString("MM/dd/yyyy"), @readonly = "readonly" } })
                     @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Precio_Total, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Precio_Total, "Precio Total", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Precio_Total, new { htmlAttributes = new { id = "txt_totalFactura", @class = "form-control", @readonly = "readonly" } })
                     @Html.ValidationMessageFor(model => model.Precio_Total, "", new { @class = "text-danger" })

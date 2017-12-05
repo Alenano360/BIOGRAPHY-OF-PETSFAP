@@ -12,14 +12,14 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class Factura
     {
         public Factura()
         {
             this.Detalle_Factura = new HashSet<Detalle_Factura>();
         }
-    
+
         public int Numero_Factura { get; set; }
         [Required(ErrorMessage = "El campo de Empleado es requerido")]
         [Display(Name = "Empleado")]
@@ -36,7 +36,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         [Display(Name = "Precio_Total")]
         public int Precio_Total { get; set; }
         public int Id_Estado { get; set; }
-    
+
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<Detalle_Factura> Detalle_Factura { get; set; }
         public virtual Empleado Empleado { get; set; }

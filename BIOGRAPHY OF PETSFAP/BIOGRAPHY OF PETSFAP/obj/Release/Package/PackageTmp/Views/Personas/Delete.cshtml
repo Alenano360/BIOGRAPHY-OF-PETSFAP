@@ -2,10 +2,12 @@
 @{
     ViewBag.Title = "Eliminar";
 }
+<legend>Eliminar Personas</legend>
+<span style="color: #a94442;">@ViewBag.Exception</span>
+<hr />
 <h3>Esta seguro de que quiere eliminar esto?</h3>
+<hr />
 <div>
-    <h4>Eliminar Personas</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model._persona.Nombre)
@@ -70,25 +72,26 @@
                 if (Model._persona.Chk_Proveedor)
                 {
                     <label>Si</label>
-                <dt>@Html.DisplayNameFor(model => model._proveedor.Nombre_Empresa)</dt>
+                <dt>@Html.DisplayName("Nombre de Empresa")</dt>
                 <dd>@Html.DisplayFor(model => model._proveedor.Nombre_Empresa)</dd>
-                <dt>@Html.DisplayNameFor(model => model._proveedor.Telefono_Empresa)</dt>
+                <dt>@Html.DisplayName("Telefono de Empresa")</dt>
                 <dd>@Html.DisplayFor(model => model._proveedor.Telefono_Empresa)</dd>
-                <dt>@Html.DisplayNameFor(model => model._proveedor.Direccion_Empresa)</dt>
+                <dt>@Html.DisplayName("Direccion de Empresa")</dt>
                 <dd>@Html.DisplayFor(model => model._proveedor.Direccion_Empresa)</dd>
                 }
                 else
                 {
                     <label>No</label>
                 }
-}
+            }
             <dd />
         </dl>
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-    <div class="form-actions no-color">
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+                <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Personas") + "'");" />
+            </div>
+        }
     </div>
-    }
-</div>

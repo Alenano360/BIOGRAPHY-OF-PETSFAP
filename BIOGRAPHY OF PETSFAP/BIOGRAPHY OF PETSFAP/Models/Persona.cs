@@ -12,7 +12,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class Persona
     {
         public Persona()
@@ -21,7 +21,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
             this.Empleado = new HashSet<Empleado>();
             this.Proveedor = new HashSet<Proveedor>();
         }
-    
+
         public int Id_Persona { get; set; }
         [Required(ErrorMessage = "El campo de Nombre es requerido")]
         [DataType(DataType.Text)]
@@ -50,7 +50,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         public bool Chk_Cliente { get; set; }
         public bool Chk_Empleado { get; set; }
         public bool Chk_Proveedor { get; set; }
-    
+
         public virtual ICollection<Cliente> Cliente { get; set; }
         public virtual ICollection<Empleado> Empleado { get; set; }
         public virtual Estado Estado { get; set; }

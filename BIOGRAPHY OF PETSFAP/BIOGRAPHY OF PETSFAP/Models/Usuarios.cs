@@ -12,7 +12,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class Usuarios
     {
         public int Id_Usuario { get; set; }
@@ -36,7 +36,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         [Display(Name = "Rol")]
         public int Id_Rol { get; set; }
         public int Id_Estado { get; set; }
-    
+
         public virtual Empleado Empleado { get; set; }
         public virtual Estado Estado { get; set; }
         public virtual Roles Roles { get; set; }

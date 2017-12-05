@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
 using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
-using BIOGRAPHY_OF_PETSFAP.Reportes;
 using Microsoft.Reporting.WebForms;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;

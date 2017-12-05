@@ -29,7 +29,6 @@
         }
         $('#txt_totalFactura').val(total);
     }
-    
     $('#addRow').on('click', function () {
         debugger
         var ddlProductos = $('#ddl_Productos')[0];
@@ -43,7 +42,7 @@
         if (rows.length >= 1) {
             for (var i = 0, len = rows.length; i < len; i++) {
                 if (rows[i][0] == idproducto) {
-                    var newRow = [idproducto, producto, parseInt(txtCantidad) + parseInt(rows[i][2]), lblPrecio, parseInt(lblTotalProducto) + parseInt(rows[i][3]), rows[i][5]];
+                    var newRow = [idproducto, producto, parseInt(txtCantidad) + parseInt(rows[i][2]), lblPrecio, parseInt(lblTotalProducto) + parseInt(rows[i][4])];
                     for (x = 0, l = $('#tablaFactura').dataTable().api().rows()[0].length; x < l; x++) {
                         if ($('#tablaFactura').dataTable().api().row(x).data()[0] == idproducto) {
                             $(tablaFactura).dataTable().api().row(x).data(newRow).draw();
@@ -57,7 +56,7 @@
                         }
                     }
                 }
-            }if (producto != "" && txtCantidad != "") {
+            } if (producto != "" && txtCantidad != "") {
                 t.row.add([
                     idproducto,
                     producto,
@@ -75,7 +74,7 @@
                 $("#alerta_Error").show();
 
             }
-        }else if (producto != "" && txtCantidad != "") {
+        } else if (producto != "" && txtCantidad != "") {
             t.row.add([
                 idproducto,
                 producto,
@@ -94,9 +93,7 @@
         }
         SumarColumna();
     });
-});
 
-$(document).ready(function () {
     var table = $('#tablaFactura').DataTable();
     $('#tablaFactura tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
@@ -108,13 +105,12 @@ $(document).ready(function () {
         }
     });
     $('#removeRow').click(function () {
-        if (table.row('.selected').hasClass != "noEliminar") {
-            table.row('.selected').remove().draw(false)
-           
-        }
+        table.row('.selected').remove().draw(false)
+        SumarColumna();
     });
-   
+
 });
+
 
 $('#ddl_Productos').change(function () {
     $('#txt_cantidad').val("");
@@ -181,7 +177,7 @@ $('#addFactura').click(function () {
 
 function setJson(rows) {
     var json = '[';
-
+    debugger
     for (var i = 0, len = rows.length; i < len; i++) {
         if (i == 0) {
             json += '{"Numero_Factura":"0",' +

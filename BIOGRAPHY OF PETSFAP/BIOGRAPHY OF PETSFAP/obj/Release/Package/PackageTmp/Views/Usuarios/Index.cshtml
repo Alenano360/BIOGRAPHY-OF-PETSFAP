@@ -5,6 +5,9 @@
 }
 
 <input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Usuarios") + "'");"/>
+<hr />
+<span style="color: #a94442;">@ViewBag.Exception</span>
+<hr />
 <table id="tablaUsuarios">
     <thead>
         <tr>

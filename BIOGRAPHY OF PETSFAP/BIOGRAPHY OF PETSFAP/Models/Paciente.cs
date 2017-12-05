@@ -12,14 +12,14 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class Paciente
     {
         public Paciente()
         {
             this.Cita = new HashSet<Cita>();
         }
-    
+
         public int Id_Paciente { get; set; }
         [Required(ErrorMessage = "El campo de Cliente es requerido")]
         [Display(Name = "Cliente")]

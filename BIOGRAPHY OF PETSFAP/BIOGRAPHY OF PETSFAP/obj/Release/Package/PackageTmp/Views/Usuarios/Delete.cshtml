@@ -2,10 +2,12 @@
 @{
     ViewBag.Title = "Eliminar";
 }
-<h3>Esta seguro de que quiere eliminar esto?</h3>
+<legend>Editar Servicio</legend>
+<hr />
+<span style="color: #a94442;">@ViewBag.Exception</span>
+<hr />
+<h4>Esta seguro de que quiere eliminar esto?</h4>
 <div>
-    <h4>Eliminar Usuarios</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Correo)
@@ -38,7 +40,8 @@
             @Html.DisplayFor(model => model.Roles.Descripcion)
         </dd>
     </dl>
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
         <div class="form-actions no-color">
             <input type="submit" value="Eliminar" class="btn btn-danger" /> |

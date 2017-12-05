@@ -11,7 +11,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Cliente
     {
         public Cliente()
@@ -20,7 +20,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
             this.Factura = new HashSet<Factura>();
             this.Paciente = new HashSet<Paciente>();
         }
-    
+
         public int Id_Cliente { get; set; }
         public int Id_Persona { get; set; }
         public int Id_Estado { get; set; }

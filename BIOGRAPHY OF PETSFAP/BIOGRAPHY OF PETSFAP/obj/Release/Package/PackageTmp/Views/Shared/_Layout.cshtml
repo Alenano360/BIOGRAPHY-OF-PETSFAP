@@ -15,7 +15,7 @@
     <div class="header">
         <div class="container">
             <div class="logo">
-                <a href="@Url.Action("Index", "Home")"><img src="~/images/logo.png" alt="" /></a>
+                <img src="~/images/logo.png" alt="" />
             </div>
             <div class="tollfree">
                 <ul>
@@ -53,7 +53,7 @@
                                             <li id="liPer">@Html.ActionLink("Personas", "Index", "Personas")</li>
                                             <li id="liPaci">@Html.ActionLink("Mascotas", "Index", "Pacientes")</li>
                                             <li id="liProd">@Html.ActionLink("Productos", "Index", "Productoes")</li>
-                                            @*<li id="liCita">@Html.ActionLink("Citas", "Index", "Cita")</li>*@
+                                            <li id="liCita">@Html.ActionLink("Citas", "Index", "Cita")</li>
                                             <li id="liCat">@Html.ActionLink("Servicios", "Index", "Servicios")</li>
                                             <li id="liFac">@Html.ActionLink("Factura", "Index", "Facturas")</li>
                                         }
@@ -127,4 +127,19 @@
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
 @Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jqueryui")
+@Styles.Render("~/Content/cssjqryUi")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[type=datetime]').datepicker({
+            dateFormat: "mm/dd/yy",
+            changeMonth: true,
+            changeYear: true,
+            minDate: new Date()
+        });
+
+    });
+</script>
+  
 @RenderSection("scripts", required: false)

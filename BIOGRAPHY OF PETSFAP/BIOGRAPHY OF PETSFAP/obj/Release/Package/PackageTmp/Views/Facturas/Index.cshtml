@@ -3,7 +3,9 @@
     ViewBag.Title = "Factura";
 }
 <input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Facturas") + "'");" />
-    <table id="tablaFactura">
+<span style="color: #a94442;">@ViewBag.Exception</span>
+    
+<table id="tablaFactura">
         <thead>
             <tr>
                 <th>
@@ -16,7 +18,7 @@
                     @Html.DisplayNameFor(model => model.Empleado)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Precio_Total)
+                    @Html.DisplayName("Precio Total")
                 </th>
                 <th></th>
             </tr>
@@ -40,7 +42,10 @@
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.Numero_Factura }) |
                     @Html.ActionLink("Detalles", "Details", new { id = item.Numero_Factura }) |
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Numero_Factura })
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Numero_Factura })|
+                    @Html.ActionLink("Reporte en PDF", "Report", new { id = "PDF" , numeroFactura = item.Numero_Factura })|
+                    @Html.ActionLink("Reporte en Excel", "Report", new { id = "Excel", numeroFactura = item.Numero_Factura })|
+                    @Html.ActionLink("Reporte en Word", "Report", new { id = "Word", numeroFactura = item.Numero_Factura })
                 </td>
             </tr>
         }

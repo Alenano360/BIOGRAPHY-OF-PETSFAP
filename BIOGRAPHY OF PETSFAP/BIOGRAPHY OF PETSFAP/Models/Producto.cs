@@ -12,7 +12,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class Producto
     {
         public Producto()
@@ -20,7 +20,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
             this.Detalle_Factura = new HashSet<Detalle_Factura>();
             this.Detalle_Medicina = new HashSet<Detalle_Medicina>();
         }
-    
+
         public int Id_Producto { get; set; }
         [Required(ErrorMessage = "El campo de Nombre es requerido")]
         [DataType(DataType.Text)]
@@ -43,7 +43,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         [Display(Name = "Categoria")]
         public int Id_Categoria { get; set; }
         public int Id_Estado { get; set; }
-    
+
         public virtual Categoria Categoria { get; set; }
         public virtual ICollection<Detalle_Factura> Detalle_Factura { get; set; }
         public virtual ICollection<Detalle_Medicina> Detalle_Medicina { get; set; }

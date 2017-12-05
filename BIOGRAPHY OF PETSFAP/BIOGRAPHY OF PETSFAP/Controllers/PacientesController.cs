@@ -16,6 +16,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
     public class PacientesController : Controller
     {
         private VeterinariaEntities db = new VeterinariaEntities();
+        List<Cita> listaCita = new List<Cita>();
+        List<Detalle_Medicina> listaDetalleMedicina = new List<Detalle_Medicina>();
+        List<Detalle_Servicio> listaDetalleServicio = new List<Detalle_Servicio>();
 
         // GET: Pacientes
         public ActionResult Index()
@@ -186,79 +189,61 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             base.Dispose(disposing);
         }
 
-        //public ActionResult Report(string id, int idP, int idC)
-        //{
-        //    LocalReport lr = new LocalReport();
-        //    string path = Path.Combine(Server.MapPath("~/Reportes"), "Expedientes.rdlc");
-        //    if (System.IO.File.Exists(path))
-        //    {
-        //        lr.ReportPath = path;
-        //    }
-        //    else
-        //    {
-        //        return View("Index");
-        //    }
-        //    var data = (from p in db.Cita.Where(x => x.Id_Paciente == idP)
-        //                select new
-        //                {
-        //                    Costo_Total = p.Costo_Total,
-        //                    Fecha = p.Fecha,
-        //                    Descripcion = p.Descripcion,
-        //                    Precio_Total = p.Estado_Cita,
-        //                    Hora_Final = p.Hora_Final,
-        //                    Hora_Inico = p.Hora_Inico,
-        //                    Id_Cita = p.Id_Cita,
-        //                    Id_Cliente = p.Cliente.Persona.Nombre + " " + p.Cliente.Persona.Apellidos,
-        //                    Id_Empleado = p.Empleado.Persona.Nombre + " " + p.Empleado.Persona.Apellidos,
-        //                    Id_Paciente = p.Paciente.Animal + " " + p.Paciente.Raza + " " + p.Paciente.Nombre,
-        //                }).ToList();
-
-        //    var detalleM = (from p in db.Detalle_Medicina.Where(x => x.Id_Cita == data.Id_Cita)
-        //                    select new
-        //                    {
-        //                        Cantidad = p.Cantidad,
-        //                        Id_Producto = p.Producto.Nombre,
-        //                        Precio_Total = p.Precio_Total,
-        //                    }).ToList();
-        //    var detalleS = (from p in db.Detalle_Servicio.Where(x => x.Id_Cita == Id_Cita)
-        //                    select new
-        //                    {
-        //                        Cantidad = p.Cantidad,
-        //                        Id_Servicio = p.Servicio.Nombre,
-        //                        Precio_Total = p.Precio_Total,
-        //                    }).ToList();
-        //    ReportDataSource rd = new ReportDataSource("dsFactura", data);
-        //    lr.DataSources.Add(rd);
-        //    ReportDataSource rd1 = new ReportDataSource("dsDetalleMedicina", detalleM);
-        //    lr.DataSources.Add(rd1);
-        //    ReportDataSource rd2 = new ReportDataSource("dsDetalleServicio", detalleS);
-        //    lr.DataSources.Add(rd2);
-        //    string reportType = id;
-        //    string mimeType;
-        //    string encoding;
-        //    string fileNameExtension;
-        //    string deviceInfo =
-        //    "<DeviceInfo>" +
-        //    "  <OutputFormat>" + id + "</OutputFormat>" +
-        //    "  <PageWidth>8.5in</PageWidth>" +
-        //    "  <PageHeight>11in</PageHeight>" +
-        //    "  <MarginTop>0.5in</MarginTop>" +
-        //    "  <MarginLeft>1in</MarginLeft>" +
-        //    "  <MarginRight>1in</MarginRight>" +
-        //    "  <MarginBottom>0.5in</MarginBottom>" +
-        //    "</DeviceInfo>";
-        //    Warning[] warnings;
-        //    string[] streams;
-        //    byte[] renderedBytes;
-        //    renderedBytes = lr.Render(
-        //        reportType,
-        //        deviceInfo,
-        //        out mimeType,
-        //        out encoding,
-        //        out fileNameExtension,
-        //        out streams,
-        //        out warnings);
-        //    return File(renderedBytes, mimeType);
-        //}
+        public ActionResult Report(string id, int idP)
+        {
+            LocalReport lr = new LocalReport();
+            string path = Path.Combine(Server.MapPath("~/Reportes"), "Expedientes.rdlc");
+            if (System.IO.File.Exists(path))
+            {
+                lr.ReportPath = path;
+            }
+            else
+            {
+                return View("Index");
+            }
+            var data = (from p in db.Cita.Where(x => x.Id_Paciente == idP)
+                        select new
+                        {
+                            Costo_Total = p.Costo_Total,
+                            Fecha = p.Fecha,
+                            Descripcion = p.Descripcion,
+                            Precio_Total = p.Estado_Cita,
+                            Estado_Cita = p.Estado_Cita,
+                            Hora_Final = p.Hora_Final,
+                            Hora_Inico = p.Hora_Inico,
+                            Id_Cliente = p.Cliente.Persona.Nombre + " " + p.Cliente.Persona.Apellidos,
+                            Id_Empleado = p.Empleado.Persona.Nombre + " " + p.Empleado.Persona.Apellidos,
+                            Id_Paciente = p.Paciente.Nombre,
+                            Id_Cita=String.Join(", ", db.Detalle_Medicina.Where(x=>x.Id_Cita==p.Id_Cita).Select(x=>x.Producto.Nombre).ToArray()),
+                        }).ToList();
+            ReportDataSource rd = new ReportDataSource("dsCita", data);
+            lr.DataSources.Add(rd);
+            string reportType = id;
+            string mimeType;
+            string encoding;
+            string fileNameExtension;
+            string deviceInfo =
+            "<DeviceInfo>" +
+            "  <OutputFormat>" + id + "</OutputFormat>" +
+            "  <PageWidth>10in</PageWidth>" +
+            "  <PageHeight>11in</PageHeight>" +
+            "  <MarginTop>0.5in</MarginTop>" +
+            "  <MarginLeft>0.5in</MarginLeft>" +
+            "  <MarginRight>0.5in</MarginRight>" +
+            "  <MarginBottom>0.5in</MarginBottom>" +
+            "</DeviceInfo>";
+            Warning[] warnings;
+            string[] streams;
+            byte[] renderedBytes;
+            renderedBytes = lr.Render(
+                reportType,
+                deviceInfo,
+                out mimeType,
+                out encoding,
+                out fileNameExtension,
+                out streams,
+                out warnings);
+            return File(renderedBytes, mimeType);
+        }
     }
 }

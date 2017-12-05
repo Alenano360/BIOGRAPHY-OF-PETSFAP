@@ -20,7 +20,6 @@
         <EntityTypeShape EntityType="VeterinariaModel.Proveedor" Width="1.5" PointX="5.25" PointY="14.875" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.Roles" Width="1.5" PointX="3" PointY="27.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.Servicio" Width="1.5" PointX="3" PointY="29.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VeterinariaModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VeterinariaModel.Usuarios" Width="1.5" PointX="13.5" PointY="20.25" IsExpanded="true" />
         <AssociationConnector Association="VeterinariaModel.FK_Proveedor_Categoria" ManuallyRouted="false" />
         <AssociationConnector Association="VeterinariaModel.FK_Cita_Cliente" ManuallyRouted="false" />

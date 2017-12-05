@@ -7,14 +7,14 @@
 @using (Html.BeginForm("Edit", "Usuarios", FormMethod.Post,
  new { id = "editarUsuario" }))
 {
+    <legend>Editar Usuario</legend>
+    <hr />
+    <span style="color: #a94442;">@ViewBag.Exception</span>
+    <hr />
     @Html.AntiForgeryToken()
-    
     <div class="form-horizontal">
-        <h4>Editar Usuarios</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id_Usuario)
-
         <div class="form-group">
             @Html.LabelFor(model => model.Id_Empleado, "Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -22,7 +22,6 @@
                 <span id="Empleado-error" style="color: #a94442;" hidden></span>
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -30,7 +29,6 @@
                 @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -38,7 +36,6 @@
                 @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Contraseña, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -46,7 +43,6 @@
                 @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Id_Rol, "Rol", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

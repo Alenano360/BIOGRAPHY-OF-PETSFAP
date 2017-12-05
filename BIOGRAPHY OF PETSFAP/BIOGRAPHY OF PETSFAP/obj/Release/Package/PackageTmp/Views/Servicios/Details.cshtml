@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = "Detalle";
 }
+<legend>Detalle de Servicio</legend>
+<hr />
+<span style="color: #a94442;">@ViewBag.Exception</span>
+<hr />
 <div>
     <h4>Detalle de Servicio</h4>
     <hr />
@@ -32,5 +36,5 @@
         </dd>
     </dl>
 </div>
-<input type="button" class="btn btn-success" value="Editar" onclick="@("window.location.href='" + @Url.Action("Edit", "Servicios", new { id = Model.Id_Cita }) + "'");" /> |
+<input type="button" class="btn btn-success" value="Editar" onclick="@("window.location.href='" + @Url.Action("Edit", "Servicios", new { id = Model.Id_Servicio }) + "'");" /> |
 <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Servicios") + "'");" />

@@ -4,10 +4,12 @@
 }
 @using (Html.BeginForm())
 {
+    <legend>Editar Servicio</legend>
+    <hr />
+    <span style="color: #a94442;">@ViewBag.Exception</span>
+    <hr />
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
-        <h4>Editar Servicio</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id_Servicio)
         <div class="form-group">

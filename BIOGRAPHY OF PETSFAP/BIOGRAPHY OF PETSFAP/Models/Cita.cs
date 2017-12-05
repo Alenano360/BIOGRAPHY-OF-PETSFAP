@@ -12,7 +12,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class Cita
     {
         public Cita()
@@ -20,7 +20,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
             this.Detalle_Medicina = new HashSet<Detalle_Medicina>();
             this.Detalle_Servicio = new HashSet<Detalle_Servicio>();
         }
-    
+
         public int Id_Cita { get; set; }
         [Required(ErrorMessage = "El campo de Fecha es requerido")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
@@ -53,7 +53,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
         [Display(Name = "Costo Total")]
         public int Costo_Total { get; set; }
         public int Id_Estado { get; set; }
-    
+
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<Detalle_Medicina> Detalle_Medicina { get; set; }
         public virtual ICollection<Detalle_Servicio> Detalle_Servicio { get; set; }

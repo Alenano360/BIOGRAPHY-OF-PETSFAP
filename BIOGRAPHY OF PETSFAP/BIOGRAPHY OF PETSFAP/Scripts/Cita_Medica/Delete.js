@@ -39,24 +39,7 @@
             alert("Error");
         }
     });
-    $.ajax({
-        type: "GET",
-        url: '/Cita/setJsonM',
-        success: function (response) {
-            debugger
-            var lol = response.replace("\"[", "'[").replace("\"", "'").replace(new RegExp("'", 'g'), "\"");
-            var obj = $.parseJSON(lol);
-            t.rows.add(obj).draw();
-        },
-        failure: function (response) {
-            debugger
-            alert("Fallo");
-        },
-        error: function (response) {
-            debugger
-            alert("Error");
-        }
-    });
+
     function setJsonS(rows) {
         var json = '[';
         debugger
@@ -126,5 +109,23 @@ $(document).ready(function () {
                 "targets": [4],
             }
         ]
+    });
+    $.ajax({
+        type: "GET",
+        url: '/Cita/setJsonM',
+        success: function (response) {
+            debugger
+            var lol = response.replace("\"[", "'[").replace("\"", "'").replace(new RegExp("'", 'g'), "\"");
+            var obj = $.parseJSON(lol);
+            t.rows.add(obj).draw();
+        },
+        failure: function (response) {
+            debugger
+            alert("Fallo");
+        },
+        error: function (response) {
+            debugger
+            alert("Error");
+        }
     });
 });

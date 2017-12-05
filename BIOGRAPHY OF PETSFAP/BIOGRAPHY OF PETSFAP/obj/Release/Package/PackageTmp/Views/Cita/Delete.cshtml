@@ -1,79 +1,134 @@
 ﻿@model BIOGRAPHY_OF_PETSFAP.Models.Cita
-
 @{
     ViewBag.Title = "Eliminar";
 }
+<legend>Eliminar Cita</legend>
+<span style="color: #a94442;">@ViewBag.Exception</span>   
+<hr />
+<h4>Esta seguro de que quiere eliminar esto?</h4>
+<hr />
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div style="float:left; width:50%;">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control", @Value = Model.Fecha.ToString("MM/dd/yyyy"), @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    <h3>Esta seguro de que quiere eliminar esto?</h3>
-    <div>
-        <h4>Eliminar Cita Medica</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Fecha)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Hora)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Hora)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Descripcion)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Cliente.Id_Cliente)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Cliente.Id_Cliente)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Estado.Descripcion)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Estado.Descripcion)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Producto.Nombre)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Producto.Nombre)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Paciente.Animal)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Paciente.Animal)
-            </dd>
-    
-        </dl>
-    
-        @using (Html.BeginForm()) {
-            @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hora_Inico, "Hora Inico", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Hora_Inico, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Hora_Inico, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    <div class="form-actions no-color">
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Cita") + "'");" />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hora_Final, "Hora Final", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Hora_Final, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Hora_Final, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Estado_Cita, "Estado de Cita", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Estado_Cita, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Estado_Cita, "", new { @class = "text-danger" })
+            </div>
+        </div>
     </div>
-        }
+    <div style="float:right; width:50%;">
+        <div class=" form-group">
+            @Html.LabelFor(model => model.Id_Cliente, "Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Id_Cliente", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Id_Cliente, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Id_Empleado, "Empleado", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Id_Empleado", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Id_Empleado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Id_Paciente, "Paciente", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Id_Paciente", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Id_Paciente, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <fieldset style="width:100%;display:block;">
+        <legend>Servicio</legend>
+        <div class="form-group">
+            <div style="display:block;width:100%;">
+                <table class="table" id="tablaServicios">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayName("Id_Servicio")</th>
+                            <th>@Html.DisplayName("Servicio")</th>
+                            <th>@Html.DisplayName("Cantidad")</th>
+                            <th>@Html.DisplayName("Costo")</th>
+                            <th>@Html.DisplayName("Precio Total Servicio")</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset style="width:100%;display:block;">
+        <legend>Meidcinas</legend>
+        <div class="form-group">
+            <div style="display:block;width:100%;">
+                <table class="table" id="tablaMedicinas">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayName("Id_Producto")</th>
+                            <th>@Html.DisplayName("Producto")</th>
+                            <th>@Html.DisplayName("Cantidad")</th>
+                            <th>@Html.DisplayName("Precio Unitario")</th>
+                            <th>@Html.DisplayName("Precio Total Producto")</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </div>
     </div>
 
+    <div class="form-group">
+        @Html.LabelFor(model => model.Costo_Total, "Costo Total", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Costo_Total, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            <input type="button" class="btn btn-primary" value="Regresar a la Lista" onclick="@("window.location.href='" + @Url.Action("Index", "Cita") + "'");" />
+        </div>
+    }
+</div>
+
+<script src="~/Scripts/Cita_Medica/Delete.js"></script>
