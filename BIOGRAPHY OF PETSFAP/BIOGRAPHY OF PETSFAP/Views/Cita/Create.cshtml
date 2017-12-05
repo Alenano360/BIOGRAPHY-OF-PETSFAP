@@ -15,28 +15,28 @@
             <div class="form-group">
                 @Html.LabelFor(model => model._cita.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model._cita.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model._cita.Fecha, new { htmlAttributes = new { id="dtp_Fecha",@class = "form-control" } })
                     @Html.ValidationMessageFor(model => model._cita.Fecha, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model._cita.Hora_Inico, "Hora Inico", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model._cita.Hora_Inico, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model._cita.Hora_Inico, new{htmlAttributes = new{@class = "form-control"}})
                     @Html.ValidationMessageFor(model => model._cita.Hora_Inico, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model._cita.Hora_Final, "Hora Final", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model._cita.Hora_Final, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model._cita.Hora_Final, new { htmlAttributes = new { @class = "form-control"} })
                     @Html.ValidationMessageFor(model => model._cita.Hora_Final, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model._cita.Estado_Cita, "Estado de Cita", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model._cita.Estado_Cita, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model._cita.Estado_Cita, new { htmlAttributes = new { @class = "form-control", @Value = "Pendiente", @readonly = "readonly" } })
                     @Html.ValidationMessageFor(model => model._cita.Estado_Cita, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -186,7 +186,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model._cita.Costo_Total, "Costo Total",htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model._cita.Costo_Total, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model._cita.Costo_Total, new { htmlAttributes = new { id = "total", @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model._cita.Costo_Total, "", new { @class = "text-danger" })
             </div>
         </div>

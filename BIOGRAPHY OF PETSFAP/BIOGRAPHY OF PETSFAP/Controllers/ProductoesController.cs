@@ -9,6 +9,10 @@ using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
 using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
+using BIOGRAPHY_OF_PETSFAP.Reportes;
+using Microsoft.Reporting.WebForms;
+using System.Data.SqlClient;
+using System.Web.UI.WebControls;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
@@ -19,33 +23,35 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Productoes
         public ActionResult Index()
         {
-            try{
-            var producto = db.Producto.Include(p => p.Estado).Include(p => p.Proveedor).Include(p => p.Categoria).Where(x => x.Id_Estado == 1);
-            ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
-            return View(producto.ToList());
+            try
+            {
+                var producto = db.Producto.Include(p => p.Estado).Include(p => p.Proveedor).Include(p => p.Categoria).Where(x => x.Id_Estado == 1);
+                ViewData["HiddenFieldRol"] = Session["RolUsuarioSession"];
+                return View(producto.ToList());
             }
             catch (Exception)
             {
                 ViewBag.Exception = "Error al cargar los Productos.";
                 return View();
             }
-           
+
         }
 
         // GET: Productoes/Details/5
         public ActionResult Details(int? id)
         {
-            try{
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Producto producto = db.Producto.Find(id);
-            if (producto == null)
-            {
-                return HttpNotFound();
-            }
-            return View(producto);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Producto producto = db.Producto.Find(id);
+                if (producto == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(producto);
             }
             catch (Exception)
             {
@@ -67,17 +73,18 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Producto producto)
         {
-            try{
-            if (ModelState.IsValid)
+            try
             {
-                producto.Id_Estado = 1;
-                db.Producto.Add(producto);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
-            ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
-            return View(producto);
+                if (ModelState.IsValid)
+                {
+                    producto.Id_Estado = 1;
+                    db.Producto.Add(producto);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
+                ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
+                return View(producto);
             }
             catch (Exception)
             {
@@ -90,19 +97,20 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Productoes/Edit/5
         public ActionResult Edit(int? id)
         {
-            try{
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Producto producto = db.Producto.Find(id);
-            if (producto == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
-            return View(producto);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Producto producto = db.Producto.Find(id);
+                if (producto == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
+                ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
+                return View(producto);
             }
             catch (Exception)
             {
@@ -116,22 +124,23 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Producto producto)
         {
-            try{
-            if (ModelState.IsValid)
+            try
             {
-                producto.Id_Estado = 1;
-                db.Entry(producto).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            //else
-            //{
-            //    ViewBag.Exception = "Error. El modelo de Producto no es valido.";
-            //    return View();
-            //}
-            ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
-            ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
-            return View(producto);
+                if (ModelState.IsValid)
+                {
+                    producto.Id_Estado = 1;
+                    db.Entry(producto).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                //else
+                //{
+                //    ViewBag.Exception = "Error. El modelo de Producto no es valido.";
+                //    return View();
+                //}
+                ViewBag.Id_Categoria = new SelectList(db.Categoria, "Id_Categoria", "Nombre", producto.Id_Categoria);
+                ViewBag.Id_Proveedor = new SelectList(db.Proveedor.Where(x => x.Id_Estado == 1), "Id_Proveedor", "NombreCompleto", producto.Id_Proveedor);
+                return View(producto);
             }
             catch (Exception)
             {
@@ -143,17 +152,18 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         // GET: Productoes/Delete/5
         public ActionResult Delete(int? id)
         {
-            try{
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Producto producto = db.Producto.Find(id);
-            if (producto == null)
-            {
-                return HttpNotFound();
-            }
-            return View(producto);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Producto producto = db.Producto.Find(id);
+                if (producto == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(producto);
             }
             catch (Exception)
             {
@@ -167,16 +177,17 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            try{
-            Producto productos = db.Producto.Find(id);
-            if (productos.Id_Estado == 1)
+            try
             {
-                productos.Id_Estado = 2;
-                db.Entry(productos).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-            
-            return RedirectToAction("Index");
+                Producto productos = db.Producto.Find(id);
+                if (productos.Id_Estado == 1)
+                {
+                    productos.Id_Estado = 2;
+                    db.Entry(productos).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
             }
             catch (Exception)
             {
@@ -194,28 +205,65 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult getReport()
+        public ActionResult Reporte()
         {
-            List<Producto> productos = db.Producto.ToList();
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "Productos.rpt"));
-            rd.SetDataSource(productos);
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
+            return View();
 
-            try
-            {
-                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                stream.Seek(0, SeekOrigin.Begin);
-                Response.AddHeader("Content-Disposition", "inline; filename=Productos.pdf");
-                return File(stream, "application/pdf");
-            }
-            catch (Exception)
-            {
+        }
 
-                throw;
+        public ActionResult Report(string id)
+        {
+            LocalReport lr = new LocalReport();
+            string path = Path.Combine(Server.MapPath("~/Reportes"), "ReportProductos.rdlc");
+            if (System.IO.File.Exists(path))
+            {
+                lr.ReportPath = path;
             }
+            else
+            {
+                return View("Index");
+            }
+            var data = (from c in db.Producto
+                        from e in db.Proveedor.Where(x => x.Id_Proveedor == c.Id_Proveedor).DefaultIfEmpty()
+                        from p in db.Persona.Where(x => x.Id_Persona == e.Id_Persona).DefaultIfEmpty()
+                        from t in db.Categoria.Where(x => x.Id_Categoria == c.Id_Categoria).DefaultIfEmpty()
+                        select new
+                        {
+                            Nombre = c.Nombre,
+                            Descripcion = c.Descripcion,
+                            Cantidad = c.Cantidad,
+                            Precio = c.Precio,
+                            Id_Proveedor = (p != null ? p.Nombre + " " + p.Apellidos : null),
+                            Id_Categoria = (t != null ? t.Nombre : null),
+                        }).ToList();
+            ReportDataSource rd = new ReportDataSource("dsProductos", data);
+            lr.DataSources.Add(rd);
+            string reportType = id;
+            string mimeType;
+            string encoding;
+            string fileNameExtension;
+            string deviceInfo =
+            "<DeviceInfo>" +
+            "  <OutputFormat>" + id + "</OutputFormat>" +
+            "  <PageWidth>8.5in</PageWidth>" +
+            "  <PageHeight>11in</PageHeight>" +
+            "  <MarginTop>0.5in</MarginTop>" +
+            "  <MarginLeft>1in</MarginLeft>" +
+            "  <MarginRight>1in</MarginRight>" +
+            "  <MarginBottom>0.5in</MarginBottom>" +
+            "</DeviceInfo>";
+            Warning[] warnings;
+            string[] streams;
+            byte[] renderedBytes;
+            renderedBytes = lr.Render(
+                reportType,
+                deviceInfo,
+                out mimeType,
+                out encoding,
+                out fileNameExtension,
+                out streams,
+                out warnings);
+            return File(renderedBytes, mimeType);
         }
     }
 }

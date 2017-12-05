@@ -30,6 +30,13 @@ namespace BIOGRAPHY_OF_PETSFAP
                       "~/Content/style.css",
                       "~/Content/jquery.lightbox.css",
                       "~/Content/datatables.min.css"));
+
+            //js  
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                      "~/Scripts/jquery-ui-1.12.1.js"));
+            //css  
+            bundles.Add(new StyleBundle("~/Content/cssjqryUi").Include(
+                   "~/Content/themes/base/jquery-ui.css"));
         }
     }
 }

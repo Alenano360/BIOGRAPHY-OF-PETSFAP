@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using BIOGRAPHY_OF_PETSFAP.Class;
 using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
+using Microsoft.Reporting.WebForms;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
@@ -77,8 +78,6 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Cita_Medica_Poco cita_Medicina_Poco)
         {
-            if (ModelState.IsValid)
-            {
                 Cita cita = new Cita
                 {
                     Costo_Total = cita_Medicina_Poco._cita.Costo_Total,
@@ -110,7 +109,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 }
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }
+            
             ViewData["_cita.Id_Cliente"] = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita_Medicina_Poco._cita.Id_Cliente);
             ViewData["_cita.Id_Empleado"] = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita_Medicina_Poco._cita.Id_Empleado);
             ViewData["_detalle_medicina.Producto"] = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
@@ -183,6 +182,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
 		                    Detalle_Medicina newdetalleMedicina = new Detalle_Medicina{
                                 Id_Detalle_Medicina=detalleMedicina.Id_Detalle_Medicina,
                                 Cantidad=detalleMedicina.Cantidad,
+                                Id_Cita = detalleMedicina.Id_Cita,
                                 Id_Producto=detalleMedicina.Id_Producto,
                                 Precio_Total=detalleMedicina.Precio_Total
                             };
@@ -212,6 +212,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                             {
                                 Id_Detalle_Servicio = detalleServicio.Id_Detalle_Servicio,
                                 Cantidad = detalleServicio.Cantidad,
+                                Id_Cita = detalleServicio.Id_Cita,
                                 Id_Servicio = detalleServicio.Id_Servicio,
                                 Precio_Total = detalleServicio.Precio_Total
                             };
@@ -243,6 +244,11 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             catch (Exception ex) {
              Response.Write("<script>alert('" + Server.HtmlEncode(ex.ToString()) + "')</script>");
             }
+            ViewBag.Id_Cliente = new SelectList(db.Cliente.Where(x => x.Id_Estado == 1), "Id_Cliente", "NombreCompleto", cita.Id_Cliente);
+            ViewBag.Id_Empleado = new SelectList(db.Empleado.Where(x => x.Id_Estado == 1), "Id_Empleado", "NombreCompleto", cita.Id_Empleado);
+            ViewBag.Id_Paciente = new SelectList(db.Paciente.Where(x => x.Id_Estado == 1), "Id_Paciente", "PacienteCompleto", cita.Id_Paciente);
+            ViewBag.Id_Servicio = new SelectList(db.Servicio.Where(x => x.Id_Estado == 1), "Id_Servicio", "Nombre");
+            ViewBag.Id_Medicina = new SelectList(db.Producto.Where(x => x.Id_Estado == 1), "Id_Producto", "Nombre");
             return View(cita);
         }
 
@@ -303,12 +309,14 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
 
         }
         [System.Web.Services.WebMethod]
-        public string DetalleServicio(string rows)
+        public string Detalles(string rowsS,string rowsM)
         {
             try
             {
-                var detalles = JsonConvert.DeserializeObject<List<Detalle_Servicio>>(rows);
-                listServicio = detalles;
+                var detallesS = JsonConvert.DeserializeObject<List<Detalle_Servicio>>(rowsS);
+                listServicio = detallesS;
+                var detallesM = JsonConvert.DeserializeObject<List<Detalle_Medicina>>(rowsM);
+                listMedicina = detallesM;
                 return "ok";
             }
             catch (Exception)
@@ -316,8 +324,9 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
                 return "error";
             }
         }
+
         [System.Web.Services.WebMethod]
-        public string setJson()
+        public string setJsonS()
         {
             List<Detalle_Servicio> rows = listaServicio;
             string json = "[";
@@ -345,6 +354,112 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             json += ']';
             return json;
+        }
+
+        [System.Web.Services.WebMethod]
+        public string setJsonM()
+        {
+            List<Detalle_Medicina> rows = listaMedicina;
+            string json = "[";
+
+            for (int i = 0, len = rows.Count; i < len; i++)
+            {
+                if (i == 0)
+                {
+                    json += "['" + rows[i].Id_Producto + "'" +
+                    ",'" + rows[i].Producto.Nombre + "'" +
+                    ",'" + rows[i].Cantidad + "'" +
+                    ",'" + rows[i].Producto.Precio + "'" +
+                    ",'" + rows[i].Precio_Total + "'" +
+                    ",'" + rows[i].Id_Detalle_Medicina + "']";
+                }
+                else
+                {
+                    json += ",['" + rows[i].Id_Producto + "'" +
+                    ",'" + rows[i].Producto.Nombre + "'" +
+                    ",'" + rows[i].Cantidad + "'" +
+                    ",'" + rows[i].Producto.Precio + "'" +
+                    ",'" + rows[i].Precio_Total + "'" +
+                    ",'" + rows[i].Id_Detalle_Medicina + "']";
+                }
+            }
+            json += ']';
+            return json;
+        }
+
+        public ActionResult Report(string id, int idC)
+        {
+            LocalReport lr = new LocalReport();
+            string path = Path.Combine(Server.MapPath("~/Reportes"), "Citas.rdlc");
+            if (System.IO.File.Exists(path))
+            {
+                lr.ReportPath = path;
+            }
+            else
+            {
+                return View("Index");
+            }
+            var data = (from p in db.Cita.Where(x => x.Id_Cita == idC)
+                        select new
+                        {
+                            Costo_Total = p.Costo_Total,
+                            Fecha = p.Fecha,
+                            Descripcion = p.Descripcion,
+                            Precio_Total = p.Estado_Cita,
+                            Hora_Final = p.Hora_Final,
+                            Hora_Inico = p.Hora_Inico,
+                            Id_Cita = p.Id_Cita,
+                            Id_Cliente = p.Cliente.Persona.Nombre + " " + p.Cliente.Persona.Apellidos,
+                            Id_Empleado = p.Empleado.Persona.Nombre + " " + p.Empleado.Persona.Apellidos,
+                            Id_Paciente = p.Paciente.Animal + " " + p.Paciente.Raza + " " + p.Paciente.Nombre,
+                        }).ToList();
+
+            var detalleM = (from p in db.Detalle_Medicina.Where(x => x.Id_Cita == idC)
+                            select new
+                            {
+                                Cantidad = p.Cantidad,
+                                Id_Producto = p.Producto.Nombre,
+                                Precio_Total = p.Precio_Total,
+                            }).ToList();
+            var detalleS = (from p in db.Detalle_Servicio.Where(x => x.Id_Cita==idC)
+                            select new
+                            {
+                                Cantidad = p.Cantidad,
+                                Id_Servicio = p.Servicio.Nombre,
+                                Precio_Total = p.Precio_Total,
+                            }).ToList();
+            ReportDataSource rd = new ReportDataSource("dsCita", data);
+            lr.DataSources.Add(rd);
+            ReportDataSource rd1 = new ReportDataSource("dsDetalleMedicina", detalleM);
+            lr.DataSources.Add(rd1);
+            ReportDataSource rd2 = new ReportDataSource("dsDetalleServicio", detalleS);
+            lr.DataSources.Add(rd2);
+            string reportType = id;
+            string mimeType;
+            string encoding;
+            string fileNameExtension;
+            string deviceInfo =
+            "<DeviceInfo>" +
+            "  <OutputFormat>" + id + "</OutputFormat>" +
+            "  <PageWidth>8.5in</PageWidth>" +
+            "  <PageHeight>11in</PageHeight>" +
+            "  <MarginTop>0.5in</MarginTop>" +
+            "  <MarginLeft>1in</MarginLeft>" +
+            "  <MarginRight>1in</MarginRight>" +
+            "  <MarginBottom>0.5in</MarginBottom>" +
+            "</DeviceInfo>";
+            Warning[] warnings;
+            string[] streams;
+            byte[] renderedBytes;
+            renderedBytes = lr.Render(
+                reportType,
+                deviceInfo,
+                out mimeType,
+                out encoding,
+                out fileNameExtension,
+                out streams,
+                out warnings);
+            return File(renderedBytes, mimeType);
         }
     }
 }

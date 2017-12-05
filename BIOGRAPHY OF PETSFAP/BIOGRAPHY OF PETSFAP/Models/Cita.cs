@@ -23,7 +23,7 @@ namespace BIOGRAPHY_OF_PETSFAP.Models
     
         public int Id_Cita { get; set; }
         [Required(ErrorMessage = "El campo de Fecha es requerido")]
-        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha")]
         public System.DateTime Fecha { get; set; }
         [Required(ErrorMessage = "El campo de Hora de Inicio es requerido")]

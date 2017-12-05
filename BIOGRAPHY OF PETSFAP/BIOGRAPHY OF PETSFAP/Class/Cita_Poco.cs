@@ -14,16 +14,36 @@ namespace BIOGRAPHY_OF_PETSFAP.Class
             this.Detalle_Medicina_Poco = new HashSet<Detalle_Medicina_Poco>();
             this.Detalle_Servicio_Poco = new HashSet<Detalle_Servicio_Poco>();
         }
-
         public int Id_Cita { get; set; }
+        [Required(ErrorMessage = "El campo de Fecha es requerido")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Fecha")]
         public System.DateTime Fecha { get; set; }
+        [Required(ErrorMessage = "El campo de Hora de Inicio es requerido")]
+        [DataType(DataType.Time)]
+        [Display(Name = "Hora Inicio")]
         public System.TimeSpan Hora_Inico { get; set; }
+        [Required(ErrorMessage = "El campo de Hora de Final es requerido")]
+        [DataType(DataType.Time)]
+        [Display(Name = "Hora Final")]
         public System.TimeSpan Hora_Final { get; set; }
         public string Estado_Cita { get; set; }
+        [Required(ErrorMessage = "El campo de Cliente es requerido")]
+        [Display(Name = "Cliente")]
         public int Id_Cliente { get; set; }
+        [Required(ErrorMessage = "El campo de Empleado es requerido")]
+        [Display(Name = "Empleado")]
         public int Id_Empleado { get; set; }
+        [Required(ErrorMessage = "El campo de Paciente es requerido")]
+        [Display(Name = "Paciente")]
         public int Id_Paciente { get; set; }
+        [Required(ErrorMessage = "El campo de Descripcion es requerido")]
+        [StringLength(600, ErrorMessage = "Maximo 600 caracteres")]
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Descripcion")]
         public string Descripcion { get; set; }
+        [Required(ErrorMessage = "El campo de Costo Total es requerido")]
+        [Display(Name = "Costo Total")]
         public int Costo_Total { get; set; }
         public int Id_Estado { get; set; }
 
