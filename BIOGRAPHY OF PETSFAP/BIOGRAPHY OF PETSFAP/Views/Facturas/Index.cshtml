@@ -2,8 +2,6 @@
 @{
     ViewBag.Title = "Factura";
 }
-<div><a href="@Url.Action("getReport")" target="_blank" style="color:red">Descargar Factura en PDF</a></div> 
-<div><a href="@Url.Action("getReportFact")" target="_blank" style="color:red">Descargar Total Facturas en PDF</a></div>
 <input type="button" class="btn btn-primary" value="Agregar" onclick="@("window.location.href='" + @Url.Action("Create", "Facturas") + "'");" />
 <span style="color: #a94442;">@ViewBag.Exception</span>
     
@@ -44,7 +42,10 @@
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.Numero_Factura }) |
                     @Html.ActionLink("Detalles", "Details", new { id = item.Numero_Factura }) |
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Numero_Factura })
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Numero_Factura })|
+                    @Html.ActionLink("Reporte en PDF", "Report", new { id = "PDF" , numeroFactura = item.Numero_Factura })|
+                    @Html.ActionLink("Reporte en Excel", "Report", new { id = "Excel", numeroFactura = item.Numero_Factura })|
+                    @Html.ActionLink("Reporte en Word", "Report", new { id = "Word", numeroFactura = item.Numero_Factura })
                 </td>
             </tr>
         }

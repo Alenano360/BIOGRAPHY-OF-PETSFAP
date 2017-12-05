@@ -10,6 +10,7 @@ using BIOGRAPHY_OF_PETSFAP.Models;
 using BIOGRAPHY_OF_PETSFAP.Class;
 using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
+using Microsoft.Reporting.WebForms;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
@@ -511,29 +512,55 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             }
             base.Dispose(disposing);
         }
-        public ActionResult getReport()
+        public ActionResult Report(string id)
         {
-            List<Persona> persona = new List<Persona>();
-            persona = db.Persona.Include(x => x.Empleado).ToList();
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "Empleados.rpt"));
-            rd.SetDataSource(persona);
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-
-            try
+            LocalReport lr = new LocalReport();
+            string path = Path.Combine(Server.MapPath("~/Reportes"), "Empleados.rdlc");
+            if (System.IO.File.Exists(path))
             {
-                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                stream.Seek(0, SeekOrigin.Begin);
-                Response.AddHeader("Content-Disposition", "inline; filename=Empleados.pdf");
-                return File(stream, "application/pdf");
+                lr.ReportPath = path;
             }
-            catch (Exception)
+            else
             {
-
-                throw;
+                return View("Index");
             }
+            var data = (from p in db.Persona.Where(x=>x.Chk_Empleado==true)
+                        from e in db.Empleado.Where(x => x.Id_Persona == p.Id_Persona).DefaultIfEmpty()
+                        select new
+                        {
+                            Nombre = p.Nombre,
+                            Apellidos = p.Apellidos,
+                            Direccion = p.Direccion,
+                            Telefono = p.Telefono,
+                        }).ToList();
+            ReportDataSource rd = new ReportDataSource("dsPersona", data);
+            lr.DataSources.Add(rd);
+            string reportType = id;
+            string mimeType;
+            string encoding;
+            string fileNameExtension;
+            string deviceInfo =
+            "<DeviceInfo>" +
+            "  <OutputFormat>" + id + "</OutputFormat>" +
+            "  <PageWidth>8.5in</PageWidth>" +
+            "  <PageHeight>11in</PageHeight>" +
+            "  <MarginTop>0.5in</MarginTop>" +
+            "  <MarginLeft>1in</MarginLeft>" +
+            "  <MarginRight>1in</MarginRight>" +
+            "  <MarginBottom>0.5in</MarginBottom>" +
+            "</DeviceInfo>";
+            Warning[] warnings;
+            string[] streams;
+            byte[] renderedBytes;
+            renderedBytes = lr.Render(
+                reportType,
+                deviceInfo,
+                out mimeType,
+                out encoding,
+                out fileNameExtension,
+                out streams,
+                out warnings);
+            return File(renderedBytes, mimeType);
         }
     }
 }

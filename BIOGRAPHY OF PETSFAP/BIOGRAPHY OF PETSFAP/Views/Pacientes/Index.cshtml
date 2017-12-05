@@ -59,7 +59,10 @@
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { id = item.Id_Paciente }) |
                     @Html.ActionLink("Detalle", "Details", new { id = item.Id_Paciente }) |
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_Paciente })
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_Paciente })|
+                    @Html.ActionLink("Reporte en PDF", "Report", new { id = "PDF",idP=item.Id_Paciente })|
+                    @Html.ActionLink("Reporte en Excel", "Report", new { id = "Excel", idP = item.Id_Paciente })|
+                    @Html.ActionLink("Reporte en Word", "Report", new { id = "Word", idP = item.Id_Paciente })
                 </td>
             </tr>
         }

@@ -9,8 +9,8 @@ using System.Web.Mvc;
 using BIOGRAPHY_OF_PETSFAP.Models;
 using Newtonsoft.Json;
 using BIOGRAPHY_OF_PETSFAP.Class;
-using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
+using Microsoft.Reporting.WebForms;
 
 namespace BIOGRAPHY_OF_PETSFAP.Controllers
 {
@@ -309,54 +309,65 @@ namespace BIOGRAPHY_OF_PETSFAP.Controllers
             json += ']';
             return json;
         }
-
-        public ActionResult getReport()
+        public ActionResult Report(string id,int numeroFactura)
         {
-            List<Factura> factura = new List<Factura>();
-            factura = db.Factura.Include(x => x.Detalle_Factura).Include(x => x.Cliente).Include(x => x.Empleado).ToList();
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "Facturas.rpt"));
-            rd.SetDataSource(factura);
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-
-            try
+            LocalReport lr = new LocalReport();
+            string path = Path.Combine(Server.MapPath("~/Reportes"), "Factura.rdlc");
+            if (System.IO.File.Exists(path))
             {
-                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                stream.Seek(0, SeekOrigin.Begin);
-                Response.AddHeader("Content-Disposition", "inline; filename=Factura.pdf");
-                return File(stream, "application/pdf");
+                lr.ReportPath = path;
             }
-            catch (Exception)
+            else
             {
-
-                throw;
+                return View("Index");
             }
-        }
-        public ActionResult getReportFact()
-        {
-            List<Factura> factura = new List<Factura>();
-            factura = db.Factura.Include(x => x.Detalle_Factura).Include(x => x.Cliente).Include(x => x.Empleado).ToList();
-            ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reportes"), "TotalFacturas.rpt"));
-            rd.SetDataSource(factura);
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-
-            try
-            {
-                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-                stream.Seek(0, SeekOrigin.Begin);
-                Response.AddHeader("Content-Disposition", "inline; filename=TotalFactura.pdf");
-                return File(stream, "application/pdf");
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            var data = (from p in db.Factura.Where(x => x.Numero_Factura == numeroFactura)
+                        select new
+                        {
+                            Numero_Factura = p.Numero_Factura,
+                            Fecha = p.Fecha,
+                            Id_Cliente = p.Cliente.Persona.Nombre+" "+p.Cliente.Persona.Apellidos,
+                            Id_Empleado = p.Empleado.Persona.Nombre+" "+p.Empleado.Persona.Apellidos,
+                            Precio_Total = p.Precio_Total,
+                        }).ToList();
+            var detalle = (from p in db.Detalle_Factura.Where(x => x.Numero_Factura == numeroFactura)
+                        select new
+                        {
+                            Cantidad = p.Cantidad,
+                            Id_Producto = p.Producto.Nombre,
+                            Precio_Unitario = p.Precio_Unitario,
+                            Precio_Total_Producto = p.Precio_Total_Producto,
+                        }).ToList();
+            ReportDataSource rd = new ReportDataSource("dsFactura", data);
+            lr.DataSources.Add(rd);
+            ReportDataSource rd1 = new ReportDataSource("dsDetalle", detalle);
+            lr.DataSources.Add(rd1);
+            string reportType = id;
+            string mimeType;
+            string encoding;
+            string fileNameExtension;
+            string deviceInfo =
+            "<DeviceInfo>" +
+            "  <OutputFormat>" + id + "</OutputFormat>" +
+            "  <PageWidth>8.5in</PageWidth>" +
+            "  <PageHeight>11in</PageHeight>" +
+            "  <MarginTop>0.5in</MarginTop>" +
+            "  <MarginLeft>1in</MarginLeft>" +
+            "  <MarginRight>1in</MarginRight>" +
+            "  <MarginBottom>0.5in</MarginBottom>" +
+            "</DeviceInfo>";
+            Warning[] warnings;
+            string[] streams;
+            byte[] renderedBytes;
+            renderedBytes = lr.Render(
+                reportType,
+                deviceInfo,
+                out mimeType,
+                out encoding,
+                out fileNameExtension,
+                out streams,
+                out warnings);
+            return File(renderedBytes, mimeType);
         }
     }
 }

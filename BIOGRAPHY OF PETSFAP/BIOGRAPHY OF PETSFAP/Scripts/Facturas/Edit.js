@@ -1,4 +1,12 @@
-﻿
+﻿function SumarColumna() {
+    debugger
+    var total = 0;
+    var resultVal = $('#tablaFactura').dataTable().api().column(4).data();
+    for (var i = 0, len = resultVal.length; i < len; i++) {
+        total += parseInt(resultVal[i]);
+    }
+    $('#txt_totalFactura').val(total);
+}
 $(document).ready(function () {
     var t = $('#tablaFactura').DataTable({
         "data": [],
@@ -27,15 +35,7 @@ $(document).ready(function () {
             }
         ]
     });
-    function SumarColumna() {
-        debugger
-        var total = 0;
-        var resultVal = $('#tablaFactura').dataTable().api().column(4).data();
-        for (var i = 0, len = resultVal.length; i < len; i++) {
-            total += parseInt(resultVal[i]);
-        }
-        $('#txt_totalFactura').val(total);
-    }
+
     $.ajax({
         type: "GET",
         url: '/Facturas/setJson',
@@ -72,7 +72,7 @@ $(document).ready(function () {
         if (rows.length >= 1) {
             for (var i = 0, len = rows.length; i < len; i++) {
                 if (rows[i][0] == idproducto) {
-                    var newRow = [idproducto, producto, parseInt(txtCantidad) + parseInt(rows[i][2]), lblPrecio, parseInt(lblTotalProducto) + parseInt(rows[i][3]), rows[i][5]];
+                    var newRow = [idproducto, producto, parseInt(txtCantidad) + parseInt(rows[i][2]), lblPrecio, parseInt(lblTotalProducto) + parseInt(rows[i][4]), rows[i][5]];
                     for (x = 0, l = $('#tablaFactura').dataTable().api().rows()[0].length; x < l; x++) {
                         if ($('#tablaFactura').dataTable().api().row(x).data()[0] == idproducto) {
                             $(tablaFactura).dataTable().api().row(x).data(newRow).draw();
@@ -145,7 +145,7 @@ $(document).ready(function () {
         debugger
         if (table.row('.selected').hasClass != "noEliminar") {
             table.row('.selected').remove().draw(false);
-
+            SumarColumna();
         }
     });
 });
